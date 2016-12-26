@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core Modules">
+      <UniqueIdentifier>{e853859d-8015-4e1a-b8a7-94294a7d5c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Modules">
+      <UniqueIdentifier>{2bcf85f8-f986-458b-9b81-520d18b0aec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{f66d22d4-0735-4a41-8174-2c0ad3245815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{d064cff7-94e2-4787-8358-c869e661f986}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleAudio.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleCollision.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleFadeToBlack.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleInput.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleRender.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleTextures.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleWindow.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModulePlayer.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleSceneIntro.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleStageTwo.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Globals.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemLeaks.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Module.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleAudio.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleCollision.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleFadeToBlack.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleInput.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleRender.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleTextures.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleWindow.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModulePlayer.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleSceneIntro.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleStageTwo.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Point.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
