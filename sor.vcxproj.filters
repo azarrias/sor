@@ -104,5 +104,8 @@
     <ClInclude Include="src\Point.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
