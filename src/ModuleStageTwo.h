@@ -2,8 +2,16 @@
 #define __ModuleStageTwo_H__
 
 #include "Module.h"
+#include "SimpleTimer.h"
 
 struct SDL_Texture;
+
+enum StageState
+{
+	INTRO,
+	LEVEL,
+	BOSS
+};
 
 class ModuleStageTwo : public Module
 {
@@ -18,7 +26,10 @@ public:
 public:
 
 	SDL_Texture* background = nullptr;
+	SDL_Texture* intro = nullptr;
 	SDL_Texture* stars = nullptr;
+	StageState stageState = INTRO;
+	SimpleTimer stageTimer;
 };
 
 #endif // __ModuleStageTwo_H__

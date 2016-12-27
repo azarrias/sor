@@ -128,6 +128,7 @@
     <ClCompile Include="src\ModuleAudio.cpp" />
     <ClCompile Include="src\ModuleCollision.cpp" />
     <ClCompile Include="src\ModuleFadeToBlack.cpp" />
+    <ClCompile Include="src\ModuleHUD.cpp" />
     <ClCompile Include="src\ModuleInput.cpp" />
     <ClCompile Include="src\ModulePlayer.cpp" />
     <ClCompile Include="src\ModuleRender.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="src\ModuleAudio.h" />
     <ClInclude Include="src\ModuleCollision.h" />
     <ClInclude Include="src\ModuleFadeToBlack.h" />
+    <ClInclude Include="src\ModuleHUD.h" />
     <ClInclude Include="src\ModuleInput.h" />
     <ClInclude Include="src\ModulePlayer.h" />
     <ClInclude Include="src\ModuleRender.h" />

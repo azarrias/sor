@@ -54,6 +54,9 @@
     <ClCompile Include="src\ModuleStageTwo.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
+    <ClCompile Include="src\ModuleHUD.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Globals.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="src\SimpleTimer.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleHUD.h">
+      <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

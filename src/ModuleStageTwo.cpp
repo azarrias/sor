@@ -7,10 +7,12 @@
 #include "ModuleCollision.h"
 //#include "ModuleParticles.h"
 #include "ModuleStageTwo.h"
+#include "ModuleHUD.h"
 
 // Reference at https://www.youtube.com/watch?v=J9gWS0ZQaxE
 
-ModuleStageTwo::ModuleStageTwo(bool active) : Module(active)
+ModuleStageTwo::ModuleStageTwo(bool active) 
+	: Module(active), stageTimer(6000)
 {}
 
 ModuleStageTwo::~ModuleStageTwo()
@@ -22,8 +24,10 @@ bool ModuleStageTwo::Start()
 	LOG("Loading stage");
 
 	background = App->textures->Load("graphics/stage2_bg.png");
+	intro = App->textures->Load("graphics/hud.png");
 
 	App->player->Enable();
+	App->hud->Enable();
 //	App->particles->Enable();
 	App->collision->Enable();
 
@@ -42,23 +46,42 @@ bool ModuleStageTwo::CleanUp()
 
 	App->textures->Unload(background);
 	App->player->Disable();
+	App->hud->Disable();
 	App->collision->Disable();
 //	App->particles->Disable();
 
 	return true;
 }
 
-// Update: draw background
 update_status ModuleStageTwo::Update()
 {
 	// Move camera forward -----------------------------
-	int scroll_speed = 1;
+	//int scroll_speed = 1;
 
-	App->player->position.x += 1;
-	App->renderer->camera.x -= 3;
+	//App->player->position.x += 1;
+	//App->renderer->camera.x -= 3;
 
 	// Draw everything --------------------------------------
-	App->renderer->Blit(background, 0, 0, NULL);
+	SDL_Rect round;
+	round.x = 0;
+	round.y = 50;
+	round.w = 76;
+	round.h = 14;
+
+	stageTimer.update();
+
+	switch (stageState)
+	{
+	case INTRO:
+		App->renderer->Blit(intro, 70, 100, &round);
+		if (stageTimer.check()) {
+			stageState = LEVEL;
+			stageTimer.interval = 1000;
+		}
+		break;
+	case LEVEL:
+		App->renderer->Blit(background, 0, 0, NULL);
+	}
 
 	return UPDATE_CONTINUE;
 }

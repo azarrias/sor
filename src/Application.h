@@ -18,6 +18,7 @@ class ModuleCollision;
 class ModulePlayer;
 class ModuleSceneIntro;
 class ModuleStageTwo;
+class ModuleHUD;
 
 class Application
 {
@@ -44,6 +45,7 @@ public:
 	ModulePlayer* player;
 	ModuleSceneIntro* scene_intro;
 	ModuleStageTwo* scene_stage;
+	ModuleHUD* hud;
 
 private:
 

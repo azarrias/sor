@@ -11,6 +11,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleStageTwo.h"
 #include "ModulePlayer.h"
+#include "ModuleHUD.h"
 
 using namespace std;
 
@@ -26,7 +27,9 @@ Application::Application()
 
 	// Game Modules
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
+	modules.push_back(hud = new ModuleHUD(false));
 	modules.push_back(scene_stage = new ModuleStageTwo(false));
+	
 	modules.push_back(player = new ModulePlayer(false));
 
 	// Modules to draw on top of game logic
