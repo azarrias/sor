@@ -87,13 +87,13 @@ bool ModuleRender::CleanUp()
 	return true;
 }
 
-// Blit to screen
-bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed)
+// Blit to screen with scaling up / down
+bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, float scale)
 {
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * SCREEN_SIZE;
-	rect.y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+	rect.x = (int)(camera.x * speed + x * SCREEN_SIZE * scale);
+	rect.y = (int)(camera.y * speed + y * SCREEN_SIZE * scale);
 
 	if (section != NULL)
 	{
@@ -105,8 +105,8 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	rect.w *= SCREEN_SIZE;
-	rect.h *= SCREEN_SIZE;
+	rect.w = (int)(rect.w * SCREEN_SIZE * scale);
+	rect.h = (int)(rect.h * SCREEN_SIZE * scale);
 
 	if (SDL_RenderCopy(renderer, texture, section, &rect) != 0)
 	{
