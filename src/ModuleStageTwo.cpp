@@ -19,7 +19,7 @@ ModuleStageTwo::~ModuleStageTwo()
 // Load assets
 bool ModuleStageTwo::Start()
 {
-	LOG("Loading space scene");
+	LOG("Loading stage");
 
 	background = App->textures->Load("graphics/stage2_bg.png");
 
@@ -38,7 +38,7 @@ bool ModuleStageTwo::Start()
 // UnLoad assets
 bool ModuleStageTwo::CleanUp()
 {
-	LOG("Unloading space scene");
+	LOG("Unloading stage");
 
 	App->textures->Unload(background);
 	App->player->Disable();

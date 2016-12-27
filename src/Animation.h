@@ -24,7 +24,7 @@ public:
 	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), frames(anim.frames)
 	{}
 
-	SDL_Rect& GetCurrentFrame()
+	int GetCurrentFrameIndex()
 	{
 		float last_frame = (float)frames.size();
 
@@ -34,8 +34,12 @@ public:
 			current_frame = (loop) ? 0.0f : MAX(last_frame - 1.0f, 0.0f);
 			loops++;
 		}
+		return (int)current_frame;
+	}
 
-		return frames[(int)current_frame];
+	SDL_Rect& GetCurrentFrame()
+	{
+		return frames[GetCurrentFrameIndex()];
 	}
 
 	bool Finished() const
