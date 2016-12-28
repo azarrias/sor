@@ -27,17 +27,12 @@ ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
 	respawning.loop = false;
 	respawning.speed = 0.0f;
 
-	// move upwards
-	up.frames.push_back({ 100, 1, 32, 14 });
-	up.frames.push_back({ 132, 0, 32, 14 });
-	up.loop = false;
-	up.speed = 0.1f;
-
-	// Move down
-	down.frames.push_back({ 33, 1, 32, 14 });
-	down.frames.push_back({ 0, 1, 32, 14 });
-	down.loop = false;
-	down.speed = 0.1f;
+	// walk animation legs
+	walk.frames.push_back({ 306, 956, 36, 61 });
+	walk.frames.push_back({ 344, 956, 41, 61 });
+	walk.frames.push_back({ 386, 956, 36, 61 });
+	walk.frames.push_back({ 424, 956, 41, 61 });
+	walk.speed = 0.1f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -97,44 +92,58 @@ update_status ModulePlayer::Update()
 	}
 	else
 	{
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
 			position.x -= speed;
+			setCurrentAnimation(&walk);
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
 			position.x += speed;
+			setCurrentAnimation(&walk);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			position.y += speed;
+			setCurrentAnimation(&walk);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		{
+			position.y -= speed;
+			setCurrentAnimation(&walk);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			// TODO: Special attack
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			position.y += speed;
-			if (current_animation != &down)
-			{
-				down.Reset();
-				current_animation = &down;
-			}
+			// TODO: Normal attack
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			position.y -= speed;
-			if (current_animation != &up)
-			{
-				up.Reset();
-				current_animation = &up;
-			}
+			// TODO: Jump
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
-			// TODO 6: Shoot a laser using the particle system
+			// TODO: Pause the game
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-			current_animation = &idle;
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+			setCurrentAnimation(&idle);
 	}
 
 	// Draw everything --------------------------------------
@@ -142,6 +151,14 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
+}
+
+void ModulePlayer::setCurrentAnimation(Animation* anim) {
+	if (current_animation != anim)
+	{
+		anim->Reset();
+		current_animation = anim;
+	}
 }
 
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position

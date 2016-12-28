@@ -18,15 +18,14 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void respawn();
-
+	void setCurrentAnimation(Animation* anim);
 public:
 
 	SDL_Texture* graphics = nullptr;
 	Animation* current_animation = nullptr;
 	Animation idle;
 	Animation waiting;
-	Animation up;
-	Animation down;
+	Animation walk;
 	Animation respawning;
 	SimpleTimer playerTimer;
 	iPoint position = { 0, 0 };
