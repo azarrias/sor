@@ -13,13 +13,11 @@ ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
 	// Coordinates for Blaze
 
 	// idle animation
-	idle.frames.push_back({ 0, 956, 56, 61 });
-
-	// waiting animation
-	waiting.frames.push_back({ 0, 956, 56, 61 });
-	waiting.frames.push_back({ 56, 956, 56, 61 });
-	waiting.frames.push_back({ 119, 956, 56, 61 });
-	waiting.speed = 0.05f;
+	for (size_t i=0; i < 8; ++i)
+		idle.frames.push_back({ 7, 956, 49, 61 });
+	idle.frames.push_back({ 63, 956, 49, 61 });
+	idle.frames.push_back({ 126, 956, 49, 61 });
+	idle.speed = 0.05f;
 
 	// respawning animation
 	respawning.frames.push_back({ 48, 1104, 43, 65 });
@@ -27,7 +25,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
 	respawning.loop = false;
 	respawning.speed = 0.0f;
 
-	// walk animation legs
+	// walk animation
 	walk.frames.push_back({ 306, 956, 36, 61 });
 	walk.frames.push_back({ 344, 956, 41, 61 });
 	walk.frames.push_back({ 386, 956, 36, 61 });
@@ -77,7 +75,7 @@ update_status ModulePlayer::Update()
 
 	if (isRespawning)
 	{
-		current_animation = &respawning;
+		setCurrentAnimation(&respawning);
 		if (position.y >= 132) {
 			playerTimer.update();
 			position.y = 132;
@@ -94,7 +92,8 @@ update_status ModulePlayer::Update()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			position.x -= speed;
+			if (position.x - speed >= 0)
+				position.x -= speed;
 			setCurrentAnimation(&walk);
 		}
 
@@ -106,13 +105,21 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
-			position.y += speed;
+			if (depth - speed >= 0)
+			{
+				depth -= speed;
+				position.y += speed;
+			}
 			setCurrentAnimation(&walk);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			position.y -= speed;
+			if (depth + speed <= 54)
+			{
+				depth += speed;
+				position.y -= speed;
+			}
 			setCurrentAnimation(&walk);
 		}
 

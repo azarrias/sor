@@ -29,7 +29,7 @@ public:
 	Animation respawning;
 	SimpleTimer playerTimer;
 	iPoint position = { 0, 0 };
-	unsigned short int depth = 20;
+	unsigned short int depth = 23;
 	unsigned short int lives = 4;
 	bool destroyed = true;
 	bool isRespawning = false;
