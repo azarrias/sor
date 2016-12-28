@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
+#include "SimpleTimer.h"
 
 struct SDL_Texture;
 
@@ -16,16 +17,23 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void respawn();
 
 public:
 
 	SDL_Texture* graphics = nullptr;
 	Animation* current_animation = nullptr;
 	Animation idle;
+	Animation waiting;
 	Animation up;
 	Animation down;
-	iPoint position;
-	bool destroyed = false;
+	Animation respawning;
+	SimpleTimer playerTimer;
+	iPoint position = { 0, 0 };
+	unsigned short int depth = 20;
+	unsigned short int lives = 4;
+	bool destroyed = true;
+	bool isRespawning = false;
 };
 
-#endif
+#endif // __ModulePlayer_H__

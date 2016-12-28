@@ -8,10 +8,24 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
-ModulePlayer::ModulePlayer(bool active) : Module(active)
+ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
 {
+	// Coordinates for Blaze
+
 	// idle animation
-	idle.frames.push_back({ 66, 1, 32, 14 });
+	idle.frames.push_back({ 0, 956, 56, 61 });
+
+	// waiting animation
+	waiting.frames.push_back({ 0, 956, 56, 61 });
+	waiting.frames.push_back({ 56, 956, 56, 61 });
+	waiting.frames.push_back({ 119, 956, 56, 61 });
+	waiting.speed = 0.05f;
+
+	// respawning animation
+	respawning.frames.push_back({ 48, 1104, 43, 65 });
+	respawning.frames.push_back({ 6, 1104, 42, 65 });
+	respawning.loop = false;
+	respawning.speed = 0.0f;
 
 	// move upwards
 	up.frames.push_back({ 100, 1, 32, 14 });
@@ -34,11 +48,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
-
-	destroyed = false;
-	position.x = 150;
-	position.y = 120;
+	graphics = App->textures->Load("graphics/pcs.png");
 
 	return true;
 }
@@ -53,49 +63,79 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
+// Respawn player
+void ModulePlayer::respawn()
+{
+	LOG("Respawning player");
+	position.x = 16;
+	position.y = -80;
+	isRespawning = true;
+	playerTimer.reset();
+	--lives;
+	destroyed = false;
+}
+
 // Update: draw background
 update_status ModulePlayer::Update()
 {
 	int speed = 1;
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (isRespawning)
 	{
-		position.x -= speed;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		position.x += speed;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		position.y += speed;
-		if (current_animation != &down)
-		{
-			down.Reset();
-			current_animation = &down;
+		current_animation = &respawning;
+		if (position.y >= 132) {
+			playerTimer.update();
+			position.y = 132;
+			respawning.speed = 1.0f;
+			if (playerTimer.check()) {
+				isRespawning = false;
+			}
+		}
+		else {
+			position.y += 5;
 		}
 	}
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	else
 	{
-		position.y -= speed;
-		if (current_animation != &up)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			up.Reset();
-			current_animation = &up;
+			position.x -= speed;
 		}
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		// TODO 6: Shoot a laser using the particle system
-	}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			position.x += speed;
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-		&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-		current_animation = &idle;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			position.y += speed;
+			if (current_animation != &down)
+			{
+				down.Reset();
+				current_animation = &down;
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			position.y -= speed;
+			if (current_animation != &up)
+			{
+				up.Reset();
+				current_animation = &up;
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			// TODO 6: Shoot a laser using the particle system
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
+			&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
+			current_animation = &idle;
+	}
 
 	// Draw everything --------------------------------------
 	if (destroyed == false)
