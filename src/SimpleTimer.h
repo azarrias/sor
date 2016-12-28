@@ -36,6 +36,12 @@ public:
 		accumulator += delta;
 		last_time = cur_time;
 	}
+	void reset()
+	{
+		accumulator = 0;
+		total = 0;
+		cur_time = last_time = SDL_GetTicks();
+	}
 public:
 	int last_time;
 	int cur_time;
