@@ -81,7 +81,7 @@ update_status ModuleStageTwo::Update()
 		break;
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
-		if (App->player->destroyed) {
+		if (App->player->status == DEAD) {
 			if (App->player->lives > 0) {
 				App->player->respawn();
 			}

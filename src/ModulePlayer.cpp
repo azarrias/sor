@@ -8,7 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
-ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
+ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(500)
 {
 	// Coordinates for Blaze
 
@@ -31,6 +31,12 @@ ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(800)
 	walk.frames.push_back({ 386, 956, 36, 61 });
 	walk.frames.push_back({ 424, 956, 41, 61 });
 	walk.speed = 0.1f;
+
+	// jump animation
+	jump.frames.push_back({ 6, 1104, 42, 65 });
+	jump.frames.push_back({ 48, 1104, 43, 65 });
+	jump.loop = false;
+	jump.speed = 0.0f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -61,65 +67,75 @@ void ModulePlayer::respawn()
 {
 	LOG("Respawning player");
 	position.x = 23;
-	position.y = -80;
-	isRespawning = true;
+	position.y = -30;
+	status = RESPAWNING;
+	velocity.y = 0.0f;
 	playerTimer.reset();
 	--lives;
-	destroyed = false;
 }
 
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 1;
+	//int speed = 1;
+	unsigned short int frameIndex = 0;
 
-	if (isRespawning)
-	{
+	switch (status) {
+	case RESPAWNING:
 		setCurrentAnimation(&respawning);
 		if (position.y >= 132) {
-			playerTimer.update();
 			position.y = 132;
+			velocity.y = 0.0f;
+			playerTimer.update();
 			respawning.speed = 1.0f;
+			if (playerTimer.check())
+				status = DEFAULT;
+		}
+		else velocity.y += 0.3f;
+		position.y += (int)velocity.y;
+		break;
+	case JUMPING:
+		if (manualFrameIndex == 1) {	// player is on the air
+			velocity.y += 0.5f;
+			position.y += (int)velocity.y;
+		}
+		if (position.y == 155 - depth) { // player is on the ground
+			playerTimer.update();
 			if (playerTimer.check()) {
-				isRespawning = false;
+				if (velocity.y > 0) {	// is landing
+					velocity.y = 0;
+					manualFrameIndex = 0;
+					playerTimer.reset();
+				}
+				else if (velocity.y == 0) // just landed
+					status = DEFAULT;
+				else manualFrameIndex = 1; // is about to jump
 			}
 		}
-		else {
-			position.y += 5;
-		}
-	}
-	else
-	{
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			if (position.x - speed >= 0)
-				position.x -= speed;
+		App->renderer->Blit(graphics, position.x, position.y, &(jump.frames[manualFrameIndex]));
+		break;
+	case DEFAULT:
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+			velocity.x = -1.0f;
 			setCurrentAnimation(&walk);
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			position.x += speed;
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+			velocity.x = 1.0f;
 			setCurrentAnimation(&walk);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
-			if (depth - speed >= 0)
-			{
-				depth -= speed;
-				position.y += speed;
-			}
+			velocity.y = 1.0f;
+			updateDepth();
 			setCurrentAnimation(&walk);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			if (depth + speed <= 53)
-			{
-				depth += speed;
-				position.y -= speed;
-			}
+			velocity.y = -1.0f;
+			updateDepth();
 			setCurrentAnimation(&walk);
 		}
 
@@ -135,7 +151,13 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			// TODO: Jump
+			status = JUMPING;
+			playerTimer.interval = 120;
+			velocity.y = -8.5f;
+			position.y += (int)8.5f;
+			playerTimer.reset();
+			setCurrentAnimation(&jump);
+			manualFrameIndex = 0;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -149,12 +171,17 @@ update_status ModulePlayer::Update()
 			&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE
 			&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE
 			&& App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+			&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE) {
+			velocity.x = 0.0f;
+			velocity.y = 0.0f;
 			setCurrentAnimation(&idle);
+		}
+
+		updatePosition();
 	}
 
 	// Draw everything --------------------------------------
-	if (destroyed == false)
+	if (status != DEAD && status != JUMPING)
 		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
@@ -166,6 +193,18 @@ void ModulePlayer::setCurrentAnimation(Animation* anim) {
 		anim->Reset();
 		current_animation = anim;
 	}
+}
+
+void ModulePlayer::updatePosition() {
+	if (position.x + (int)velocity.x > 0)
+		position.x += (int)velocity.x;
+	if (position.y + (int)velocity.y >= 102 && position.y + (int)velocity.y <= 155)
+		position.y += (int)velocity.y;
+}
+
+void ModulePlayer::updateDepth() {
+	if (depth - (int)velocity.y >= 0 && depth - (int)velocity.y <= 53)
+		depth -= (int)velocity.y;
 }
 
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position

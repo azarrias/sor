@@ -8,6 +8,24 @@
 
 struct SDL_Texture;
 
+enum PlayerState
+{
+	DEFAULT,
+	RESPAWNING,
+	JUMPING,
+	DEAD
+};
+
+enum JumpState
+{
+	INITIAL,
+	GOING_UP,
+	TOP_POS,
+	GOING_DOWN,
+	LAND,
+	NOT_JUMPING
+};
+
 class ModulePlayer : public Module
 {
 public:
@@ -19,6 +37,8 @@ public:
 	bool CleanUp();
 	void respawn();
 	void setCurrentAnimation(Animation* anim);
+	void updatePosition();
+	void updateDepth();
 public:
 
 	SDL_Texture* graphics = nullptr;
@@ -26,13 +46,15 @@ public:
 	Animation idle;
 	Animation waiting;
 	Animation walk;
+	Animation jump;
 	Animation respawning;
 	SimpleTimer playerTimer;
 	iPoint position = { 0, 0 };
+	fPoint velocity = { 0.0f, 0.0f };
 	unsigned short int depth = 23;
 	unsigned short int lives = 4;
-	bool destroyed = true;
-	bool isRespawning = false;
+	unsigned short int manualFrameIndex = 0;
+	PlayerState status = DEAD;
 };
 
 #endif // __ModulePlayer_H__
