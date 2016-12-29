@@ -31,6 +31,6 @@ bool ModuleHUD::CleanUp()
 // Update: draw background
 update_status ModuleHUD::Update()
 {
-	App->renderer->Blit(graphics, position.x, position.y, &hudRect);
+	App->renderer->Blit(graphics, position.x - App->camera->coord.x, position.y, &hudRect);
 	return UPDATE_CONTINUE;
 }
