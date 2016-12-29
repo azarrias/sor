@@ -6,6 +6,7 @@
 #include "ModuleRender.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleCamera.h"
 
 // Reference at https://www.youtube.com/watch?v=MXjaCkPWpvU
 
@@ -40,7 +41,7 @@ bool ModuleSceneIntro::Start()
 	if (fx == 0)
 		fx = App->audio->LoadFx("audio/starting.wav");
 
-	App->renderer->camera.x = App->renderer->camera.y = 0;
+	App->camera->coord.x = App->camera->coord.y = 0;
 
 	return true;
 }

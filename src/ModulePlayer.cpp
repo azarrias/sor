@@ -60,7 +60,7 @@ bool ModulePlayer::CleanUp()
 void ModulePlayer::respawn()
 {
 	LOG("Respawning player");
-	position.x = 16;
+	position.x = 23;
 	position.y = -80;
 	isRespawning = true;
 	playerTimer.reset();

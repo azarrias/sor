@@ -20,7 +20,7 @@ public:
 public:
 
 	SDL_Texture* graphics = nullptr;
-	iPoint position;
+	iPoint position = { 0, 0 };
 	SDL_Rect hudRect = { 0, 0, 320, 32 };
 	unsigned short int time = 40;
 };

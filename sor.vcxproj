@@ -126,6 +126,7 @@
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ModuleAudio.cpp" />
+    <ClCompile Include="src\ModuleCamera.cpp" />
     <ClCompile Include="src\ModuleCollision.cpp" />
     <ClCompile Include="src\ModuleFadeToBlack.cpp" />
     <ClCompile Include="src\ModuleHUD.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="src\MemLeaks.h" />
     <ClInclude Include="src\Module.h" />
     <ClInclude Include="src\ModuleAudio.h" />
+    <ClInclude Include="src\ModuleCamera.h" />
     <ClInclude Include="src\ModuleCollision.h" />
     <ClInclude Include="src\ModuleFadeToBlack.h" />
     <ClInclude Include="src\ModuleHUD.h" />

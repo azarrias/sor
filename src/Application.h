@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "Module.h"
 
+class ModuleCamera;
 class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
@@ -32,6 +33,7 @@ public:
 	bool CleanUp();
 
 public:
+	ModuleCamera* camera;
 	ModuleRender* renderer;
 	ModuleWindow* window;
 	ModuleTextures* textures;

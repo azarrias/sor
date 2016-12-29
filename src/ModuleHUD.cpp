@@ -2,10 +2,11 @@
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
+#include "ModuleCamera.h"
 #include "ModuleHUD.h"
 
 ModuleHUD::ModuleHUD(bool active) 
-	: Module(active), position(0, 0)
+	: Module(active)
 {}
 
 ModuleHUD::~ModuleHUD()
