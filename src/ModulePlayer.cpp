@@ -115,7 +115,7 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			if (depth + speed <= 54)
+			if (depth + speed <= 53)
 			{
 				depth += speed;
 				position.y -= speed;
