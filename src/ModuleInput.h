@@ -52,24 +52,12 @@ public:
 		return keyboard[id];
 	}
 
-	KeyState GetMouseButtonDown(int id) const
-	{
-		return mouse_buttons[id - 1];
-	}
-
 	// Check for window events last frame
 	bool GetWindowEvent(EventWindow code) const;
-
-	// Get mouse / axis position
-	const iPoint& GetMouseMotion() const;
-	const iPoint& GetMousePosition() const;
 
 private:
 	bool		windowEvents[WE_COUNT];
 	KeyState*	keyboard;
-	KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
-	iPoint mouse_motion;
-	iPoint mouse;
 };
 
 #endif // __ModuleInput_H__

@@ -5,11 +5,10 @@
 
 #define MAX_KEYS 300
 
-ModuleInput::ModuleInput() : Module(), mouse({ 0, 0 }), mouse_motion({ 0,0 })
+ModuleInput::ModuleInput() : Module()
 {
 	keyboard = new KeyState[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
-	memset(mouse_buttons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
 }
 
 // Destructor
@@ -45,7 +44,6 @@ update_status ModuleInput::PreUpdate()
 {
 	static SDL_Event event;
 
-	mouse_motion = { 0, 0 };
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -66,15 +64,6 @@ update_status ModuleInput::PreUpdate()
 			else
 				keyboard[i] = KEY_IDLE;
 		}
-	}
-
-	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
-	{
-		if (mouse_buttons[i] == KEY_DOWN)
-			mouse_buttons[i] = KEY_REPEAT;
-
-		if (mouse_buttons[i] == KEY_UP)
-			mouse_buttons[i] = KEY_IDLE;
 	}
 
 	while (SDL_PollEvent(&event) != 0)
@@ -104,21 +93,6 @@ update_status ModuleInput::PreUpdate()
 				break;
 			}
 			break;
-
-		case SDL_MOUSEBUTTONDOWN:
-			mouse_buttons[event.button.button - 1] = KEY_DOWN;
-			break;
-
-		case SDL_MOUSEBUTTONUP:
-			mouse_buttons[event.button.button - 1] = KEY_UP;
-			break;
-
-		case SDL_MOUSEMOTION:
-			mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
-			mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
-			mouse.x = event.motion.x / SCREEN_SIZE;
-			mouse.y = event.motion.y / SCREEN_SIZE;
-			break;
 		}
 	}
 
@@ -140,14 +114,4 @@ bool ModuleInput::CleanUp()
 bool ModuleInput::GetWindowEvent(EventWindow ev) const
 {
 	return windowEvents[ev];
-}
-
-const iPoint& ModuleInput::GetMousePosition() const
-{
-	return mouse;
-}
-
-const iPoint& ModuleInput::GetMouseMotion() const
-{
-	return mouse_motion;
 }
