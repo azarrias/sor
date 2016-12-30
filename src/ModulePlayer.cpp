@@ -149,7 +149,7 @@ update_status ModulePlayer::Update()
 			// TODO: Normal attack
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			status = JUMPING;
 			playerTimer.interval = 120;
