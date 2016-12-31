@@ -5,8 +5,7 @@
 #include "Point.h"
 
 #include "SDL/include/SDL_scancode.h"
-
-#define NUM_MOUSE_BUTTONS 5
+#include <queue>
 
 enum EventWindow
 {
@@ -18,11 +17,29 @@ enum EventWindow
 
 enum KeyState
 {
-	KEY_IDLE = 0,
-	KEY_DOWN,
-	KEY_REPEAT,
-	KEY_UP
+	IS_IDLE = 0,
+	IS_DOWN,
+	IS_REPEAT,
+	IS_UP
 };
+
+enum KeyId
+{
+	KEY_SPACE,
+	KEY_LEFT,
+	KEY_RIGHT,
+	KEY_UP,
+	KEY_DOWN,
+	KEY_A,
+	KEY_S,
+	KEY_D
+};
+
+typedef struct KeyEvent
+{
+	KeyId key;
+	KeyState status;
+} KeyEvent;
 
 class ModuleInput : public Module
 {
@@ -46,18 +63,14 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Check key states (includes mouse and joy buttons)
-	KeyState GetKey(int id) const
-	{
-		return keyboard[id];
-	}
-
 	// Check for window events last frame
 	bool GetWindowEvent(EventWindow code) const;
 
+public:
+	std::deque<KeyEvent*> keyEventQueue;
+
 private:
 	bool		windowEvents[WE_COUNT];
-	KeyState*	keyboard;
 };
 
 #endif // __ModuleInput_H__

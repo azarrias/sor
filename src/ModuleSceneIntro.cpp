@@ -11,7 +11,7 @@
 // Reference at https://www.youtube.com/watch?v=MXjaCkPWpvU
 
 ModuleSceneIntro::ModuleSceneIntro(bool active) 
-	: Module(active), introTimer(2000)
+	: Module(active), introTimer()
 {
 	// title animation
 	title.frames.push_back({ 656, 4, 168, 101 });
@@ -59,8 +59,6 @@ bool ModuleSceneIntro::CleanUp()
 
 update_status ModuleSceneIntro::Update()
 {
-	introTimer.update();
-
 	// Draw background
 	SDL_Rect rectBG;
 	rectBG.x = 334;
@@ -96,16 +94,18 @@ update_status ModuleSceneIntro::Update()
 	rectAxel.w = 101;
 	rectAxel.h = 165;
 	
-	if (introState < 3 && introTimer.check()) {
+	if (introState < 3 && introTimer.getDelta() >= 2000) {
 		++introState;
+		introTimer.reset();
 	}
 
 	// Animate title & subtitle 
 	if (introState >= 3)
 	{
-		if (introTimer.check()) {
+		if (introTimer.getDelta() >= 2000) {
 			title.speed = 0.4f;
 			subtitle.speed = 0.1f;
+			introTimer.reset();
 		}
 
 		if (title.speed > 0.0f) {
@@ -147,10 +147,18 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(background, 165, 72, &rectAxel, 1.0f, 0.95f);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
+	while (App->input->keyEventQueue.empty() == false)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_stage, this);
-		App->audio->PlayFx(fx);
+  		KeyEvent* keyEvent = App->input->keyEventQueue.front();
+		App->input->keyEventQueue.pop_front();
+
+		if (keyEvent->key == KEY_SPACE && keyEvent->status == IS_DOWN && App->fade->isFading() == false)
+		{
+			App->fade->FadeToBlack((Module*)App->scene_stage, this);
+			App->audio->PlayFx(fx);
+		}
+
+		RELEASE(keyEvent);
 	}
 
 	return UPDATE_CONTINUE;

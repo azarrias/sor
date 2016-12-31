@@ -7,8 +7,11 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include <stdio.h>
+#include "MemLeaks.h"
 
-ModulePlayer::ModulePlayer(bool active) : Module(active), playerTimer(500)
+ModulePlayer::ModulePlayer(bool active) 
+	: Module(active), refreshTimer(), playerTimer()
 {
 	// Coordinates for Blaze
 
@@ -69,7 +72,6 @@ void ModulePlayer::respawn()
 	position.x = 23;
 	position.y = -30;
 	status = RESPAWNING;
-	velocity.y = 0.0f;
 	playerTimer.reset();
 	--lives;
 }
@@ -77,112 +79,82 @@ void ModulePlayer::respawn()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	//int speed = 1;
-	unsigned short int frameIndex = 0;
+	if (refreshTimer.getDelta() >= 5) {
 
-	switch (status) {
-	case RESPAWNING:
-		setCurrentAnimation(&respawning);
-		if (position.y >= 132) {
-			position.y = 132;
-			velocity.y = 0.0f;
-			playerTimer.update();
-			respawning.speed = 1.0f;
-			if (playerTimer.check())
-				status = DEFAULT;
-		}
-		else velocity.y += 0.3f;
-		position.y += (int)velocity.y;
-		break;
-	case JUMPING:
-		if (manualFrameIndex == 1) {	// player is on the air
-			velocity.y += 0.5f;
-			position.y += (int)velocity.y;
-		}
-		if (position.y == 155 - depth) { // player is on the ground
-			playerTimer.update();
-			if (playerTimer.check()) {
-				if (velocity.y > 0) {	// is landing
-					velocity.y = 0;
-					manualFrameIndex = 0;
-					playerTimer.reset();
-				}
-				else if (velocity.y == 0) // just landed
+		refreshTimer.reset();
+
+		switch (status) {
+		case RESPAWNING:
+			setCurrentAnimation(&respawning);
+			if (isOnTheAir())
+				velocity.y += 0.3f;
+			else {
+				velocity.y = 0.0f;
+				respawning.speed = 1.0f;
+				if (playerTimer.getDelta() >= 100)
 					status = DEFAULT;
-				else manualFrameIndex = 1; // is about to jump
 			}
-		}
-		App->renderer->Blit(graphics, position.x, position.y, &(jump.frames[manualFrameIndex]));
-		break;
-	case DEFAULT:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-			velocity.x = -1.0f;
-			setCurrentAnimation(&walk);
-		}
+			break;
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-			velocity.x = 1.0f;
-			setCurrentAnimation(&walk);
-		}
+		case DEFAULT:
+			if (movementTimer.getDelta() >= 60) {
+				movementTimer.reset();
+				while (App->input->keyEventQueue.empty() == false)
+				{
+					KeyEvent* keyEvent = App->input->keyEventQueue.front();
 
-		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		{
-			velocity.y = 1.0f;
-			updateDepth();
-			setCurrentAnimation(&walk);
-		}
+					switch (keyEvent->status)
+					{
+					case IS_DOWN:
+						switch (keyEvent->key)
+						{
+						case KEY_UP: velocity.y -= 1.0f; break;
+						case KEY_DOWN: velocity.y += 1.0f; break;
+						case KEY_LEFT: velocity.x -= 1.0f; break;
+						case KEY_RIGHT: velocity.x += 1.0f; break;
+						}
+						break;
+					case IS_UP:
+						switch (keyEvent->key)
+						{
+						case KEY_UP: velocity.y += 1.0f; break;
+						case KEY_DOWN: velocity.y -= 1.0f; break;
+						case KEY_LEFT: velocity.x += 1.0f; break;
+						case KEY_RIGHT: velocity.x -= 1.0f; break;
+						}
+						break;
+					}
 
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		{
-			velocity.y = -1.0f;
-			updateDepth();
-			setCurrentAnimation(&walk);
-		}
+					App->input->keyEventQueue.pop_front();
+					RELEASE(keyEvent);
+				}
+			}
+			if (velocity.y == 0 && velocity.x == 0)
+				setCurrentAnimation(&idle);
+			else setCurrentAnimation(&walk);
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			// TODO: Special attack
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		{
-			// TODO: Normal attack
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			status = JUMPING;
-			playerTimer.interval = 120;
-			velocity.y = -8.5f;
-			position.y += (int)8.5f;
-			playerTimer.reset();
-			setCurrentAnimation(&jump);
-			manualFrameIndex = 0;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		{
-			// TODO: Pause the game
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-			&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE) {
-			velocity.x = 0.0f;
-			velocity.y = 0.0f;
-			setCurrentAnimation(&idle);
 		}
 
 		updatePosition();
+		if (status != DEAD)
+			App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	}
 
-	// Draw everything --------------------------------------
-	if (status != DEAD && status != JUMPING)
-		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	// debug player
+	char integer_string[32];
+	LOG("******");
+	LOG("Status: (0-DEFAULT, 1-RESPAWNING, 2-JUMPING, 3-DEAD)");
+	sprintf_s(integer_string, "%d", status);
+	LOG(integer_string);
+	LOG("Manual frame index:");
+	sprintf_s(integer_string, "%d", manualFrameIndex);
+	LOG(integer_string);
+	LOG("Depth:");
+	sprintf_s(integer_string, "%d", depth);
+	LOG(integer_string);
+	LOG("PosY:");
+	sprintf_s(integer_string, "%d", position.y);
+	LOG(integer_string);
 
 	return UPDATE_CONTINUE;
 }
@@ -196,15 +168,24 @@ void ModulePlayer::setCurrentAnimation(Animation* anim) {
 }
 
 void ModulePlayer::updatePosition() {
-	if (position.x + (int)velocity.x > 0)
-		position.x += (int)velocity.x;
-	if (position.y + (int)velocity.y >= 102 && position.y + (int)velocity.y <= 155)
-		position.y += (int)velocity.y;
+	position.x += (int)velocity.x;
+	if (position.x < 0) 
+		position.x = 0;
+	if (!isOnTheAir())
+		depth -= (int)velocity.y;
+	position.y += (int)velocity.y;
+	if (depth > 53) {
+		position.y = 102;
+		depth = 53;
+	}
+	if (depth < 0) {
+		position.y = 155;
+		depth = 0;
+	} 
 }
 
-void ModulePlayer::updateDepth() {
-	if (depth - (int)velocity.y >= 0 && depth - (int)velocity.y <= 53)
-		depth -= (int)velocity.y;
+bool ModulePlayer::isOnTheAir() const {
+	return (position.y < 155 - depth);
 }
 
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position

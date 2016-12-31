@@ -12,7 +12,7 @@
 // Reference at https://www.youtube.com/watch?v=J9gWS0ZQaxE
 
 ModuleStageTwo::ModuleStageTwo(bool active) 
-	: Module(active), stageTimer(6000)
+	: Module(active), stageTimer()
 {}
 
 ModuleStageTwo::~ModuleStageTwo()
@@ -68,15 +68,15 @@ update_status ModuleStageTwo::Update()
 	round.w = 76;
 	round.h = 14;
 
-	stageTimer.update();
+	//stageTimer.update();
 
 	switch (stageState)
 	{
 	case INTRO:
 		App->renderer->Blit(intro, 70, 100, &round);
-		if (stageTimer.check()) {
+		if (stageTimer.getDelta() >= 6000) {
 			stageState = LEVEL;
-			stageTimer.interval = 1000;
+			stageTimer.reset();
 		}
 		break;
 	case LEVEL:

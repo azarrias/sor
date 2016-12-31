@@ -3,18 +3,19 @@
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
 
-#define MAX_KEYS 300
-
 ModuleInput::ModuleInput() : Module()
-{
-	keyboard = new KeyState[MAX_KEYS];
-	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
-}
+{}
 
 // Destructor
 ModuleInput::~ModuleInput()
 {
-	RELEASE_ARRAY(keyboard);
+	//RELEASE_ARRAY(keyboard);
+	for (std::deque<KeyEvent*>::iterator it = keyEventQueue.begin(); it != keyEventQueue.end(); ++it)
+	{
+		RELEASE(*it);
+	}
+
+	keyEventQueue.clear();
 }
 
 // Called before render is available
@@ -43,28 +44,9 @@ bool ModuleInput::Start()
 update_status ModuleInput::PreUpdate()
 {
 	static SDL_Event event;
-
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
-
-	for (int i = 0; i < MAX_KEYS; ++i)
-	{
-		if (keys[i] == 1)
-		{
-			if (keyboard[i] == KEY_IDLE)
-				keyboard[i] = KEY_DOWN;
-			else
-				keyboard[i] = KEY_REPEAT;
-		}
-		else
-		{
-			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
-				keyboard[i] = KEY_UP;
-			else
-				keyboard[i] = KEY_IDLE;
-		}
-	}
+	KeyState keyState;
 
 	while (SDL_PollEvent(&event) != 0)
 	{
@@ -93,10 +75,29 @@ update_status ModuleInput::PreUpdate()
 				break;
 			}
 			break;
+
+			case SDL_KEYDOWN:
+			case SDL_KEYUP:
+				if (event.type == SDL_KEYDOWN) keyState = IS_DOWN;
+				else if (event.type == SDL_KEYUP) keyState = IS_UP;
+				if (event.key.repeat == 0)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE: return UPDATE_STOP; break;
+					case SDLK_UP:	keyEventQueue.push_back(new KeyEvent{ KEY_UP, keyState }); break;
+					case SDLK_DOWN:	keyEventQueue.push_back(new KeyEvent{ KEY_DOWN, keyState }); break;
+					case SDLK_LEFT:	keyEventQueue.push_back(new KeyEvent{ KEY_LEFT, keyState }); break;
+					case SDLK_RIGHT: keyEventQueue.push_back(new KeyEvent{ KEY_RIGHT, keyState }); break;
+					case SDLK_SPACE: keyEventQueue.push_back(new KeyEvent{ KEY_SPACE, keyState }); break;
+					}
+				}
+			break;
+
 		}
 	}
 
-	if (GetWindowEvent(EventWindow::WE_QUIT) == true || GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (GetWindowEvent(EventWindow::WE_QUIT) == true)
 		return UPDATE_STOP;
 
 	return UPDATE_CONTINUE;
@@ -106,6 +107,7 @@ update_status ModuleInput::PreUpdate()
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
+
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

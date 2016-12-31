@@ -37,8 +37,8 @@ update_status ModuleCollision::Update()
 	// After making it work, review that you are doing the minumum checks possible
 
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
+/*	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;*/
 
 	if (debug == true)
 		DebugDraw();
