@@ -36,10 +36,10 @@ ModulePlayer::ModulePlayer(bool active)
 	walk.speed = 0.1f;
 
 	// jump animation
-	jump.frames.push_back({ 6, 1104, 42, 65 });
-	jump.frames.push_back({ 48, 1104, 43, 65 });
-	jump.loop = false;
-	jump.speed = 0.0f;
+	jumping.frames.push_back({ 6, 1104, 42, 65 });
+	jumping.frames.push_back({ 48, 1104, 43, 65 });
+	jumping.loop = false;
+	jumping.speed = 0.0f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -76,6 +76,15 @@ void ModulePlayer::respawn()
 	--lives;
 }
 
+// Jump
+void ModulePlayer::jump()
+{
+	LOG("Player jumps");
+	status = JUMPING;
+	setCurrentAnimation(&jumping);
+	playerTimer.reset();
+}
+
 // Update: draw background
 update_status ModulePlayer::Update()
 {
@@ -96,6 +105,26 @@ update_status ModulePlayer::Update()
 			}
 			break;
 
+		case JUMPING:
+			if (isOnTheAir())
+				velocity.y += 0.5f;
+			else if (velocity.y == 0) {
+				if (playerTimer.getDelta() >= 1000) {
+					status = DEFAULT;
+				}
+				else if (playerTimer.getDelta() >= 500) {
+					jumping.speed = 0.0f;
+					jumping.Reset();
+				}
+				else if (playerTimer.getDelta() >= 100 && jumping.speed != 1.0f) {
+					velocity.y -= 8.5f;
+					jumping.speed = 1.0f;
+				}
+			}
+			else {
+				velocity.y = 0.0f;
+			}
+
 		case DEFAULT:
 			if (movementTimer.getDelta() >= 60) {
 				movementTimer.reset();
@@ -112,6 +141,12 @@ update_status ModulePlayer::Update()
 						case KEY_DOWN: velocity.y += 1.0f; break;
 						case KEY_LEFT: velocity.x -= 1.0f; break;
 						case KEY_RIGHT: velocity.x += 1.0f; break;
+						case KEY_D: 
+							status = JUMPING; 
+							//velocity.y = -8.5f;
+							playerTimer.reset();
+							jump();
+							break;
 						}
 						break;
 					case IS_UP:
@@ -129,9 +164,11 @@ update_status ModulePlayer::Update()
 					RELEASE(keyEvent);
 				}
 			}
-			if (velocity.y == 0 && velocity.x == 0)
-				setCurrentAnimation(&idle);
-			else setCurrentAnimation(&walk);
+			if (status != JUMPING) {
+				if (velocity.y == 0 && velocity.x == 0)
+					setCurrentAnimation(&idle);
+				else setCurrentAnimation(&walk);
+			}
 
 		}
 
@@ -171,7 +208,7 @@ void ModulePlayer::updatePosition() {
 	position.x += (int)velocity.x;
 	if (position.x < 0) 
 		position.x = 0;
-	if (!isOnTheAir())
+	if (!isOnTheAir() && status != JUMPING)
 		depth -= (int)velocity.y;
 	position.y += (int)velocity.y;
 	if (depth > 53) {

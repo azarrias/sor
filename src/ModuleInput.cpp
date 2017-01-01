@@ -90,6 +90,9 @@ update_status ModuleInput::PreUpdate()
 					case SDLK_LEFT:	keyEventQueue.push_back(new KeyEvent{ KEY_LEFT, keyState }); break;
 					case SDLK_RIGHT: keyEventQueue.push_back(new KeyEvent{ KEY_RIGHT, keyState }); break;
 					case SDLK_SPACE: keyEventQueue.push_back(new KeyEvent{ KEY_SPACE, keyState }); break;
+					case SDLK_a: keyEventQueue.push_back(new KeyEvent{ KEY_A, keyState }); break;
+					case SDLK_s: keyEventQueue.push_back(new KeyEvent{ KEY_S, keyState }); break;
+					case SDLK_d: keyEventQueue.push_back(new KeyEvent{ KEY_D, keyState }); break;
 					}
 				}
 			break;

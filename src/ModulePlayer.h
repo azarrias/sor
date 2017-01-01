@@ -37,6 +37,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void respawn();
+	void jump();
 	void setCurrentAnimation(Animation* anim);
 	void updatePosition();
 	bool isOnTheAir() const;
@@ -46,7 +47,7 @@ public:
 	Animation idle;
 	Animation waiting;
 	Animation walk;
-	Animation jump;
+	Animation jumping;
 	Animation respawning;
 	SimpleTimer playerTimer, refreshTimer, movementTimer;
 	iPoint position = { 23, -30 };
