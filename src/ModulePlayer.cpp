@@ -109,7 +109,7 @@ update_status ModulePlayer::Update()
 			if (isOnTheAir())
 				velocity.y += 0.5f;
 			else if (velocity.y == 0) {
-				if (playerTimer.getDelta() >= 1000) {
+				if (playerTimer.getDelta() >= 800) {
 					status = DEFAULT;
 				}
 				else if (playerTimer.getDelta() >= 500) {
@@ -137,25 +137,42 @@ update_status ModulePlayer::Update()
 					case IS_DOWN:
 						switch (keyEvent->key)
 						{
-						case KEY_UP: velocity.y -= 1.0f; break;
-						case KEY_DOWN: velocity.y += 1.0f; break;
-						case KEY_LEFT: velocity.x -= 1.0f; break;
-						case KEY_RIGHT: velocity.x += 1.0f; break;
+						case KEY_UP: 
+							if (status == DEFAULT)
+								velocity.y -= 1.0f;
+							break;
+						case KEY_DOWN: 
+							if (status == DEFAULT)
+								velocity.y += 1.0f; 
+							break;
+						case KEY_LEFT: 
+							velocity.x -= 2.0f; 
+							break;
+						case KEY_RIGHT: 
+							velocity.x += 2.0f; 
+							break;
 						case KEY_D: 
-							status = JUMPING; 
-							//velocity.y = -8.5f;
-							playerTimer.reset();
-							jump();
+							if (status == DEFAULT) {
+								status = JUMPING;
+								playerTimer.reset();
+								jump();
+							}
 							break;
 						}
 						break;
 					case IS_UP:
 						switch (keyEvent->key)
 						{
-						case KEY_UP: velocity.y += 1.0f; break;
-						case KEY_DOWN: velocity.y -= 1.0f; break;
-						case KEY_LEFT: velocity.x += 1.0f; break;
-						case KEY_RIGHT: velocity.x -= 1.0f; break;
+						case KEY_UP: 
+							if (status == DEFAULT && velocity.y != 0.0f)
+								velocity.y += 1.0f; 
+							break;
+						case KEY_DOWN: 
+							if (status == DEFAULT && velocity.y != 0.0f)
+								velocity.y -= 1.0f; 
+							break;
+						case KEY_LEFT: velocity.x += 2.0f; break;
+						case KEY_RIGHT: velocity.x -= 2.0f; break;
 						}
 						break;
 					}
@@ -215,7 +232,7 @@ void ModulePlayer::updatePosition() {
 		position.y = 102;
 		depth = 53;
 	}
-	if (depth < 0) {
+	if (depth < 0 || position.y > 155) {
 		position.y = 155;
 		depth = 0;
 	} 
