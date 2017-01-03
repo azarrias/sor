@@ -169,7 +169,6 @@ update_status ModulePlayer::Update()
 		if (height > 0)
 			verticalForce += 0.3f;
 		else {
-//			velocity.y = 0.0f;
 			respawning.speed = 1.0f;
 			if (playerTimer.getDelta() >= 100) {
 				status = IDLE;
@@ -185,33 +184,6 @@ update_status ModulePlayer::Update()
 			setCurrentAnimation(&walk);
 		}
 		break;
-
-/*		if (keyEvent != nullptr && keyEvent->status == IS_DOWN) {
-			switch (keyEvent->key) {
-				case KEY_UP:	
-					status = WALK;
-					setCurrentAnimation(&walk);
-					break;
-				case KEY_DOWN:	
-					status = WALK;
-					setCurrentAnimation(&walk);
-					break;
-				case KEY_LEFT:	
-					status = WALK;
-					setCurrentAnimation(&walk);
-					break;
-				case KEY_RIGHT:	
-					status = WALK;
-					setCurrentAnimation(&walk);
-					break;
-				case KEY_D:
-					jumpTimer.reset();
-					status = JUMP_INI;
-					setCurrentAnimation(&jumping);
-					break;
-				}
-			}
-		break;*/
 
 	case WALK:
 			
@@ -240,6 +212,7 @@ update_status ModulePlayer::Update()
 			jumping.Reset();
 			//verticalForce = 0.0f;
 			prevVelocity = velocity;
+			velocity.y = 0.0f;
 			velocity.x = 0.0f;
 			status = JUMP_END;
 			jumpTimer.reset();
@@ -247,32 +220,14 @@ update_status ModulePlayer::Update()
 		break;
 
 	case ATTACK_JMP:
-/*		if (keyEvent != nullptr && keyEvent->status == IS_DOWN) {
-			switch (keyEvent->key) {
-			case KEY_LEFT:
-				velocity.x -= 2.0f;
-				break;
-			case KEY_RIGHT:
-				velocity.x += 2.0f;
-				break;
-			}
-		}
-		else if (keyEvent != nullptr && keyEvent->status == IS_UP) {
-			switch (keyEvent->key) {
-			case KEY_LEFT:
-				if (velocity.x < 0.0f) velocity.x += 2.0f;
-				break;
-			case KEY_RIGHT:
-				if (velocity.x > 0.0f) velocity.x -= 2.0f;
-				break;
-			}
-		}*/
+
 		if (height > 0)
 			verticalForce += 0.5f;
 		else {
 			jumping.speed = 0.0f;
 			jumping.Reset();
 			prevVelocity = velocity;
+			velocity.y = 0.0f;
 			velocity.x = 0.0f;
 			setCurrentAnimation(&jumping);
 			status = JUMP_END;
@@ -341,7 +296,7 @@ void ModulePlayer::updatePosition() {
 		position.x = 0;
 	if (!isOnTheAir() && status != JUMPING && status != ATTACKING)
 		depth -= (int)velocity.y;
-	if (status == WALK)
+	if (status == IDLE || status == WALK)
 		position.y += (int)velocity.y;
 	if (status == RESPAWNING || status == JUMPING || status == ATTACK_JMP) {
 		height -= (int)verticalForce;
