@@ -123,39 +123,45 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Creature.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ModuleAudio.cpp" />
     <ClCompile Include="src\ModuleCamera.cpp" />
     <ClCompile Include="src\ModuleCollision.cpp" />
+    <ClCompile Include="src\ModuleEntityManager.cpp" />
     <ClCompile Include="src\ModuleFadeToBlack.cpp" />
     <ClCompile Include="src\ModuleHUD.cpp" />
     <ClCompile Include="src\ModuleInput.cpp" />
-    <ClCompile Include="src\ModulePlayer.cpp" />
     <ClCompile Include="src\ModuleRender.cpp" />
     <ClCompile Include="src\ModuleSceneIntro.cpp" />
     <ClCompile Include="src\ModuleTextures.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
     <ClCompile Include="src\ModuleStageTwo.cpp" />
+    <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Creature.h" />
+    <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\MemLeaks.h" />
     <ClInclude Include="src\Module.h" />
     <ClInclude Include="src\ModuleAudio.h" />
     <ClInclude Include="src\ModuleCamera.h" />
     <ClInclude Include="src\ModuleCollision.h" />
+    <ClInclude Include="src\ModuleEntityManager.h" />
     <ClInclude Include="src\ModuleFadeToBlack.h" />
     <ClInclude Include="src\ModuleHUD.h" />
     <ClInclude Include="src\ModuleInput.h" />
-    <ClInclude Include="src\ModulePlayer.h" />
     <ClInclude Include="src\ModuleRender.h" />
     <ClInclude Include="src\ModuleSceneIntro.h" />
     <ClInclude Include="src\ModuleStageTwo.h" />
     <ClInclude Include="src\ModuleTextures.h" />
     <ClInclude Include="src\ModuleWindow.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\SimpleTimer.h" />
   </ItemGroup>

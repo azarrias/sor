@@ -10,9 +10,9 @@
 
 #include "ModuleSceneIntro.h"
 #include "ModuleStageTwo.h"
-#include "ModulePlayer.h"
 #include "ModuleHUD.h"
 #include "ModuleCamera.h"
+#include "ModuleEntityManager.h"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ Application::Application()
 	// Game Modules
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
 	modules.push_back(scene_stage = new ModuleStageTwo(false));
-	modules.push_back(player = new ModulePlayer(false));
+	modules.push_back(entities = new ModuleEntityManager(false));
 	modules.push_back(hud = new ModuleHUD(false));
 
 	// Modules to draw on top of game logic

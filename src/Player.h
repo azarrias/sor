@@ -1,10 +1,11 @@
-#ifndef __ModulePlayer_H__
-#define __ModulePlayer_H__
+#ifndef __Player_H__
+#define __Player_H__
 
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
 #include "SimpleTimer.h"
+#include "Entity.h"
 
 struct SDL_Texture;
 
@@ -22,21 +23,11 @@ enum PlayerState
 	UNAVAILABLE
 };
 
-enum JumpState
-{
-	INITIAL,
-	GOING_UP,
-	TOP_POS,
-	GOING_DOWN,
-	LAND,
-	NOT_JUMPING
-};
-
-class ModulePlayer : public Module
+class Player : public Entity
 {
 public:
-	ModulePlayer(bool active = true);
-	~ModulePlayer();
+	Player();
+	~Player();
 
 	bool Start();
 	update_status Update();
@@ -46,7 +37,8 @@ public:
 	void attack();
 	void setCurrentAnimation(Animation* anim);
 	void updatePosition();
-	bool isOnTheAir() const;
+	void handleInput();
+	void handleState();
 public:
 	SDL_Texture* graphics = nullptr;
 	Animation* current_animation = nullptr;
@@ -68,4 +60,4 @@ public:
 	PlayerState status = DEAD;
 };
 
-#endif // __ModulePlayer_H__
+#endif // __Player_H__

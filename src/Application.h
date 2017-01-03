@@ -16,10 +16,11 @@ class ModuleCollision;
 //class ModuleParticles;
 
 // Game modules ---
-class ModulePlayer;
+class ModuleEntityManager;
 class ModuleSceneIntro;
 class ModuleStageTwo;
 class ModuleHUD;
+class Entity;
 
 class Application
 {
@@ -44,9 +45,9 @@ public:
 //	ModuleParticles* particles;
 
 	// Game modules ---
-	ModulePlayer* player;
 	ModuleSceneIntro* scene_intro;
 	ModuleStageTwo* scene_stage;
+	ModuleEntityManager* entities;
 	ModuleHUD* hud;
 
 private:

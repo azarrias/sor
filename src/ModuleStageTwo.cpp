@@ -3,11 +3,12 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModuleRender.h"
-#include "ModulePlayer.h"
 #include "ModuleCollision.h"
 //#include "ModuleParticles.h"
 #include "ModuleStageTwo.h"
 #include "ModuleHUD.h"
+#include "ModuleEntityManager.h"
+#include "Player.h"
 
 // Reference at https://www.youtube.com/watch?v=J9gWS0ZQaxE
 
@@ -26,8 +27,9 @@ bool ModuleStageTwo::Start()
 	background = App->textures->Load("graphics/stage2_bg.png");
 	intro = App->textures->Load("graphics/hud.png");
 
-	App->player->Enable();
 	App->hud->Enable();
+	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER));
+	App->entities->Enable();
 //	App->particles->Enable();
 	App->collision->Enable();
 
@@ -45,7 +47,7 @@ bool ModuleStageTwo::CleanUp()
 	LOG("Unloading stage");
 
 	App->textures->Unload(background);
-	App->player->Disable();
+	App->entities->Disable();
 	App->hud->Disable();
 	App->collision->Disable();
 //	App->particles->Disable();
@@ -81,9 +83,9 @@ update_status ModuleStageTwo::Update()
 		break;
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
-		if (App->player->status == DEAD) {
-			if (App->player->lives > 0) {
-				App->player->respawn();
+		if (App->entities->player->status == DEAD) {
+			if (App->entities->player->lives > 0) {
+				App->entities->player->respawn();
 			}
 			else {
 				// TODO : You lose

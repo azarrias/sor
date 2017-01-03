@@ -6,17 +6,17 @@
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
-#include "ModulePlayer.h"
+#include "Player.h"
 #include <stdio.h>
 #include "MemLeaks.h"
 
-ModulePlayer::ModulePlayer(bool active) 
-	: Module(active), refreshTimer(), playerTimer()
+Player::Player()
+	: Entity(Entity::Types::PLAYER), height(162), position({ 23, -30 })
 {
 	// Coordinates for Blaze
 
 	// idle animation
-	for (size_t i=0; i < 8; ++i)
+	for (size_t i = 0; i < 8; ++i)
 		idle.frames.push_back({ 7, 956, 49, 61 });
 	idle.frames.push_back({ 63, 956, 49, 61 });
 	idle.frames.push_back({ 126, 956, 49, 61 });
@@ -56,11 +56,11 @@ ModulePlayer::ModulePlayer(bool active)
 	chop.speed = 0.2f;
 }
 
-ModulePlayer::~ModulePlayer()
+Player::~Player()
 {}
 
 // Load assets
-bool ModulePlayer::Start()
+bool Player::Start()
 {
 	LOG("Loading player");
 
@@ -70,7 +70,7 @@ bool ModulePlayer::Start()
 }
 
 // Unload assets
-bool ModulePlayer::CleanUp()
+bool Player::CleanUp()
 {
 	LOG("Unloading player");
 
@@ -80,7 +80,7 @@ bool ModulePlayer::CleanUp()
 }
 
 // Respawn player
-void ModulePlayer::respawn()
+void Player::respawn()
 {
 	LOG("Respawning player");
 	position.x = 23;
@@ -92,7 +92,7 @@ void ModulePlayer::respawn()
 }
 
 // Jump
-void ModulePlayer::jump()
+void Player::jump()
 {
 	LOG("Player jumps");
 	status = JUMPING;
@@ -101,11 +101,11 @@ void ModulePlayer::jump()
 }
 
 // Attack
-void ModulePlayer::attack()
+void Player::attack()
 {
 	LOG("Player attacks");
 	status = ATTACKING;
-	if (isOnTheAir()) {
+	if (height > 0) {
 		setCurrentAnimation(&jumpKick);
 		status = JUMPING;
 	}
@@ -117,8 +117,7 @@ void ModulePlayer::attack()
 	attackTimer.reset();
 }
 
-// Update: draw background
-update_status ModulePlayer::Update()
+void Player::handleInput()
 {
 	KeyEvent* keyEvent = nullptr;
 
@@ -130,9 +129,9 @@ update_status ModulePlayer::Update()
 		switch (keyEvent->key)
 		{
 		case KEY_UP:
-			if(keyEvent->status == IS_DOWN)
+			if (keyEvent->status == IS_DOWN)
 				velocity.y -= 1.0f;
-			else if(keyEvent->status == IS_UP)
+			else if (keyEvent->status == IS_UP)
 				velocity.y += 1.0f;
 			break;
 		case KEY_DOWN:
@@ -159,7 +158,7 @@ update_status ModulePlayer::Update()
 					status = ATTACK_JMP;
 					setCurrentAnimation(&jumpKick);
 				}
-				else if (status == IDLE || status == WALK){
+				else if (status == IDLE || status == WALK) {
 					prevVelocity = velocity;
 					velocity.y = 0.0f;
 					velocity.x = 0.0f;
@@ -179,6 +178,14 @@ update_status ModulePlayer::Update()
 		}
 	}
 
+	if (App->input->keyEventQueue.empty() == false) {
+		App->input->keyEventQueue.pop_front();
+		RELEASE(keyEvent);
+	}
+}
+
+void Player::handleState()
+{
 	switch (status) {
 	case RESPAWNING:
 		setCurrentAnimation(&respawning);
@@ -273,12 +280,16 @@ update_status ModulePlayer::Update()
 			}
 		}
 		break;
-	}
 
-	if (App->input->keyEventQueue.empty() == false) {
-		App->input->keyEventQueue.pop_front();
-		RELEASE(keyEvent);
 	}
+}
+
+// Update: draw background
+update_status Player::Update()
+{
+	handleInput();
+
+	handleState();
 
 	if (status != DEAD && status != JUMP_INI && status != JUMP_END)
 		updatePosition();
@@ -286,26 +297,10 @@ update_status ModulePlayer::Update()
 	if (status != DEAD)
 		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
-	// debug player
-	char integer_string[32];
-	LOG("******");
-	LOG("Status: (0-DEFAULT, 1-RESPAWNING, 2-JUMPING, 3-DEAD)");
-	sprintf_s(integer_string, "%d", status);
-	LOG(integer_string);
-	LOG("Depth:");
-	sprintf_s(integer_string, "%d", depth);
-	LOG(integer_string);
-	LOG("VelX:");
-	sprintf_s(integer_string, "%f", velocity.x);
-	LOG(integer_string);
-	LOG("PosX:");
-	sprintf_s(integer_string, "%d", position.x);
-	LOG(integer_string);
-
 	return UPDATE_CONTINUE;
 }
 
-void ModulePlayer::setCurrentAnimation(Animation* anim) {
+void Player::setCurrentAnimation(Animation* anim) {
 	if (current_animation != anim)
 	{
 		anim->Reset();
@@ -313,12 +308,12 @@ void ModulePlayer::setCurrentAnimation(Animation* anim) {
 	}
 }
 
-void ModulePlayer::updatePosition() {
+void Player::updatePosition() {
 	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP)
 		position.x += (int)velocity.x;
-	if (position.x < 0) 
+	if (position.x < 0)
 		position.x = 0;
-	if (!isOnTheAir() && status != JUMPING && status != ATTACKING)
+	if (height == 0 && status != JUMPING && status != ATTACKING)
 		depth -= (int)velocity.y;
 	if (status == IDLE || status == WALK)
 		position.y += (int)velocity.y;
@@ -337,12 +332,12 @@ void ModulePlayer::updatePosition() {
 	if (depth < 0 || position.y > 155) {
 		position.y = 155;
 		depth = 0;
-	} 
+	}
 }
 
-bool ModulePlayer::isOnTheAir() const {
+/*bool Player::isOnTheAir() const {
 	return (position.y < 155 - depth);
-}
+}*/
 
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
 

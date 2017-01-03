@@ -45,9 +45,6 @@
     <ClCompile Include="src\ModuleWindow.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="src\ModulePlayer.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="src\ModuleSceneIntro.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
@@ -59,6 +56,18 @@
     </ClCompile>
     <ClCompile Include="src\ModuleCamera.cpp">
       <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleEntityManager.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Creature.cpp">
+      <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +104,6 @@
     <ClInclude Include="src\ModuleWindow.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="src\ModulePlayer.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="src\ModuleSceneIntro.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
@@ -118,6 +124,18 @@
     </ClInclude>
     <ClInclude Include="src\ModuleCamera.h">
       <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleEntityManager.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Creature.h">
+      <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
