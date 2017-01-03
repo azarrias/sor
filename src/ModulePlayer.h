@@ -12,7 +12,22 @@ enum PlayerState
 {
 	DEFAULT,
 	RESPAWNING,
+	IDLE,
+	WALK,
+	JUMP_INI,
 	JUMPING,
+	JUMP_END,
+	ATTACK_JMP,
+	WALK_N,
+	WALK_NE,
+	WALK_E,
+	WALK_SE,
+	WALK_S,
+	WALK_SW,
+	WALK_W,
+	WALK_NW,
+
+	ATTACKING,
 	DEAD,
 	UNAVAILABLE
 };
@@ -38,6 +53,7 @@ public:
 	bool CleanUp();
 	void respawn();
 	void jump();
+	void attack();
 	void setCurrentAnimation(Animation* anim);
 	void updatePosition();
 	bool isOnTheAir() const;
@@ -48,13 +64,17 @@ public:
 	Animation waiting;
 	Animation walk;
 	Animation jumping;
+	Animation jumpKick;
+	Animation chop;
 	Animation respawning;
-	SimpleTimer playerTimer, refreshTimer, movementTimer;
+	SimpleTimer playerTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
 	iPoint position = { 23, -30 };
 	fPoint velocity = { 0.0f, 0.0f };
+	fPoint prevVelocity = { 0.0f, 0.0f };
+	short int height = 0;
+	float verticalForce = 0.0f;
 	short int depth = 23;
 	unsigned short int lives = 4;
-	unsigned short int manualFrameIndex = 0;
 	PlayerState status = DEAD;
 };
 
