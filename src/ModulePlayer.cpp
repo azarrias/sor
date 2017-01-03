@@ -153,8 +153,24 @@ update_status ModulePlayer::Update()
 			else if (keyEvent->status == IS_UP)
 				velocity.x -= 2.0f;
 			break;
+		case KEY_S:
+			if (keyEvent->status == IS_DOWN) {
+				if (status == JUMPING) {
+					status = ATTACK_JMP;
+					setCurrentAnimation(&jumpKick);
+				}
+				else if (status == IDLE || status == WALK){
+					prevVelocity = velocity;
+					velocity.y = 0.0f;
+					velocity.x = 0.0f;
+					status = ATTACKING;
+					attackTimer.reset();
+					setCurrentAnimation(&chop);
+				}
+			}
+			break;
 		case KEY_D:
-			if (status == IDLE || status == WALK) {
+			if (keyEvent->status == IS_DOWN && (status == IDLE || status == WALK)) {
 				jumpTimer.reset();
 				status = JUMP_INI;
 				setCurrentAnimation(&jumping);
@@ -178,7 +194,6 @@ update_status ModulePlayer::Update()
 		break;
 
 	case IDLE:
-
 		if (velocity.x != 0.0f || velocity.y != 0.0f) {
 			status = WALK;
 			setCurrentAnimation(&walk);
@@ -186,7 +201,6 @@ update_status ModulePlayer::Update()
 		break;
 
 	case WALK:
-			
 		if (velocity.x == 0.0f && velocity.y == 0.0f) {
 			status = IDLE;
 			setCurrentAnimation(&idle);
@@ -194,7 +208,6 @@ update_status ModulePlayer::Update()
 		break;
 
 	case JUMP_INI:
-
 		if (jumpTimer.getDelta() >= 100) {
 			verticalForce = -8.5f;
 			jumping.speed = 1.0f;
@@ -210,7 +223,6 @@ update_status ModulePlayer::Update()
 		else {
 			jumping.speed = 0.0f;
 			jumping.Reset();
-			//verticalForce = 0.0f;
 			prevVelocity = velocity;
 			velocity.y = 0.0f;
 			velocity.x = 0.0f;
@@ -220,7 +232,6 @@ update_status ModulePlayer::Update()
 		break;
 
 	case ATTACK_JMP:
-
 		if (height > 0)
 			verticalForce += 0.5f;
 		else {
@@ -235,8 +246,8 @@ update_status ModulePlayer::Update()
 		}
 		break;
 
-	case JUMP_END:
-		if (jumpTimer.getDelta() >= 1000) {
+	case ATTACKING:
+		if (attackTimer.getDelta() >= 200) {
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;
@@ -247,7 +258,20 @@ update_status ModulePlayer::Update()
 				setCurrentAnimation(&idle);
 			}
 		}
+		break;
 
+	case JUMP_END:
+		if (jumpTimer.getDelta() >= 100) {
+			velocity += prevVelocity;
+			if (velocity.x != 0.0f || velocity.y != 0.0f) {
+				status = WALK;
+				setCurrentAnimation(&walk);
+			}
+			else {
+				status = IDLE;
+				setCurrentAnimation(&idle);
+			}
+		}
 		break;
 	}
 

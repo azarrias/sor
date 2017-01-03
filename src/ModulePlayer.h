@@ -10,7 +10,6 @@ struct SDL_Texture;
 
 enum PlayerState
 {
-	DEFAULT,
 	RESPAWNING,
 	IDLE,
 	WALK,
@@ -18,15 +17,6 @@ enum PlayerState
 	JUMPING,
 	JUMP_END,
 	ATTACK_JMP,
-	WALK_N,
-	WALK_NE,
-	WALK_E,
-	WALK_SE,
-	WALK_S,
-	WALK_SW,
-	WALK_W,
-	WALK_NW,
-
 	ATTACKING,
 	DEAD,
 	UNAVAILABLE
