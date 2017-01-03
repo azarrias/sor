@@ -11,7 +11,7 @@
 #include "MemLeaks.h"
 
 Player::Player()
-	: Entity(Entity::Types::PLAYER), height(162), position({ 23, -30 })
+	: Creature(Entity::Types::PLAYER)
 {
 	// Coordinates for Blaze
 
@@ -29,11 +29,11 @@ Player::Player()
 	respawning.speed = 0.0f;
 
 	// walk animation
-	walk.frames.push_back({ 306, 956, 36, 61 });
-	walk.frames.push_back({ 344, 956, 41, 61 });
-	walk.frames.push_back({ 386, 956, 36, 61 });
-	walk.frames.push_back({ 424, 956, 41, 61 });
-	walk.speed = 0.1f;
+	walking.frames.push_back({ 306, 956, 36, 61 });
+	walking.frames.push_back({ 344, 956, 41, 61 });
+	walking.frames.push_back({ 386, 956, 36, 61 });
+	walking.frames.push_back({ 424, 956, 41, 61 });
+	walking.speed = 0.1f;
 
 	// jump animation
 	jumping.frames.push_back({ 8, 1108, 42, 61 });
@@ -203,7 +203,7 @@ void Player::handleState()
 	case IDLE:
 		if (velocity.x != 0.0f || velocity.y != 0.0f) {
 			status = WALK;
-			setCurrentAnimation(&walk);
+			setCurrentAnimation(&walking);
 		}
 		break;
 
@@ -258,7 +258,7 @@ void Player::handleState()
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;
-				setCurrentAnimation(&walk);
+				setCurrentAnimation(&walking);
 			}
 			else {
 				status = IDLE;
@@ -272,7 +272,7 @@ void Player::handleState()
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;
-				setCurrentAnimation(&walk);
+				setCurrentAnimation(&walking);
 			}
 			else {
 				status = IDLE;
@@ -291,10 +291,9 @@ update_status Player::Update()
 
 	handleState();
 
-	if (status != DEAD && status != JUMP_INI && status != JUMP_END)
-		updatePosition();
+	updatePosition();
 
-	if (status != DEAD)
+	if (status != UNAVAILABLE)
 		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;

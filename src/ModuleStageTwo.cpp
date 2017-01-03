@@ -83,14 +83,9 @@ update_status ModuleStageTwo::Update()
 		break;
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
-		if (App->entities->player->status == DEAD) {
-			if (App->entities->player->lives > 0) {
-				App->entities->player->respawn();
-			}
-			else {
-				// TODO : You lose
-			}
-		}
+		if (App->entities->player->status == Creature::State::UNAVAILABLE)
+			App->entities->player->respawn();
+		break;
 	}
 
 	return UPDATE_CONTINUE;
