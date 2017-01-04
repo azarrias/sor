@@ -7,6 +7,7 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "Player.h"
+#include "NPCGarcia.h"
 #include <stdio.h>
 #include "MemLeaks.h"
 #include "ModuleEntityManager.h"
@@ -34,6 +35,7 @@ Entity* ModuleEntityManager::createEntity(Entity::Types entityType)
 	Entity* ret = nullptr;
 	switch (entityType) {
 		case Entity::Types::PLAYER:	ret = new Player();	break;
+		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(); break;
 	}
 
 	if (ret != nullptr)
@@ -54,12 +56,12 @@ bool ModuleEntityManager::Start()
 
 update_status ModuleEntityManager::Update()
 {
-/*	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 	{
 		(*it)->Update();
-	}*/
-	if (player != nullptr)
-		player->Update();
+	}
+	//if (player != nullptr)
+		//player->Update();
 
 	return UPDATE_CONTINUE;
 }

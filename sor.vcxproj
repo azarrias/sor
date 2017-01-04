@@ -139,6 +139,8 @@
     <ClCompile Include="src\ModuleTextures.cpp" />
     <ClCompile Include="src\ModuleWindow.cpp" />
     <ClCompile Include="src\ModuleStageTwo.cpp" />
+    <ClCompile Include="src\NPC.cpp" />
+    <ClCompile Include="src\NPCGarcia.cpp" />
     <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +163,8 @@
     <ClInclude Include="src\ModuleStageTwo.h" />
     <ClInclude Include="src\ModuleTextures.h" />
     <ClInclude Include="src\ModuleWindow.h" />
+    <ClInclude Include="src\NPC.h" />
+    <ClInclude Include="src\NPCGarcia.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\SimpleTimer.h" />

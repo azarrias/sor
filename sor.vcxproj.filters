@@ -69,6 +69,12 @@
     <ClCompile Include="src\Creature.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
+    <ClCompile Include="src\NPC.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NPCGarcia.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Globals.h">
@@ -135,6 +141,12 @@
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="src\Creature.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NPC.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NPCGarcia.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
