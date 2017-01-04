@@ -42,7 +42,6 @@ public:
 	iPoint position = { 23, -30 };
 	short int height = 0;
 	float verticalForce = 0.0f;
-	short int depth = 23;
 	State status = UNAVAILABLE;
 	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
 };

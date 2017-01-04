@@ -59,6 +59,9 @@ bool ModuleEntityManager::Start()
 
 update_status ModuleEntityManager::Update()
 {
+	// Sort the entities by depth (descencing) to take care of overlapping 
+	std::sort(entities.begin(), entities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
+
 	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 	{
 		(*it)->Update();
