@@ -3,6 +3,8 @@
 
 #include "Module.h"
 #include "SimpleTimer.h"
+#include <vector>
+#include "Point.h"
 
 struct SDL_Texture;
 

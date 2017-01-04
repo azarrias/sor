@@ -1,6 +1,7 @@
 #include "Creature.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleStageTwo.h"
 
 Creature::Creature(Entity::Types entityType)
 	: Entity(entityType)
@@ -13,11 +14,23 @@ update_status Creature::Update()
 {
 	handleState();
 
-	updatePosition();
-
-	paint();
+	if (status != UNAVAILABLE) {
+		updatePosition();
+		paint();
+	}
 
 	return UPDATE_CONTINUE;
+}
+
+// Respawn player
+void Creature::spawn()
+{
+	LOG("Spawning creature");
+	position = iniPos;
+	height = 0;
+	setCurrentAnimation(&idle);
+	status = IDLE;
+	creatureTimer.reset();
 }
 
 void Creature::setCurrentAnimation(Animation* anim) {
@@ -31,13 +44,18 @@ void Creature::setCurrentAnimation(Animation* anim) {
 void Creature::handleState()
 {
 	switch (status) {
+	case UNAVAILABLE:
+		if (App->scene_stage->stageState == LEVEL)
+			spawn();
+		break;
+
 	case RESPAWNING:
 		setCurrentAnimation(&respawning);
 		if (height > 0)
 			verticalForce += 0.3f;
 		else {
 			respawning.speed = 1.0f;
-			if (playerTimer.getDelta() >= 100) {
+			if (creatureTimer.getDelta() >= 100) {
 				status = IDLE;
 				setCurrentAnimation(&idle);
 			}
@@ -157,6 +175,5 @@ void Creature::updatePosition() {
 
 void Creature::paint()
 {
-	if (status != UNAVAILABLE)
-		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 }

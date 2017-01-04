@@ -63,9 +63,7 @@ Player::~Player()
 bool Player::Start()
 {
 	LOG("Loading player");
-
 	graphics = App->textures->Load("graphics/pcs.png");
-
 	return true;
 }
 
@@ -73,21 +71,19 @@ bool Player::Start()
 bool Player::CleanUp()
 {
 	LOG("Unloading player");
-
-	App->textures->Unload(graphics);
-
-	return true;
+	return Entity::CleanUp();
 }
 
 // Respawn player
-void Player::respawn()
+void Player::spawn()
 {
 	LOG("Respawning player");
 	position.x = 23;
 	position.y = -30;
 	height = 162;
 	status = RESPAWNING;
-	playerTimer.reset();
+	setCurrentAnimation(&respawning);
+	creatureTimer.reset();
 	--lives;
 }
 
@@ -188,14 +184,7 @@ void Player::handleInput()
 update_status Player::Update()
 {
 	handleInput();
-
-	handleState();
-
-	updatePosition();
-
-	paint();
-
-	return UPDATE_CONTINUE;
+	return Creature::Update();
 }
 
 /*bool Player::isOnTheAir() const {

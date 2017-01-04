@@ -12,6 +12,7 @@
 #include "MemLeaks.h"
 #include "ModuleEntityManager.h"
 #include "Entity.h"
+#include "ModuleCamera.h"
 
 ModuleEntityManager::ModuleEntityManager(bool active)
 	: Module(active)
@@ -48,8 +49,10 @@ bool ModuleEntityManager::Start()
 {
 	LOG("Loading entities");
 
-	if (player != nullptr)
-		player->Start();
+	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+	{
+		(*it)->Start();
+	}
 
 	return true;
 }
@@ -60,8 +63,6 @@ update_status ModuleEntityManager::Update()
 	{
 		(*it)->Update();
 	}
-	//if (player != nullptr)
-		//player->Update();
 
 	return UPDATE_CONTINUE;
 }
@@ -70,8 +71,10 @@ bool ModuleEntityManager::CleanUp()
 {
 	LOG("Unloading entities");
 
-	if (player != nullptr)
-		player->CleanUp();
+	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+	{
+		(*it)->CleanUp();
+	}
 
 	return true;
 }

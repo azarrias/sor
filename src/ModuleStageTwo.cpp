@@ -9,6 +9,7 @@
 #include "ModuleHUD.h"
 #include "ModuleEntityManager.h"
 #include "Player.h"
+#include "ModuleCamera.h"
 
 // Reference at https://www.youtube.com/watch?v=J9gWS0ZQaxE
 
@@ -29,6 +30,7 @@ bool ModuleStageTwo::Start()
 
 	App->hud->Enable();
 	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER));
+	App->entities->createEntity(Entity::Types::NPC_GARCIA);
 	App->entities->Enable();
 //	App->particles->Enable();
 	App->collision->Enable();
@@ -57,12 +59,6 @@ bool ModuleStageTwo::CleanUp()
 
 update_status ModuleStageTwo::Update()
 {
-	// Move camera forward -----------------------------
-	//int scroll_speed = 1;
-
-	//App->player->position.x += 1;
-	//App->renderer->camera.x -= 3;
-
 	// Draw everything --------------------------------------
 	SDL_Rect round;
 	round.x = 0;
@@ -84,7 +80,7 @@ update_status ModuleStageTwo::Update()
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
 		if (App->entities->player->status == Creature::State::UNAVAILABLE)
-			App->entities->player->respawn();
+			App->entities->player->spawn();
 		break;
 	}
 

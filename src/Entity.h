@@ -17,7 +17,9 @@ public:
 	};
 	Entity(Types entityType);
 	virtual ~Entity();
-	virtual update_status Entity::Update();
+	virtual bool Start();
+	virtual update_status Update();
+	virtual bool CleanUp();
 	virtual void paint();
 public:
 	SDL_Texture* graphics = nullptr;

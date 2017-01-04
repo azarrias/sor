@@ -13,10 +13,9 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	void respawn();
+	void spawn();
 	void jump();
 	void attack();
-	//void updatePosition();
 	void handleInput();
 public:
 	unsigned short int lives = 4;

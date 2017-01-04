@@ -6,7 +6,9 @@
 class NPCGarcia : public NPC {
 public:
 	NPCGarcia();
-	virtual ~NPCGarcia();
+	~NPCGarcia();
+	bool Start();
+	bool CleanUp();
 };
 
 #endif // __NPCGarcia_H__

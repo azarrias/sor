@@ -27,6 +27,7 @@ public:
 	void setCurrentAnimation(Animation* anim);
 	void handleState();
 	void paint();
+	virtual void spawn();
 public:
 	Animation* current_animation = nullptr;
 	Animation idle;
@@ -43,7 +44,7 @@ public:
 	float verticalForce = 0.0f;
 	short int depth = 23;
 	State status = UNAVAILABLE;
-	SimpleTimer playerTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
+	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
 };
 
 #endif // __Creature_H__
