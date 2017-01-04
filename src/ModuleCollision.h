@@ -42,6 +42,7 @@ public:
 
 	Collider* AddCollider(const SDL_Rect& rect);
 	void DebugDraw();
+	void switchDebugMode();
 
 private:
 

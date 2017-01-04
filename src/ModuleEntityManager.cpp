@@ -26,8 +26,6 @@ ModuleEntityManager::~ModuleEntityManager()
 	}
 
 	entities.clear();
-
-//	RELEASE(player);
 }
 
 Entity* ModuleEntityManager::createEntity(Entity::Types entityType)

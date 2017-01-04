@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
+#include "ModuleCollision.h"
 
 ModuleInput::ModuleInput() : Module()
 {}
@@ -9,7 +10,6 @@ ModuleInput::ModuleInput() : Module()
 // Destructor
 ModuleInput::~ModuleInput()
 {
-	//RELEASE_ARRAY(keyboard);
 	for (std::deque<KeyEvent*>::iterator it = keyEventQueue.begin(); it != keyEventQueue.end(); ++it)
 	{
 		RELEASE(*it);
@@ -93,6 +93,7 @@ update_status ModuleInput::PreUpdate()
 					case SDLK_a: keyEventQueue.push_back(new KeyEvent{ KEY_A, keyState }); break;
 					case SDLK_s: keyEventQueue.push_back(new KeyEvent{ KEY_S, keyState }); break;
 					case SDLK_d: keyEventQueue.push_back(new KeyEvent{ KEY_D, keyState }); break;
+					case SDLK_F1: if (event.type == SDL_KEYDOWN) App->collision->switchDebugMode(); break;
 					}
 				}
 			break;

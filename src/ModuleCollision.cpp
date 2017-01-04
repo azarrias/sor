@@ -33,13 +33,6 @@ update_status ModuleCollision::PreUpdate()
 
 update_status ModuleCollision::Update()
 {
-	// TODO 8: Check collisions between all colliders. 
-	// After making it work, review that you are doing the minumum checks possible
-
-
-/*	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;*/
-
 	if (debug == true)
 		DebugDraw();
 
@@ -81,4 +74,8 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 	// TODO 7: Create by hand (avoid consulting the internet) a simple collision test
 	// Return true if the argument and the own rectangle are intersecting
 	return false;
+}
+
+void ModuleCollision::switchDebugMode() {
+	debug = !debug;
 }
