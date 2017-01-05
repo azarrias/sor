@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "ModuleCollision.h"
 
 Entity::Entity(Types entityType)
 	:entityType(entityType)

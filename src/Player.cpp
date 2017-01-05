@@ -64,7 +64,7 @@ bool Player::Start()
 {
 	LOG("Loading player");
 	graphics = App->textures->Load("graphics/pcs.png");
-	return true;
+	return Creature::Start();
 }
 
 // Unload assets

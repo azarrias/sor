@@ -58,7 +58,7 @@ bool NPCGarcia::Start()
 {
 	LOG("Loading NPC Garcia");
 	graphics = App->textures->Load("graphics/garcia.png");
-	return true;
+	return Creature::Start();
 }
 
 // Unload assets

@@ -2,13 +2,23 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleStageTwo.h"
+#include "ModuleCollision.h"
 
 Creature::Creature(Entity::Types entityType)
 	: Entity(entityType)
-{}
+{
+}
 
 Creature::~Creature()
 {}
+
+bool Creature::Start()
+{
+	SDL_Rect baseColliderRect = { 0, 0, 50, 50 };
+	baseCollider = App->collision->AddCollider(baseColliderRect);
+	baseCollider->SetPos(1, 2);
+	return true;
+}
 
 update_status Creature::Update()
 {
@@ -170,6 +180,10 @@ void Creature::updatePosition() {
 	if (depth < 0 || position.y > 155) {
 		position.y = 155;
 		depth = 0;
+	}
+	if (baseCollider != nullptr) {
+		baseCollider->rect = current_animation->GetCurrentFrame();
+		baseCollider->SetPos(position.x, position.y);
 	}
 }
 

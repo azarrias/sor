@@ -22,6 +22,7 @@ public:
 	};
 	Creature(Entity::Types entityType);
 	virtual ~Creature();
+	virtual bool Start();
 	virtual update_status Update();
 	virtual void updatePosition();
 	void setCurrentAnimation(Animation* anim);
@@ -44,6 +45,7 @@ public:
 	float verticalForce = 0.0f;
 	State status = UNAVAILABLE;
 	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
+	Collider* attackCollider = nullptr;
 };
 
 #endif // __Creature_H__

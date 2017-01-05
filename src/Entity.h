@@ -5,6 +5,7 @@
 #include "Globals.h"
 
 struct SDL_Texture;
+struct Collider;
 
 class Entity
 {
@@ -26,6 +27,7 @@ public:
 	Types entityType = UNKNOWN;
 	iPoint iniPos = { 23, -30 };
 	short int depth = 23;
+	Collider* baseCollider = nullptr;
 };
 
 #endif // __Entity_H__

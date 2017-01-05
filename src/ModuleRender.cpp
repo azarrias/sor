@@ -111,7 +111,8 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_Rect rec(rect);
 	if (use_camera)
 	{
-		rec.x = (int)(App->camera->coord.x + rect.x * SCREEN_SIZE);
+		//rec.x = (int)(App->camera->coord.x + rect.x * SCREEN_SIZE);
+		rec.x = (int)((App->camera->coord.x + rec.x) * SCREEN_SIZE);
 		rec.y = (int)(App->camera->coord.y + rect.y * SCREEN_SIZE);
 		rec.w *= SCREEN_SIZE;
 		rec.h *= SCREEN_SIZE;
