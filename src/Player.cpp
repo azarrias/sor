@@ -9,6 +9,7 @@
 #include "Player.h"
 #include <stdio.h>
 #include "MemLeaks.h"
+#include "ModuleCamera.h"
 
 Player::Player()
 	: Creature(Entity::Types::PLAYER)
@@ -189,7 +190,11 @@ void Player::handleInput()
 update_status Player::Update()
 {
 	handleInput();
-	return Creature::Update();
+	Creature::Update();
+	// Player should not be able to go back to the left
+	if (position.x < -App->camera->coord.x)
+		position.x = -App->camera->coord.x;
+	return UPDATE_CONTINUE;
 }
 
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
