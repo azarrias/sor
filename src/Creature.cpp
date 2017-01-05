@@ -157,6 +157,7 @@ void Creature::handleState()
 }
 
 void Creature::updatePosition() {
+	int flipOffset = 0;
 	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP)
 		position.x += (int)velocity.x;
 	if (position.x < 0)
@@ -181,13 +182,22 @@ void Creature::updatePosition() {
 		position.y = 155;
 		depth = 0;
 	}
-	if (baseCollider != nullptr) {
-		baseCollider->rect = current_animation->GetCurrentFrame();
-		baseCollider->SetPos(position.x, position.y);
-	}
 }
 
 void Creature::paint()
 {
-	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), facing == RIGHT);
+	// Update colliders in here (in order to use the same SDL_Rect as Blit)
+	int flipOffset = 0;
+	bool flip = false;
+	SDL_Rect currentFrame = current_animation->GetCurrentFrame();
+
+	if (entityType == PLAYER && facing == LEFT || entityType != PLAYER && facing == RIGHT) {
+		flip = true;
+		flipOffset = currentFrame.w - idle.frames.front().w;
+	}
+	App->renderer->Blit(graphics, position.x - flipOffset, position.y, &currentFrame, flip);
+	if (baseCollider != nullptr) {
+		baseCollider->rect = currentFrame;
+		baseCollider->SetPos(position.x - flipOffset, position.y);
+	}
 }

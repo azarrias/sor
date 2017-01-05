@@ -192,15 +192,6 @@ update_status Player::Update()
 	return Creature::Update();
 }
 
-void Player::paint()
-{
-	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), facing == LEFT);
-}
-
-/*bool Player::isOnTheAir() const {
-	return (position.y < 155 - depth);
-}*/
-
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
 
 // TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
