@@ -17,6 +17,7 @@ public:
 	void jump();
 	void attack();
 	void handleInput();
+	void paint();
 public:
 	unsigned short int lives = 4;
 };

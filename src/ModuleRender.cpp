@@ -71,10 +71,11 @@ bool ModuleRender::CleanUp()
 }
 
 // Blit to screen with scaling up / down
-bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, float scale)
+bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, bool flipHorizontal, float speed, float scale)
 {
 	bool ret = true;
 	SDL_Rect rect;
+	SDL_RendererFlip flip = (flipHorizontal) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 
 	rect.x = (int)((App->camera->coord.x + x) * SCREEN_SIZE * scale);
 	rect.y = (int)(y * SCREEN_SIZE * scale);
@@ -92,7 +93,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 	rect.w = (int)(rect.w * SCREEN_SIZE * scale);
 	rect.h = (int)(rect.h * SCREEN_SIZE * scale);
 
-	if (SDL_RenderCopy(renderer, texture, section, &rect) != 0)
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, 0.0, nullptr, flip) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

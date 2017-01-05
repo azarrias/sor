@@ -142,9 +142,9 @@ update_status ModuleSceneIntro::Update()
 	// Draw main characters
 	if (introState >= 2)
 	{
-		App->renderer->Blit(background, 115, 72, &rectAdam, 1.0f, 0.95f);
-		App->renderer->Blit(background, 203, 72, &rectBlaze, 1.0f, 0.95f);
-		App->renderer->Blit(background, 165, 72, &rectAxel, 1.0f, 0.95f);
+		App->renderer->Blit(background, 115, 72, &rectAdam, false, 1.0f, 0.95f);
+		App->renderer->Blit(background, 203, 72, &rectBlaze, false, 1.0f, 0.95f);
+		App->renderer->Blit(background, 165, 72, &rectAxel, false, 1.0f, 0.95f);
 	}
 
 	while (App->input->keyEventQueue.empty() == false)

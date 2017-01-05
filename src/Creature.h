@@ -20,6 +20,11 @@ public:
 		DEAD,
 		UNAVAILABLE
 	};
+	enum Direction
+	{
+		LEFT,
+		RIGHT
+	};
 	Creature(Entity::Types entityType);
 	virtual ~Creature();
 	virtual bool Start();
@@ -27,7 +32,7 @@ public:
 	virtual void updatePosition();
 	void setCurrentAnimation(Animation* anim);
 	void handleState();
-	void paint();
+	virtual void paint();
 	virtual void spawn();
 public:
 	Animation* current_animation = nullptr;
@@ -46,6 +51,7 @@ public:
 	State status = UNAVAILABLE;
 	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer, attackTimer;
 	Collider* attackCollider = nullptr;
+	Direction facing = LEFT;
 };
 
 #endif // __Creature_H__

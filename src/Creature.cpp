@@ -189,5 +189,5 @@ void Creature::updatePosition() {
 
 void Creature::paint()
 {
-	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), facing == RIGHT);
 }

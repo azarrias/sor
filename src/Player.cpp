@@ -13,6 +13,7 @@
 Player::Player()
 	: Creature(Entity::Types::PLAYER)
 {
+	facing = RIGHT;
 	// Coordinates for Blaze
 
 	// idle animation
@@ -137,14 +138,18 @@ void Player::handleInput()
 				velocity.y -= 1.0f;
 			break;
 		case KEY_LEFT:
-			if (keyEvent->status == IS_DOWN)
+			if (keyEvent->status == IS_DOWN) {
 				velocity.x -= 2.0f;
+				facing = LEFT;
+			}
 			else if (keyEvent->status == IS_UP)
 				velocity.x += 2.0f;
 			break;
 		case KEY_RIGHT:
-			if (keyEvent->status == IS_DOWN)
+			if (keyEvent->status == IS_DOWN) {
 				velocity.x += 2.0f;
+				facing = RIGHT;
+			}
 			else if (keyEvent->status == IS_UP)
 				velocity.x -= 2.0f;
 			break;
@@ -185,6 +190,11 @@ update_status Player::Update()
 {
 	handleInput();
 	return Creature::Update();
+}
+
+void Player::paint()
+{
+	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()), facing == LEFT);
 }
 
 /*bool Player::isOnTheAir() const {
