@@ -45,7 +45,6 @@ public:
 	Animation respawning;
 	fPoint velocity = { 0.0f, 0.0f };
 	fPoint prevVelocity = { 0.0f, 0.0f };
-	iPoint position = { 23, -30 };
 	short int height = 0;
 	float verticalForce = 0.0f;
 	State status = UNAVAILABLE;

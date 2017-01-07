@@ -26,6 +26,7 @@ public:
 	SDL_Texture* graphics = nullptr;
 	Types entityType = UNKNOWN;
 	iPoint iniPos = { 23, -30 };
+	iPoint position = { 23, -30 };
 	short int depth = 23;
 	Collider* baseCollider = nullptr;
 };

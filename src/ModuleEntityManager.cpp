@@ -13,6 +13,9 @@
 #include "ModuleEntityManager.h"
 #include "Entity.h"
 #include "ModuleCamera.h"
+#include <vector>
+
+#define CAMERA_RANGE_MARGIN 50
 
 ModuleEntityManager::ModuleEntityManager(bool active)
 	: Module(active)
@@ -57,12 +60,27 @@ bool ModuleEntityManager::Start()
 
 update_status ModuleEntityManager::Update()
 {
-	// Sort the entities by depth (descencing) to take care of overlapping 
-	std::sort(entities.begin(), entities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
+	// Subset the entities that are close to the camera range
+	std::vector<Entity*> inRangeEntities(entities.size());
+	std::vector<Entity*>::iterator it = std::copy_if(entities.begin(), entities.end(), inRangeEntities.begin(),
+		[](Entity* e) { return (((Creature*)e)->position.x >= -App->camera->coord.x - CAMERA_RANGE_MARGIN &&
+		((Creature*)e)->position.x <= -App->camera->coord.x + SCREEN_WIDTH + CAMERA_RANGE_MARGIN); });
+	inRangeEntities.resize(std::distance(inRangeEntities.begin(), it));
 
-	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+	// Update subset of entities 
+	for (std::vector<Entity*>::iterator it = inRangeEntities.begin(); it != inRangeEntities.end(); ++it)
 	{
 		(*it)->Update();
+	}
+
+	// Sort in range entities by depth (descending) to take care of overlapping
+	// and check for collisions
+	std::sort(inRangeEntities.begin(), inRangeEntities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
+	for (size_t i = 0; i < inRangeEntities.size() - 1; ++i) {
+		for (size_t j = i + 1; j < inRangeEntities.size(); ++j) {
+			if (inRangeEntities[i]->baseCollider->CheckCollision(*inRangeEntities[j]->baseCollider))
+				LOG("There is a collision");
+		}
 	}
 
 	return UPDATE_CONTINUE;

@@ -71,9 +71,12 @@ Collider* ModuleCollision::AddCollider(const SDL_Rect& rect)
 
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
-	// TODO 7: Create by hand (avoid consulting the internet) a simple collision test
-	// Return true if the argument and the own rectangle are intersecting
-	return false;
+	return SDL_HasIntersection(&rect, &r) == SDL_TRUE;
+}
+
+bool Collider::CheckCollision(const Collider& r) const
+{
+	return SDL_HasIntersection(&rect, &(r.rect)) == SDL_TRUE;
 }
 
 void ModuleCollision::switchDebugMode() {

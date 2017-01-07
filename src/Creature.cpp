@@ -14,7 +14,7 @@ Creature::~Creature()
 
 bool Creature::Start()
 {
-	SDL_Rect baseColliderRect = { 0, 0, 50, 50 };
+	SDL_Rect baseColliderRect = { 0, 0, 0, 0 };
 	baseCollider = App->collision->AddCollider(baseColliderRect);
 	baseCollider->SetPos(1, 2);
 	return true;
