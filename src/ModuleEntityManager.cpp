@@ -105,18 +105,10 @@ bool ModuleEntityManager::CleanUp()
 
 void ModuleEntityManager::handleCollision(const Entity* e1, const Entity* e2)
 {
-	// cuando pegue un puño que cree un collider de ataque
-	// luego se marca para borrado y au
 	if (e1->isCreature() && e2->isCreature()) {
 		if (((Creature*)e1)->isAttacking() && ((Creature*)e2)->canBeAttacked())
 			((Creature*)e1)->hit((Creature*)e2);
 		else if (((Creature*)e2)->isAttacking() && ((Creature*)e1)->canBeAttacked())
 			((Creature*)e2)->hit((Creature*)e1);
-		/*if (((Creature*)e1)->status == Creature::State::ATTACKING) {
-			((Creature*)e1)->hit((Creature*)e2);
-		}
-		if (((Creature*)e2)->status == Creature::State::ATTACKING) {
-			((Creature*)e2)->hit((Creature*)e1);
-		}*/
 	}
 }

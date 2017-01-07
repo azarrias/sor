@@ -59,7 +59,7 @@ void Creature::hit(Creature* c2) {
 		c2->status = BEING_HIT;
 		break;
 	case 2:
-		this->setCurrentAnimation(&chop);
+		this->setCurrentAnimation(&kick);
 		this->status = ATTACKING;
 		c2->setCurrentAnimation(&(c2->beingHit2));
 		c2->status = BEING_HIT;
@@ -166,7 +166,7 @@ void Creature::handleState()
 		break;
 
 	case ATTACKING:
-		if (attackTimer.getDelta() >= 200) {
+		if (attackTimer.getDelta() >= 300) {
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;

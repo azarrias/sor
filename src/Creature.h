@@ -52,6 +52,7 @@ public:
 	Animation jumping;
 	Animation jumpKick;
 	Animation chop;
+	Animation kick;
 	Animation respawning;
 	Animation beingHit;
 	Animation beingHit2;

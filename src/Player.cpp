@@ -19,9 +19,9 @@ Player::Player()
 
 	// idle animation
 	for (size_t i = 0; i < 8; ++i)
-		idle.frames.push_back({ 7, 957, 46, 59 });
-	idle.frames.push_back({ 63, 957, 46, 59 });
-	idle.frames.push_back({ 126, 957, 46, 59 });
+		idle.frames.push_back({ 7, 956, 46, 61 });
+	idle.frames.push_back({ 63, 956, 46, 61 });
+	idle.frames.push_back({ 126, 956, 46, 61 });
 	idle.speed = 0.05f;
 
 	// respawning animation
@@ -51,11 +51,18 @@ Player::Player()
 	jumpKick.speed = 0.5f;
 
 	// chop
-	chop.frames.push_back({ 87, 1028, 47, 61 });
+	chop.frames.push_back({ 87, 1028, 45, 61 });
 	chop.frames.push_back({ 7, 1028, 70, 61 });
-	chop.frames.push_back({ 87, 1028, 47, 61 });
+	chop.frames.push_back({ 87, 1028, 45, 61 });
 	chop.loop = false;
 	chop.speed = 0.2f;
+
+	// kick
+	kick.frames.push_back({ 137, 1028, 57, 61 });
+	kick.frames.push_back({ 203, 1028, 77, 61 });
+	kick.frames.push_back({ 137, 1028, 57, 61 });
+	kick.loop = false;
+	kick.speed = 0.2f;
 }
 
 Player::~Player()
