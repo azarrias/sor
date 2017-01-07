@@ -30,3 +30,7 @@ bool Entity::CleanUp()
 
 	return true;
 }
+
+bool Entity::isCreature() const {
+	return (entityType == PLAYER || entityType == NPC_GARCIA);
+}

@@ -16,6 +16,7 @@
 #include <vector>
 
 #define CAMERA_RANGE_MARGIN 50
+#define DEPTH_THRESHOLD 3
 
 ModuleEntityManager::ModuleEntityManager(bool active)
 	: Module(active)
@@ -67,20 +68,24 @@ update_status ModuleEntityManager::Update()
 		((Creature*)e)->position.x <= -App->camera->coord.x + SCREEN_WIDTH + CAMERA_RANGE_MARGIN); });
 	inRangeEntities.resize(std::distance(inRangeEntities.begin(), it));
 
-	// Update subset of entities 
-	for (std::vector<Entity*>::iterator it = inRangeEntities.begin(); it != inRangeEntities.end(); ++it)
-	{
-		(*it)->Update();
-	}
-
-	// Sort in range entities by depth (descending) to take care of overlapping
-	// and check for collisions
+	// Sort entities subset by depth (descending) to take care of overlapping and check for collisions
 	std::sort(inRangeEntities.begin(), inRangeEntities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
 	for (size_t i = 0; i < inRangeEntities.size() - 1; ++i) {
 		for (size_t j = i + 1; j < inRangeEntities.size(); ++j) {
-			if (inRangeEntities[i]->baseCollider->CheckCollision(*inRangeEntities[j]->baseCollider))
-				LOG("There is a collision");
+			if (abs(inRangeEntities[i]->depth - inRangeEntities[j]->depth) <= DEPTH_THRESHOLD) {
+				if (inRangeEntities[i]->baseCollider->CheckCollision(*inRangeEntities[j]->baseCollider)) {
+					LOG("There is a collision");
+					handleCollision(inRangeEntities[i], inRangeEntities[j]);
+				}
+			}
+			else break;
 		}
+	}
+
+	// Update only this subset of entities 
+	for (std::vector<Entity*>::iterator it = inRangeEntities.begin(); it != inRangeEntities.end(); ++it)
+	{
+		(*it)->Update();
 	}
 
 	return UPDATE_CONTINUE;
@@ -96,4 +101,22 @@ bool ModuleEntityManager::CleanUp()
 	}
 
 	return true;
+}
+
+void ModuleEntityManager::handleCollision(const Entity* e1, const Entity* e2)
+{
+	// cuando pegue un puño que cree un collider de ataque
+	// luego se marca para borrado y au
+	if (e1->isCreature() && e2->isCreature()) {
+		if (((Creature*)e1)->isAttacking() && ((Creature*)e2)->canBeAttacked())
+			((Creature*)e1)->hit((Creature*)e2);
+		else if (((Creature*)e2)->isAttacking() && ((Creature*)e1)->canBeAttacked())
+			((Creature*)e2)->hit((Creature*)e1);
+		/*if (((Creature*)e1)->status == Creature::State::ATTACKING) {
+			((Creature*)e1)->hit((Creature*)e2);
+		}
+		if (((Creature*)e2)->status == Creature::State::ATTACKING) {
+			((Creature*)e2)->hit((Creature*)e1);
+		}*/
+	}
 }

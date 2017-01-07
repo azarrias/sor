@@ -8,12 +8,32 @@ NPCGarcia::NPCGarcia()
 	// Coordinates for Garcia
 
 	// idle animation
-	idle.frames.push_back({ 45, 0, 38, 64 });
+	idle.frames.push_back({ 47, 3, 35, 61 });
 	idle.loop = false;
 	idle.speed = 0.0f;
 
+	// being hit
+	beingHit.frames.push_back({0, 225, 45, 61});
+	beingHit.loop = false;
+	beingHit.speed = 0.0f;
+
+	beingHit2.frames.push_back({ 54, 225, 45, 61 });
+	beingHit2.loop = false;
+	beingHit2.speed = 0.0f;
+
+	beingHit3.frames.push_back({ 54, 225, 45, 61 });
+	beingHit3.frames.push_back({ 107, 225, 45, 61 });
+	beingHit3.frames.push_back({ 161, 225, 56, 61 });
+	beingHit3.loop = false;
+	beingHit3.speed = 0.1f;
+
+	knockedOut.frames.push_back({ 221, 225, 44, 61 });
+	knockedOut.loop = false;
+
+	gettingUp.frames.push_back({ 280, 225, 44, 61 });
+	gettingUp.loop = false;
 	// respawning animation
-	respawning.frames.push_back({ 48, 1104, 43, 65 });
+/*	respawning.frames.push_back({ 48, 1104, 43, 65 });
 	respawning.frames.push_back({ 6, 1104, 42, 65 });
 	respawning.loop = false;
 	respawning.speed = 0.0f;
@@ -43,7 +63,7 @@ NPCGarcia::NPCGarcia()
 	chop.frames.push_back({ 7, 1028, 70, 61 });
 	chop.frames.push_back({ 87, 1028, 47, 61 });
 	chop.loop = false;
-	chop.speed = 0.2f;
+	chop.speed = 0.2f;*/
 
 	position = { 400, 132 };
 	setCurrentAnimation(&idle);

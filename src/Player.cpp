@@ -19,9 +19,9 @@ Player::Player()
 
 	// idle animation
 	for (size_t i = 0; i < 8; ++i)
-		idle.frames.push_back({ 7, 956, 49, 61 });
-	idle.frames.push_back({ 63, 956, 49, 61 });
-	idle.frames.push_back({ 126, 956, 49, 61 });
+		idle.frames.push_back({ 7, 957, 46, 59 });
+	idle.frames.push_back({ 63, 957, 46, 59 });
+	idle.frames.push_back({ 126, 957, 46, 59 });
 	idle.speed = 0.05f;
 
 	// respawning animation
@@ -102,13 +102,27 @@ void Player::jump()
 void Player::attack()
 {
 	LOG("Player attacks");
-	status = ATTACKING;
 	if (height > 0) {
 		setCurrentAnimation(&jumpKick);
 		status = JUMPING;
 	}
+	else if (status == ATTACKING_3) {
+		status = ATTACKING_4;
+		velocity.y = 0.0f;
+		setCurrentAnimation(&chop);
+	}
+	else if (status == ATTACKING_2) {
+		status = ATTACKING_3;
+		velocity.y = 0.0f;
+		setCurrentAnimation(&chop);
+	}
+	else if (status == ATTACKING) {
+		status = ATTACKING_2;
+		velocity.y = 0.0f;
+		setCurrentAnimation(&chop);
+	}
 	else {
-		//velocity.x = 0;
+		status = ATTACKING;
 		velocity.y = 0.0f;
 		setCurrentAnimation(&chop);
 	}

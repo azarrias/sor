@@ -22,6 +22,7 @@ public:
 	virtual update_status Update();
 	virtual bool CleanUp();
 	virtual void paint();
+	bool isCreature() const;
 public:
 	SDL_Texture* graphics = nullptr;
 	Types entityType = UNKNOWN;

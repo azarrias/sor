@@ -43,6 +43,46 @@ void Creature::spawn()
 	creatureTimer.reset();
 }
 
+void Creature::hit(Creature* c2) {
+	if (hitTimer.getDelta() < 500) {
+		++consecutiveHits;
+	}
+	else {
+		consecutiveHits = 0;
+	}
+	switch (consecutiveHits) {
+	case 0: 
+	case 1:
+		this->setCurrentAnimation(&chop);
+		this->status = ATTACKING;
+		c2->setCurrentAnimation(&(c2->beingHit));
+		c2->status = BEING_HIT;
+		break;
+	case 2:
+		this->setCurrentAnimation(&chop);
+		this->status = ATTACKING;
+		c2->setCurrentAnimation(&(c2->beingHit2));
+		c2->status = BEING_HIT;
+		break;
+	case 3:
+		this->setCurrentAnimation(&chop);
+		this->status = ATTACKING;
+		c2->setCurrentAnimation(&(c2->beingHit3));
+		c2->status = BEING_HIT_2_INI;
+		break;
+	}
+	hitTimer.reset();
+	c2->beingHitTimer.reset();
+}
+
+bool Creature::isAttacking() const {
+	return (status == State::ATTACKING || status == State::ATTACK_JMP);
+}
+
+bool Creature::canBeAttacked() const {
+	return (status != State::BEING_HIT);
+}
+
 void Creature::setCurrentAnimation(Animation* anim) {
 	if (current_animation != anim)
 	{
@@ -139,6 +179,48 @@ void Creature::handleState()
 		}
 		break;
 
+	case ATTACKING_2:
+		if (attackTimer.getDelta() >= 200) {
+			velocity += prevVelocity;
+			if (velocity.x != 0.0f || velocity.y != 0.0f) {
+				status = WALK;
+				setCurrentAnimation(&walking);
+			}
+			else {
+				status = IDLE;
+				setCurrentAnimation(&idle);
+			}
+		}
+		break;
+
+	case ATTACKING_3:
+		if (attackTimer.getDelta() >= 200) {
+			velocity += prevVelocity;
+			if (velocity.x != 0.0f || velocity.y != 0.0f) {
+				status = WALK;
+				setCurrentAnimation(&walking);
+			}
+			else {
+				status = IDLE;
+				setCurrentAnimation(&idle);
+			}
+		}
+		break;
+
+	case ATTACKING_4:
+		if (attackTimer.getDelta() >= 200) {
+			velocity += prevVelocity;
+			if (velocity.x != 0.0f || velocity.y != 0.0f) {
+				status = WALK;
+				setCurrentAnimation(&walking);
+			}
+			else {
+				status = IDLE;
+				setCurrentAnimation(&idle);
+			}
+		}
+		break;
+
 	case JUMP_END:
 		if (jumpTimer.getDelta() >= 100) {
 			velocity += prevVelocity;
@@ -153,12 +235,49 @@ void Creature::handleState()
 		}
 		break;
 
+	case BEING_HIT:
+		if (beingHitTimer.getDelta() >= 300) {
+			status = IDLE;
+			setCurrentAnimation(&idle);
+		}
+		break;
+
+	case BEING_HIT_2_INI:
+		verticalForce = -4.5f;
+		height = 0;
+		velocity.x = 4.0f;
+		status = BEING_HIT_2;
+		break;
+
+	case BEING_HIT_2:
+		if (height > 0) {
+			verticalForce += 0.5f;
+		}
+		else {
+			velocity.y = 0.0f;
+			velocity.x = 0.0f;
+			status = BEING_HIT_2_END;
+			beingHitTimer.reset();
+		}
+		break;
+
+	case BEING_HIT_2_END:
+		if (beingHitTimer.getDelta() >= 1000) {
+			// remember to check that it might be dead
+			status = IDLE;
+			setCurrentAnimation(&idle);
+		}
+		else if (beingHitTimer.getDelta() >= 500) {
+			setCurrentAnimation(&gettingUp);
+		}
+		else setCurrentAnimation(&knockedOut);
+		break;
 	}
 }
 
 void Creature::updatePosition() {
 	int flipOffset = 0;
-	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP)
+	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP || status == BEING_HIT_2)
 		position.x += (int)velocity.x;
 	if (position.x < 0)
 		position.x = 0;
@@ -166,7 +285,7 @@ void Creature::updatePosition() {
 		depth -= (int)velocity.y;
 	if (status == IDLE || status == WALK)
 		position.y += (int)velocity.y;
-	if (status == RESPAWNING || status == JUMPING || status == ATTACK_JMP) {
+	if (status == RESPAWNING || status == JUMPING || status == ATTACK_JMP || status == BEING_HIT_2) {
 		height -= (int)verticalForce;
 		if (height < 0) {
 			height = 0;
