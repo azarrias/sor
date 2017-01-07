@@ -15,7 +15,7 @@ public:
 
 public:
 	SDL_Rect coord;
-	unsigned short int camSpeed = 1;
+	float camSpeed = 0.99f;
 };
 
 #endif // __ModuleCamera_H__
