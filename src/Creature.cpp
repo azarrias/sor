@@ -173,49 +173,7 @@ void Creature::handleState()
 		break;
 
 	case ATTACKING:
-		if (attackTimer.getDelta() >= 300) {
-			velocity += prevVelocity;
-			if (velocity.x != 0.0f || velocity.y != 0.0f) {
-				status = WALK;
-				setCurrentAnimation(&walking);
-			}
-			else {
-				status = IDLE;
-				setCurrentAnimation(&idle);
-			}
-		}
-		break;
-
-	case ATTACKING_2:
-		if (attackTimer.getDelta() >= 200) {
-			velocity += prevVelocity;
-			if (velocity.x != 0.0f || velocity.y != 0.0f) {
-				status = WALK;
-				setCurrentAnimation(&walking);
-			}
-			else {
-				status = IDLE;
-				setCurrentAnimation(&idle);
-			}
-		}
-		break;
-
-	case ATTACKING_3:
-		if (attackTimer.getDelta() >= 200) {
-			velocity += prevVelocity;
-			if (velocity.x != 0.0f || velocity.y != 0.0f) {
-				status = WALK;
-				setCurrentAnimation(&walking);
-			}
-			else {
-				status = IDLE;
-				setCurrentAnimation(&idle);
-			}
-		}
-		break;
-
-	case ATTACKING_4:
-		if (attackTimer.getDelta() >= 200) {
+		if (attackTimer.getDelta() >= chop.frames.size() * 100) {
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;
@@ -253,10 +211,10 @@ void Creature::handleState()
 		verticalForce = -4.5f;
 		height = 0;
 		if (facing == RIGHT) {
-			velocity.x = -5.0f;
+			velocity.x -= 5.0f;
 		}
 		else {
-			velocity.x = 5.0f;
+			velocity.x += 5.0f;
 		}
 		status = BEING_HIT_2;
 		break;
@@ -266,20 +224,25 @@ void Creature::handleState()
 			verticalForce += 0.5f;
 		}
 		else {
-			velocity.y = 0.0f;
-			velocity.x = 0.0f;
+			verticalForce = 0;
+			if (facing == RIGHT) {
+				velocity.x += 5.0f;
+			}
+			else {
+				velocity.x -= 5.0f;
+			}
 			status = BEING_HIT_2_END;
 			beingHitTimer.reset();
 		}
 		break;
 
 	case BEING_HIT_2_END:
-		if (beingHitTimer.getDelta() >= 1000) {
+		if (beingHitTimer.getDelta() >= (gettingUp.frames.size() - 1) * 10 / gettingUp.speed + 1100) {
 			// remember to check that it might be dead
 			status = IDLE;
 			setCurrentAnimation(&idle);
 		}
-		else if (beingHitTimer.getDelta() >= 500) {
+		else if (beingHitTimer.getDelta() >= 400) {
 			setCurrentAnimation(&gettingUp);
 		}
 		else setCurrentAnimation(&knockedOut);

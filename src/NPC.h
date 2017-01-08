@@ -11,6 +11,8 @@ public:
 	void doAction();
 	float getDistanceToPlayer() const;
 	void attack();
+private:
+	SimpleTimer NPCTimer;
 };
 
 #endif // __NPC_H__

@@ -19,50 +19,74 @@ Player::Player()
 
 	// idle animation
 	for (size_t i = 0; i < 8; ++i)
-		idle.frames.push_back({ 7, 956, 46, 61 });
-	idle.frames.push_back({ 63, 956, 46, 61 });
-	idle.frames.push_back({ 126, 956, 46, 61 });
+		idle.frames.push_back({ 7, 956, 46, 61, 0 });
+	idle.frames.push_back({ 63, 956, 46, 61, 0 });
+	idle.frames.push_back({ 126, 956, 46, 61, 0 });
 	idle.speed = 0.05f;
 
 	// respawning animation
-	respawning.frames.push_back({ 48, 1104, 43, 65 });
-	respawning.frames.push_back({ 6, 1104, 42, 65 });
+	respawning.frames.push_back({ 48, 1104, 43, 65, 0 });
+	respawning.frames.push_back({ 6, 1104, 42, 65, 0 });
 	respawning.loop = false;
 	respawning.speed = 0.0f;
 
 	// walk animation
-	walking.frames.push_back({ 306, 956, 36, 61 });
-	walking.frames.push_back({ 344, 956, 41, 61 });
-	walking.frames.push_back({ 386, 956, 36, 61 });
-	walking.frames.push_back({ 424, 956, 41, 61 });
+	walking.frames.push_back({ 306, 956, 36, 61, 0 });
+	walking.frames.push_back({ 344, 956, 41, 61, 0 });
+	walking.frames.push_back({ 386, 956, 36, 61, 0 });
+	walking.frames.push_back({ 424, 956, 41, 61, 0 });
 	walking.speed = 0.1f;
 
 	// jump animation
-	jumping.frames.push_back({ 8, 1108, 42, 61 });
-	jumping.frames.push_back({ 48, 1104, 43, 65 });
+	jumping.frames.push_back({ 8, 1108, 42, 61, 0 });
+	jumping.frames.push_back({ 48, 1104, 43, 65, 0 });
 	jumping.loop = false;
 	jumping.speed = 0.0f;
 
 	// jump kick
-	jumpKick.frames.push_back({ 88, 1114, 42, 55 });
-	jumpKick.frames.push_back({ 134, 1104, 43, 65 });
-	jumpKick.frames.push_back({ 178, 1114, 70, 55 });
+	jumpKick.frames.push_back({ 88, 1114, 42, 55, 0 });
+	jumpKick.frames.push_back({ 134, 1104, 43, 65, 0 });
+	jumpKick.frames.push_back({ 178, 1114, 70, 55, 0 });
 	jumpKick.loop = false;
 	jumpKick.speed = 0.5f;
 
 	// chop
-	chop.frames.push_back({ 87, 1028, 45, 61 });
-	chop.frames.push_back({ 7, 1028, 70, 61 });
-	chop.frames.push_back({ 87, 1028, 45, 61 });
+	chop.frames.push_back({ 87, 1028, 45, 61, 0 });
+	chop.frames.push_back({ 7, 1028, 70, 61, 0 });
+	chop.frames.push_back({ 87, 1028, 45, 61, 0 });
 	chop.loop = false;
 	chop.speed = 0.2f;
 
 	// kick
-	kick.frames.push_back({ 137, 1028, 57, 61 });
-	kick.frames.push_back({ 203, 1028, 77, 61 });
-	kick.frames.push_back({ 137, 1028, 57, 61 });
+	kick.frames.push_back({ 137, 1028, 57, 61, 0 });
+	kick.frames.push_back({ 203, 1028, 77, 61, 0 });
+	kick.frames.push_back({ 137, 1028, 57, 61, 0 });
 	kick.loop = false;
 	kick.speed = 0.2f;
+
+	// being hit
+	beingHit.frames.push_back({ 7, 1323, 41, 61, 0 });
+	beingHit.loop = false;
+	beingHit.speed = 0.0f;
+
+	beingHit2.frames.push_back({ 7, 1323, 41, 61, 0 });
+	beingHit2.loop = false;
+	beingHit2.speed = 0.0f;
+
+	beingHit3.frames.push_back({ 7, 1323, 41, 61, 0 });
+	beingHit3.frames.push_back({ 103, 1351, 66, 34, 0 });
+	beingHit3.loop = false;
+	beingHit3.speed = 0.1f;
+
+	knockedOut.frames.push_back({ 174, 1323, 66, 61, 0 });
+	knockedOut.loop = false;
+
+	gettingUp.frames.push_back({ 243, 1323, 66, 61, 0 });
+	gettingUp.frames.push_back({ 174, 1323, 66, 61, 0 });
+	gettingUp.frames.push_back({ 243, 1323, 66, 61, 0 });
+	gettingUp.frames.push_back({ 311, 1323, 26, 61, -10 });
+	gettingUp.loop = false;
+	gettingUp.speed = 0.05f;
 }
 
 Player::~Player()

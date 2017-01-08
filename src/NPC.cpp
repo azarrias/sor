@@ -13,7 +13,8 @@ NPC::~NPC()
 // Update: draw background
 update_status NPC::Update()
 {
-	//doAction();
+	if (NPCTimer.getDelta() >= 400)
+		doAction();
 	Creature::Update();
 	return UPDATE_CONTINUE;
 }
@@ -22,13 +23,14 @@ void NPC::doAction() {
 	// If the Player is in attack range then attack: attack or retreat
 	// else if the Player is close be aggressive: attack, chase, retreat
 	// else take it easy: patrol, wait
-	if (getDistanceToPlayer() < 10) {
-		
+	if (getDistanceToPlayer() < 50 ) {
+		attack();
 	}
-	if (position.x > App->entities->player->position.x) {
+	NPCTimer.reset();
+	/*if (position.x > App->entities->player->position.x) {
 		velocity.x = -1.0f;
 	}
-	else velocity.x = 0.0f;
+	else velocity.x = 0.0f;*/
 }
 
 float NPC::getDistanceToPlayer() const {
