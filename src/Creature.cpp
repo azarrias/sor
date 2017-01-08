@@ -50,29 +50,35 @@ void Creature::hit(Creature* c2) {
 	else {
 		consecutiveHits = 0;
 	}
-	switch (consecutiveHits) {
-	case 0: 
-	case 1:
-		this->setCurrentAnimation(&chop);
-		this->status = ATTACKING;
-		c2->setCurrentAnimation(&(c2->beingHit));
-		c2->status = BEING_HIT;
-		break;
-	case 2:
-		this->setCurrentAnimation(&kick);
-		this->status = ATTACKING;
-		c2->setCurrentAnimation(&(c2->beingHit2));
-		c2->status = BEING_HIT;
-		break;
-	case 3:
-		this->setCurrentAnimation(&chop);
-		this->status = ATTACKING;
+	if (height > 0) {
 		c2->setCurrentAnimation(&(c2->beingHit3));
 		c2->status = BEING_HIT_2_INI;
-		break;
 	}
-	hitTimer.reset();
-	c2->beingHitTimer.reset();
+	else {
+		switch (consecutiveHits) {
+		case 0:
+		case 1:
+			this->setCurrentAnimation(&chop);
+			this->status = ATTACKING;
+			c2->setCurrentAnimation(&(c2->beingHit));
+			c2->status = BEING_HIT;
+			break;
+		case 2:
+			this->setCurrentAnimation(&kick);
+			this->status = ATTACKING;
+			c2->setCurrentAnimation(&(c2->beingHit2));
+			c2->status = BEING_HIT;
+			break;
+		case 3:
+			this->setCurrentAnimation(&chop);
+			this->status = ATTACKING;
+			c2->setCurrentAnimation(&(c2->beingHit3));
+			c2->status = BEING_HIT_2_INI;
+			break;
+		}
+		hitTimer.reset();
+		c2->beingHitTimer.reset();
+	}
 }
 
 bool Creature::isAttacking() const {
@@ -80,7 +86,8 @@ bool Creature::isAttacking() const {
 }
 
 bool Creature::canBeAttacked() const {
-	return (status != State::BEING_HIT);
+	return (status != State::BEING_HIT && status != State::BEING_HIT_2_INI 
+		&& status != State::BEING_HIT_2 && status != State::BEING_HIT_2_END);
 }
 
 void Creature::setCurrentAnimation(Animation* anim) {
@@ -245,7 +252,12 @@ void Creature::handleState()
 	case BEING_HIT_2_INI:
 		verticalForce = -4.5f;
 		height = 0;
-		velocity.x = 4.0f;
+		if (facing == RIGHT) {
+			velocity.x = -5.0f;
+		}
+		else {
+			velocity.x = 5.0f;
+		}
 		status = BEING_HIT_2;
 		break;
 
