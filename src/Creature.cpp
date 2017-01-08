@@ -50,7 +50,12 @@ void Creature::hit(Creature* c2) {
 	else {
 		consecutiveHits = 0;
 	}
-
+	if (c2->position.x > position.x) {
+		c2->facing = LEFT;
+	}
+	else {
+		c2->facing = RIGHT;
+	}
 	if (height > 0 || c2->height > 0) {
 		c2->setCurrentAnimation(&(c2->beingHit3));
 		c2->status = BEING_HIT_2_INI;
@@ -128,6 +133,8 @@ void Creature::handleState()
 		break;
 
 	case WALK:
+		if (velocity.x > 0) facing = RIGHT;
+		else if (velocity.x < 0) facing = LEFT;
 		if (velocity.x == 0.0f && velocity.y == 0.0f) {
 			status = IDLE;
 			setCurrentAnimation(&idle);
@@ -136,7 +143,7 @@ void Creature::handleState()
 
 	case JUMP_INI:
 		if (jumpTimer.getDelta() >= 100) {
-			verticalForce = -8.5f;
+			verticalForce = -8.0f;
 			jumping.speed = 1.0f;
 			height = 0;
 			status = JUMPING;
@@ -246,7 +253,6 @@ void Creature::handleState()
 }
 
 void Creature::updatePosition() {
-	int flipOffset = 0;
 	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP)
 		position.x += (int)velocity.x;
 	if (position.x < 0)
