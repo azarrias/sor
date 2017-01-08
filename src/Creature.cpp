@@ -318,17 +318,17 @@ void Creature::updatePosition() {
 void Creature::paint()
 {
 	// Update colliders in here (in order to use the same SDL_Rect as Blit)
-	int flipOffset = 0;
 	bool flip = false;
-	SDL_Rect currentFrame = current_animation->GetCurrentFrame();
+	Frame currentFrame = current_animation->GetCurrentFrame();
+	int offset = currentFrame.offset;
 
-	if (entityType == PLAYER && facing == LEFT || entityType != PLAYER && facing == RIGHT) {
+	if (facing == LEFT) {
 		flip = true;
-		flipOffset = currentFrame.w - idle.frames.front().w;
+		offset = currentFrame.rect.w - idle.frames.front().rect.w - offset;
 	}
-	App->renderer->Blit(graphics, position.x - flipOffset, position.y, &currentFrame, flip);
+	App->renderer->Blit(graphics, position.x - offset, position.y, &(currentFrame.rect), flip);
 	if (baseCollider != nullptr) {
-		baseCollider->rect = currentFrame;
-		baseCollider->SetPos(position.x - flipOffset, position.y);
+		baseCollider->rect = currentFrame.rect;
+		baseCollider->SetPos(position.x - offset, position.y);
 	}
 }

@@ -9,6 +9,8 @@ public:
 	virtual ~NPC();
 	update_status Update();
 	void doAction();
+	float getDistanceToPlayer() const;
+	void attack();
 };
 
 #endif // __NPC_H__

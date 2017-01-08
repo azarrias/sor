@@ -14,16 +14,16 @@ ModuleSceneIntro::ModuleSceneIntro(bool active)
 	: Module(active), introTimer()
 {
 	// title animation
-	title.frames.push_back({ 656, 4, 168, 101 });
-	title.frames.push_back({ 656, 107, 168, 101 });
-	title.frames.push_back({ 344, 17, 168, 101 });
-	title.frames.push_back({ 656, 4, 168, 101 });
+	title.frames.push_back({ 656, 4, 168, 101, 0 });
+	title.frames.push_back({ 656, 107, 168, 101, 0 });
+	title.frames.push_back({ 344, 17, 168, 101, 0 });
+	title.frames.push_back({ 656, 4, 168, 101, 0 });
 	title.speed = 0.0f;
 
 	// subtitle animation
-	subtitle.frames.push_back({ 9, 7, 96, 30 });
-	subtitle.frames.push_back({ 118, 7, 96, 30 });
-	subtitle.frames.push_back({ 9, 7, 96, 30 });
+	subtitle.frames.push_back({ 9, 7, 96, 30, 0 });
+	subtitle.frames.push_back({ 118, 7, 96, 30, 0 });
+	subtitle.frames.push_back({ 9, 7, 96, 30, 0 });
 	subtitle.speed = 0.0f;
 }
 
@@ -110,7 +110,7 @@ update_status ModuleSceneIntro::Update()
 
 		if (title.speed > 0.0f) {
 			animationIdx = title.GetCurrentFrameIndex();
-			App->renderer->Blit(background, 10, 13, &(title.frames[animationIdx]));
+			App->renderer->Blit(background, 10, 13, &(title.frames[animationIdx].rect));
 			if (animationIdx == title.frames.size() - 1) {
 				title.speed = 0.0f;
 				title.Reset();
@@ -119,7 +119,7 @@ update_status ModuleSceneIntro::Update()
 
 		if (subtitle.speed > 0.0f) {
 			animationIdx = subtitle.GetCurrentFrameIndex();
-			App->renderer->Blit(background, 40, 15, &(subtitle.frames[animationIdx]));
+			App->renderer->Blit(background, 40, 15, &(subtitle.frames[animationIdx].rect));
 			if (animationIdx == subtitle.frames.size() - 1) {
 				subtitle.speed = 0.0f;
 				subtitle.Reset();

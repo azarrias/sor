@@ -6,12 +6,17 @@
 
 struct SDL_Rect;
 
+typedef struct Frame {
+	SDL_Rect rect;
+	short int offset;
+} Frame;
+
 class Animation
 {
 public:
 	bool loop = true;
 	float speed = 1.0f;
-	std::vector<SDL_Rect> frames;
+	std::vector<Frame> frames;
 
 private:
 	float current_frame = 0.0f;
@@ -37,7 +42,7 @@ public:
 		return (int)current_frame;
 	}
 
-	SDL_Rect& GetCurrentFrame()
+	Frame& GetCurrentFrame()
 	{
 		return frames[GetCurrentFrameIndex()];
 	}
