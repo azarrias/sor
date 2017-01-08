@@ -50,7 +50,8 @@ void Creature::hit(Creature* c2) {
 	else {
 		consecutiveHits = 0;
 	}
-	if (height > 0) {
+
+	if (height > 0 || c2->height > 0) {
 		c2->setCurrentAnimation(&(c2->beingHit3));
 		c2->status = BEING_HIT_2_INI;
 	}
@@ -208,8 +209,7 @@ void Creature::handleState()
 		break;
 
 	case BEING_HIT_2_INI:
-		verticalForce = -4.5f;
-		height = 0;
+		verticalForce = -5.0f;
 		if (facing == RIGHT) {
 			velocity.x -= 5.0f;
 		}
@@ -276,6 +276,8 @@ void Creature::updatePosition() {
 		position.y = 155;
 		depth = 0;
 	}
+	if (status == IDLE || status == WALK)
+		position.y = depth + height + 109;
 }
 
 void Creature::paint()
