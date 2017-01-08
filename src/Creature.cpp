@@ -211,10 +211,10 @@ void Creature::handleState()
 	case BEING_HIT_2_INI:
 		verticalForce = -5.0f;
 		if (facing == RIGHT) {
-			velocity.x -= 5.0f;
+			horizontalForce = -5.0f;
 		}
 		else {
-			velocity.x += 5.0f;
+			horizontalForce = 5.0f;
 		}
 		status = BEING_HIT_2;
 		break;
@@ -225,12 +225,7 @@ void Creature::handleState()
 		}
 		else {
 			verticalForce = 0;
-			if (facing == RIGHT) {
-				velocity.x += 5.0f;
-			}
-			else {
-				velocity.x -= 5.0f;
-			}
+			horizontalForce = 0;
 			status = BEING_HIT_2_END;
 			beingHitTimer.reset();
 		}
@@ -252,16 +247,18 @@ void Creature::handleState()
 
 void Creature::updatePosition() {
 	int flipOffset = 0;
-	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP || status == BEING_HIT_2)
+	if (status == IDLE || status == WALK || status == JUMPING || status == ATTACK_JMP)
 		position.x += (int)velocity.x;
 	if (position.x < 0)
 		position.x = 0;
-	if (height == 0 && status != JUMPING && status != ATTACKING)
+	if (height == 0 && status != JUMPING && status != ATTACKING && status != BEING_HIT_2 
+		&& status != BEING_HIT_2_END && status != BEING_HIT && status != BEING_HIT_2_INI)
 		depth -= (int)velocity.y;
 	if (status == IDLE || status == WALK)
 		position.y += (int)velocity.y;
 	if (status == RESPAWNING || status == JUMPING || status == ATTACK_JMP || status == BEING_HIT_2) {
 		height -= (int)verticalForce;
+		position.x += (int)horizontalForce;
 		if (height < 0) {
 			height = 0;
 			verticalForce = 0.0f;
@@ -277,7 +274,7 @@ void Creature::updatePosition() {
 		depth = 0;
 	}
 	if (status == IDLE || status == WALK)
-		position.y = depth + height + 109;
+		position.y = 155 - depth - height;
 }
 
 void Creature::paint()

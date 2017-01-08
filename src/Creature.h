@@ -65,6 +65,7 @@ public:
 	short int height = 0;
 	unsigned short int consecutiveHits = 0;
 	float verticalForce = 0.0f;
+	float horizontalForce = 0.0f;
 	State status = UNAVAILABLE;
 	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer;
 	SimpleTimer hitTimer, attackTimer, beingHitTimer;
