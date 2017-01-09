@@ -5,14 +5,31 @@
 
 class NPC : public Creature {
 public:
+	enum Action
+	{
+		ATTACK,
+		ATTACK_RECOVER,
+		RETREAT,
+		APPROACH,
+		ALIGN,
+		WAIT,
+		PATROL
+	};
 	NPC(Entity::Types entityType);
 	virtual ~NPC();
 	update_status Update();
-	void doAction();
+	void behaviour();
 	float getDistanceToPlayer() const;
+	void retreat();
+	void chooseNextAction();
+	void getAwayFromPlayer();
+	void chase();
+	const unsigned short int rollDice(unsigned short int nrDiceFaces) const;
 	void attack();
+	unsigned short int waitingTime = 1000;
 private:
 	SimpleTimer NPCTimer;
+	Action action = WAIT;
 };
 
 #endif // __NPC_H__

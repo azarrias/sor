@@ -44,7 +44,7 @@ NPCGarcia::NPCGarcia()
 	chop.frames.push_back({ 124, 3, 57, 61, 0 });
 	chop.loop = false;
 
-	kick.frames.push_back({ 124, 3, 57, 61, 0 });
+	kick.frames.push_back({ 187, 3, 67, 61, 5 });
 	kick.loop = false;
 
 	position = { 400, 132 };
