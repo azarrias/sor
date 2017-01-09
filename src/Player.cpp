@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "MemLeaks.h"
 #include "ModuleCamera.h"
+#include "parson/parson.h"
 
 Player::Player()
 	: Creature(Entity::Types::PLAYER)
@@ -92,7 +93,26 @@ Player::Player()
 Player::~Player()
 {}
 
-// Load assets
+bool Player::Init()
+{
+	LOG("Initializing player");
+	return LoadConfigFromJSON(CONFIG_FILE);
+}
+
+bool Player::LoadConfigFromJSON(const char* fileName)
+{
+	JSON_Value* root_value;
+	JSON_Object* *root_object;
+
+	root_value = json_parse_file(fileName);
+	if (root_value != nullptr)
+		root_object = json_object(root_value);
+	else return false;
+
+	graphicsFile = App->textures->Load("graphics/pcs.png");
+	return true;
+}
+
 bool Player::Start()
 {
 	LOG("Loading player");

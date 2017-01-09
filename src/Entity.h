@@ -18,6 +18,8 @@ public:
 	};
 	Entity(Types entityType);
 	virtual ~Entity();
+	virtual bool Init();
+	virtual bool LoadConfigFromJSON(const char* fileName);
 	virtual bool Start();
 	virtual update_status Update();
 	virtual bool CleanUp();

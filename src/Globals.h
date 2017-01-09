@@ -49,5 +49,6 @@ typedef unsigned int uint;
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Streets of Rage"
+#define CONFIG_FILE "config.json"
 
 #endif // __Globals_H__

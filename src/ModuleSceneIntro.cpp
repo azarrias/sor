@@ -30,6 +30,12 @@ ModuleSceneIntro::ModuleSceneIntro(bool active)
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
 
+bool ModuleSceneIntro::Init()
+{
+	LOG("Initializing game intro");
+	return true;
+}
+
 // Load assets
 bool ModuleSceneIntro::Start()
 {

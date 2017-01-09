@@ -39,6 +39,11 @@ public:
 		return true;
 	}
 
+	virtual bool LoadConfigFromJSON(const char* fileName)
+	{
+		return true;
+	}
+
 	virtual bool Start()
 	{
 		return true;

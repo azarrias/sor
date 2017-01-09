@@ -17,7 +17,7 @@ public:
 	~ModuleEntityManager();
 
 	bool Start();
-//	bool Init();
+	bool Init();
 	update_status Update();
 	bool CleanUp();
 	Entity* createEntity(Entity::Types entityType);

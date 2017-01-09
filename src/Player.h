@@ -10,6 +10,8 @@ public:
 	Player();
 	~Player();
 
+	bool Init();
+	bool LoadConfigFromJSON(const char* fileName);
 	bool Start();
 	update_status Update();
 	bool CleanUp();

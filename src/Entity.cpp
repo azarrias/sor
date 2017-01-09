@@ -14,6 +14,16 @@ Entity::~Entity()
 void Entity::paint() {
 }
 
+bool Entity::Init()
+{
+	return true;
+}
+
+bool Entity::LoadConfigFromJSON(const char* fileName)
+{
+	return true;
+}
+
 bool Entity::Start()
 {
 	return true;

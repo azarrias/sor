@@ -13,6 +13,7 @@ public:
 	ModuleSceneIntro(bool active = true);
 	~ModuleSceneIntro();
 
+	bool Init();
 	bool Start();
 	update_status Update();
 	bool CleanUp();
