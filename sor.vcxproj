@@ -109,6 +109,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(SolutionDir)"3rdparty\dlls\*.dll "$(TargetDir)" /D /K /Y</Command>
@@ -130,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rdparty\parson\parson.c" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Creature.cpp" />
     <ClCompile Include="src\Entity.cpp" />
@@ -152,6 +155,7 @@
     <ClCompile Include="src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rdparty\parson\parson.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Creature.h" />

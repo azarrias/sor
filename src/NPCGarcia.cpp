@@ -41,11 +41,11 @@ NPCGarcia::NPCGarcia()
 	gettingUp.frames.push_back({ 278, 225, 57, 61, 12 });
 	gettingUp.loop = false;
 
-	chop.frames.push_back({ 124, 3, 57, 61, 0 });
-	chop.loop = false;
+	attack.frames.push_back({ 124, 3, 57, 61, 0 });
+	attack.loop = false;
 
-	kick.frames.push_back({ 187, 3, 67, 61, 5 });
-	kick.loop = false;
+	attack2.frames.push_back({ 187, 3, 67, 61, 5 });
+	attack2.loop = false;
 
 	position = { 400, 132 };
 	setCurrentAnimation(&idle);

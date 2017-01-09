@@ -51,8 +51,8 @@ public:
 	Animation walking;
 	Animation jumping;
 	Animation jumpKick;
-	Animation chop;
-	Animation kick;
+	Animation attack;
+	Animation attack2;
 	Animation respawning;
 	Animation beingHit;
 	Animation beingHit2;

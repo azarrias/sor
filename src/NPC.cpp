@@ -44,7 +44,7 @@ void NPC::behaviour() {
 	case ATTACK:
 		velocity = { 0.0f, 0.0f };
 		status = ATTACKING;
-		setCurrentAnimation(&chop);
+		setCurrentAnimation(&attack);
 		attackTimer.reset();
 		NPCTimer.reset();
 		action = ATTACK_RECOVER;
@@ -134,7 +134,7 @@ void NPC::chase() {
 	else this->velocity.y = +1.0f;
 }
 
-/*void NPC::attack() {
+/*void NPC::doAttack() {
 	status = ATTACKING;
 	setCurrentAnimation(&chop);
 }*/

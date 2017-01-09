@@ -16,107 +16,47 @@ Player::Player()
 	: Creature(Entity::Types::PLAYER)
 {
 	facing = RIGHT;
-	// Coordinates for Blaze
-
-	// idle animation
-	for (size_t i = 0; i < 8; ++i)
-		idle.frames.push_back({ 7, 956, 46, 61, 0 });
-	idle.frames.push_back({ 63, 956, 46, 61, 0 });
-	idle.frames.push_back({ 126, 956, 46, 61, 0 });
-	idle.speed = 0.05f;
-
-	// respawning animation
-	respawning.frames.push_back({ 48, 1104, 43, 65, 0 });
-	respawning.frames.push_back({ 6, 1104, 42, 65, 0 });
-	respawning.loop = false;
-	respawning.speed = 0.0f;
-
-	// walk animation
-	walking.frames.push_back({ 306, 956, 36, 61, 0 });
-	walking.frames.push_back({ 344, 956, 41, 61, 0 });
-	walking.frames.push_back({ 386, 956, 36, 61, 0 });
-	walking.frames.push_back({ 424, 956, 41, 61, 0 });
-	walking.speed = 0.1f;
-
-	// jump animation
-	jumping.frames.push_back({ 8, 1108, 42, 61, 0 });
-	jumping.frames.push_back({ 48, 1104, 43, 65, 0 });
-	jumping.loop = false;
-	jumping.speed = 0.0f;
-
-	// jump kick
-	jumpKick.frames.push_back({ 88, 1114, 42, 55, 0 });
-	jumpKick.frames.push_back({ 134, 1104, 43, 65, 0 });
-	jumpKick.frames.push_back({ 178, 1114, 70, 55, 0 });
-	jumpKick.loop = false;
-	jumpKick.speed = 0.5f;
-
-	// chop
-	chop.frames.push_back({ 87, 1028, 45, 61, 0 });
-	chop.frames.push_back({ 7, 1028, 70, 61, 0 });
-	chop.frames.push_back({ 87, 1028, 45, 61, 0 });
-	chop.loop = false;
-	chop.speed = 0.2f;
-
-	// kick
-	kick.frames.push_back({ 137, 1028, 57, 61, 0 });
-	kick.frames.push_back({ 203, 1028, 77, 61, 0 });
-	kick.frames.push_back({ 137, 1028, 57, 61, 0 });
-	kick.loop = false;
-	kick.speed = 0.2f;
-
-	// being hit
-	beingHit.frames.push_back({ 7, 1323, 41, 61, 0 });
-	beingHit.loop = false;
-	beingHit.speed = 0.0f;
-
-	beingHit2.frames.push_back({ 7, 1323, 41, 61, 0 });
-	beingHit2.loop = false;
-	beingHit2.speed = 0.0f;
-
-	beingHit3.frames.push_back({ 7, 1323, 41, 61, 0 });
-	beingHit3.frames.push_back({ 103, 1351, 66, 34, 0 });
-	beingHit3.loop = false;
-	beingHit3.speed = 0.1f;
-
-	knockedOut.frames.push_back({ 174, 1323, 66, 61, 0 });
-	knockedOut.loop = false;
-
-	gettingUp.frames.push_back({ 243, 1323, 66, 61, 0 });
-	gettingUp.frames.push_back({ 174, 1323, 66, 61, 0 });
-	gettingUp.frames.push_back({ 243, 1323, 66, 61, 0 });
-	gettingUp.frames.push_back({ 311, 1323, 26, 61, -10 });
-	gettingUp.loop = false;
-	gettingUp.speed = 0.05f;
 }
 
 Player::~Player()
 {}
 
-bool Player::Init()
-{
-	LOG("Initializing player");
-	return LoadConfigFromJSON(CONFIG_FILE);
-}
-
 bool Player::LoadConfigFromJSON(const char* fileName)
 {
 	JSON_Value* root_value;
-	JSON_Object* *root_object;
+	JSON_Object* moduleObject;
 
 	root_value = json_parse_file(fileName);
 	if (root_value != nullptr)
-		root_object = json_object(root_value);
+		moduleObject = json_object(root_value);
 	else return false;
 
-	graphicsFile = App->textures->Load("graphics/pcs.png");
+	graphics = App->textures->Load(json_object_dotget_string(moduleObject, "Player.graphicsFile"));
+	
+	if (LoadAnimationFromJSONObject(moduleObject, "Player.animations.idle", idle) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.respawning", respawning) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.walking", walking) == false || 
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.jumping", jumping) == false || 
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.jumpKick", jumpKick) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.attack", attack) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.attack2", attack2) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.beingHit", beingHit) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.beingHit2", beingHit2) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.beingHit3", beingHit3) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.knockedOut", knockedOut) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.gettingUp", gettingUp) == false)
+			return false;
+
+	json_value_free(root_value);
+	
 	return true;
 }
 
 bool Player::Start()
 {
 	LOG("Loading player");
-	graphics = App->textures->Load("graphics/pcs.png");
+	if (LoadConfigFromJSON(CONFIG_FILE) == false)
+		return false;
 	return Creature::Start();
 }
 
@@ -150,7 +90,7 @@ void Player::jump()
 }
 
 // Attack
-void Player::attack()
+void Player::doAttack()
 {
 	LOG("Player attacks");
 	if (height > 0) {
@@ -160,22 +100,22 @@ void Player::attack()
 	else if (status == ATTACKING_3) {
 		status = ATTACKING_4;
 		velocity.y = 0.0f;
-		setCurrentAnimation(&chop);
+		setCurrentAnimation(&attack);
 	}
 	else if (status == ATTACKING_2) {
 		status = ATTACKING_3;
 		velocity.y = 0.0f;
-		setCurrentAnimation(&chop);
+		setCurrentAnimation(&attack);
 	}
 	else if (status == ATTACKING) {
 		status = ATTACKING_2;
 		velocity.y = 0.0f;
-		setCurrentAnimation(&chop);
+		setCurrentAnimation(&attack);
 	}
 	else {
 		status = ATTACKING;
 		velocity.y = 0.0f;
-		setCurrentAnimation(&chop);
+		setCurrentAnimation(&attack);
 	}
 	attackTimer.reset();
 }
@@ -229,7 +169,7 @@ void Player::handleInput()
 					velocity.x = 0.0f;
 					status = ATTACKING;
 					attackTimer.reset();
-					setCurrentAnimation(&chop);
+					setCurrentAnimation(&attack);
 				}
 			}
 			break;

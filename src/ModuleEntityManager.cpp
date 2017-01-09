@@ -47,18 +47,6 @@ Entity* ModuleEntityManager::createEntity(Entity::Types entityType)
 	return ret;
 }
 
-bool ModuleEntityManager::Init()
-{
-	LOG("Initializing entities");
-
-	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
-	{
-		(*it)->Init();
-	}
-
-	return true;
-}
-
 bool ModuleEntityManager::Start()
 {
 	LOG("Loading entities");

@@ -75,6 +75,9 @@
     <ClCompile Include="src\NPCGarcia.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
+    <ClCompile Include="3rdparty\parson\parson.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Globals.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="src\NPCGarcia.h">
       <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\parson\parson.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

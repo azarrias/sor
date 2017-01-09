@@ -25,7 +25,7 @@ public:
 	void getAwayFromPlayer();
 	void chase();
 	const unsigned short int rollDice(unsigned short int nrDiceFaces) const;
-	void attack();
+	void doAttack();
 	unsigned short int waitingTime = 1000;
 private:
 	SimpleTimer NPCTimer;

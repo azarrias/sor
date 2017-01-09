@@ -64,19 +64,19 @@ void Creature::hit(Creature* c2) {
 		switch (consecutiveHits) {
 		case 0:
 		case 1:
-			this->setCurrentAnimation(&chop);
+			this->setCurrentAnimation(&attack);
 			this->status = ATTACKING;
 			c2->setCurrentAnimation(&(c2->beingHit));
 			c2->status = BEING_HIT;
 			break;
 		case 2:
-			this->setCurrentAnimation(&kick);
+			this->setCurrentAnimation(&attack2);
 			this->status = ATTACKING;
 			c2->setCurrentAnimation(&(c2->beingHit2));
 			c2->status = BEING_HIT;
 			break;
 		case 3:
-			this->setCurrentAnimation(&chop);
+			this->setCurrentAnimation(&attack);
 			this->status = ATTACKING;
 			c2->setCurrentAnimation(&(c2->beingHit3));
 			c2->status = BEING_HIT_2_INI;
@@ -181,7 +181,7 @@ void Creature::handleState()
 		break;
 
 	case ATTACKING:
-		if (attackTimer.getDelta() >= chop.frames.size() * 100) {
+		if (attackTimer.getDelta() >= attack.frames.size() * 100) {
 			velocity += prevVelocity;
 			if (velocity.x != 0.0f || velocity.y != 0.0f) {
 				status = WALK;

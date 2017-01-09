@@ -3,9 +3,12 @@
 
 #include "Point.h"
 #include "Globals.h"
+#include <string>
+#include "parson/parson.h"
 
 struct SDL_Texture;
 struct Collider;
+class Animation;
 
 class Entity
 {
@@ -20,6 +23,7 @@ public:
 	virtual ~Entity();
 	virtual bool Init();
 	virtual bool LoadConfigFromJSON(const char* fileName);
+	bool LoadAnimationFromJSONObject(JSON_Object* jsonObject, std::string animationName, Animation& anim);
 	virtual bool Start();
 	virtual update_status Update();
 	virtual bool CleanUp();
