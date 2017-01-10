@@ -36,6 +36,7 @@ public:
 	Creature(Entity::Types entityType, iPoint iniPos, short int hp);
 	virtual ~Creature();
 	virtual bool Start();
+	virtual bool LoadConfigFromJSON(const char* fileName);
 	virtual update_status Update();
 	virtual void updatePosition();
 	void setCurrentAnimation(Animation* anim);
@@ -74,6 +75,9 @@ public:
 	Collider* attackCollider = nullptr;
 	Direction facing = LEFT;
 	short int hp;
+protected:
+	uint soundFxJump = 0;
+	uint soundFxJumpLand = 0;
 };
 
 #endif // __Creature_H__

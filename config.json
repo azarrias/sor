@@ -1,4 +1,8 @@
 {
+	"Creature": {
+		"soundFxJump": "audio/jump.wav",
+		"soundFxJumpLand": "audio/land.wav"
+	},
 	"Player": {
 		"graphicsFile": "graphics/pcs.png",
 		"animations": {

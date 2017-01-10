@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleStageTwo.h"
 #include "ModuleCollision.h"
+#include "ModuleAudio.h"
 
 Creature::Creature(Entity::Types entityType, iPoint iniPos, short int hp)
 	: Entity(entityType, iniPos), hp(hp)
@@ -17,6 +18,28 @@ bool Creature::Start()
 	SDL_Rect baseColliderRect = { 0, 0, 0, 0 };
 	baseCollider = App->collision->AddCollider(baseColliderRect);
 	baseCollider->SetPos(1, 2);
+	if (Creature::LoadConfigFromJSON(CONFIG_FILE) == false)
+		return false;
+	return true;
+}
+
+bool Creature::LoadConfigFromJSON(const char* fileName)
+{
+	JSON_Value* root_value;
+	JSON_Object* moduleObject;
+
+	root_value = json_parse_file(fileName);
+	if (root_value != nullptr)
+		moduleObject = json_object(root_value);
+	else return false;
+
+	if (soundFxJump == 0)
+		soundFxJump = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Creature.soundFxJump"));
+	if (soundFxJumpLand == 0)
+		soundFxJumpLand = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Creature.soundFxJumpLand"));
+
+	json_value_free(root_value);
+
 	return true;
 }
 
@@ -122,6 +145,7 @@ void Creature::handleState()
 		else {
 			respawning.speed = 1.0f;
 			if (creatureTimer.getDelta() >= 100) {
+				App->audio->PlayFx(soundFxJumpLand);
 				status = IDLE;
 				setCurrentAnimation(&idle);
 			}
@@ -146,6 +170,7 @@ void Creature::handleState()
 
 	case JUMP_INI:
 		if (jumpTimer.getDelta() >= 100) {
+			App->audio->PlayFx(soundFxJump);
 			verticalForce = -8.0f;
 			jumping.speed = 1.0f;
 			height = 0;
@@ -163,6 +188,7 @@ void Creature::handleState()
 			prevVelocity = velocity;
 			velocity.y = 0.0f;
 			velocity.x = 0.0f;
+			App->audio->PlayFx(soundFxJumpLand);
 			status = JUMP_END;
 			jumpTimer.reset();
 		}
@@ -178,6 +204,7 @@ void Creature::handleState()
 			velocity.y = 0.0f;
 			velocity.x = 0.0f;
 			setCurrentAnimation(&jumping);
+			App->audio->PlayFx(soundFxJumpLand);
 			status = JUMP_END;
 			jumpTimer.reset();
 		}
