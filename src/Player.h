@@ -16,8 +16,12 @@ public:
 	bool CleanUp();
 	void spawn();
 	void handleInput();
+	void hit(Creature* c2);
 public:
 	unsigned short int lives = 4;
+private:
+	uint soundFxHit = 0;
+	uint soundFxAttack = 0;
 };
 
 #endif // __Player_H__

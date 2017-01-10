@@ -11,6 +11,7 @@
 #include "MemLeaks.h"
 #include "ModuleCamera.h"
 #include "parson/parson.h"
+#include "ModuleAudio.h"
 
 Player::Player()
 	: Creature(Entity::Types::PLAYER, { 23, -30 }, 20)
@@ -32,6 +33,10 @@ bool Player::LoadConfigFromJSON(const char* fileName)
 	else return false;
 
 	graphics = App->textures->Load(json_object_dotget_string(moduleObject, "Player.graphicsFile"));
+	if (soundFxHit == 0)
+		soundFxHit = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Player.soundFxHit"));
+	if (soundFxAttack == 0)
+		soundFxAttack = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Player.soundFxAttack"));
 	
 	if (LoadAnimationFromJSONObject(moduleObject, "Player.animations.idle", idle) == false ||
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.respawning", respawning) == false ||
@@ -122,6 +127,7 @@ void Player::handleInput()
 			break;
 		case KEY_S:
 			if (keyEvent->status == IS_DOWN) {
+				App->audio->PlayFx(soundFxAttack);
 				if (status == JUMPING) {
 					status = ATTACK_JMP;
 					setCurrentAnimation(&jumpKick);
@@ -164,6 +170,10 @@ update_status Player::Update()
 	return UPDATE_CONTINUE;
 }
 
+void Player::hit(Creature* c2) {
+	App->audio->PlayFx(soundFxHit);
+	Creature::hit(c2);
+}
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
 
 // TODO 14: Make so if the player collides, it is removed and create few explosions at its positions

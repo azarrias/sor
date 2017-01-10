@@ -17,7 +17,10 @@ public:
 	};
 	NPC(Entity::Types entityType, iPoint iniPos, short int hp);
 	virtual ~NPC();
+	virtual bool Start();
+	virtual bool LoadConfigFromJSON(const char* fileName);
 	update_status Update();
+	virtual void hit(Creature* c2);
 	void behaviour();
 	float getDistanceToPlayer() const;
 	void retreat();
@@ -25,11 +28,12 @@ public:
 	void getAwayFromPlayer();
 	void chase();
 	const unsigned short int rollDice(unsigned short int nrDiceFaces) const;
-	void doAttack();
 	unsigned short int waitingTime = 1000;
 private:
 	SimpleTimer NPCTimer;
 	Action action = WAIT;
+protected:
+	uint soundFxNPCHit = 0;
 };
 
 #endif // __NPC_H__

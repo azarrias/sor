@@ -3,8 +3,13 @@
 		"soundFxJump": "audio/jump.wav",
 		"soundFxJumpLand": "audio/land.wav"
 	},
+	"NPC": {
+		"soundFxNPCHit": "audio/NPC_hit.wav"
+	},
 	"Player": {
 		"graphicsFile": "graphics/pcs.png",
+		"soundFxHit": "audio/hit.wav",
+		"soundFxAttack": "audio/attack.wav",
 		"animations": {
 			"idle": {
 				"speed": 0.05,

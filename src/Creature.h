@@ -45,7 +45,7 @@ public:
 	bool canBeAttacked() const;
 	virtual void paint();
 	virtual void spawn();
-	void hit(Creature* c2);
+	virtual void hit(Creature* c2);
 public:
 	Animation* current_animation = nullptr;
 	Animation idle;

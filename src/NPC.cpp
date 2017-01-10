@@ -3,6 +3,7 @@
 #include "ModuleEntityManager.h"
 #include "Player.h"
 #include "ModuleCamera.h"
+#include "ModuleAudio.h"
 #include <random>
 
 NPC::NPC(Entity::Types entityType, iPoint iniPos, short int hp)
@@ -14,12 +15,42 @@ NPC::NPC(Entity::Types entityType, iPoint iniPos, short int hp)
 NPC::~NPC()
 {}
 
+bool NPC::Start()
+{
+	if (NPC::LoadConfigFromJSON(CONFIG_FILE) == false)
+		return false;
+	return Creature::Start();
+}
+
+bool NPC::LoadConfigFromJSON(const char* fileName)
+{
+	JSON_Value* root_value;
+	JSON_Object* moduleObject;
+
+	root_value = json_parse_file(fileName);
+	if (root_value != nullptr)
+		moduleObject = json_object(root_value);
+	else return false;
+
+	if (soundFxNPCHit == 0)
+		soundFxNPCHit = App->audio->LoadFx(json_object_dotget_string(moduleObject, "NPC.soundFxNPCHit"));
+
+	json_value_free(root_value);
+
+	return true;
+}
+
 // Update: draw background
 update_status NPC::Update()
 {
 	behaviour();
 	Creature::Update();
 	return UPDATE_CONTINUE;
+}
+
+void NPC::hit(Creature* c2) {
+	App->audio->PlayFx(soundFxNPCHit);
+	Creature::hit(c2);
 }
 
 void NPC::behaviour() {

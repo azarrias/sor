@@ -50,7 +50,7 @@ bool NPCGarcia::Start()
 	LOG("Loading NPC Garcia");
 	if (LoadConfigFromJSON(CONFIG_FILE) == false)
 		return false;
-	return Creature::Start();
+	return NPC::Start();
 }
 
 // Unload assets
