@@ -79,7 +79,9 @@ update_status ModuleStageTwo::Update()
 		break;
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
-		if (App->entities->player->status == Creature::State::UNAVAILABLE)
+		if (App->entities->player->status == Creature::State::UNAVAILABLE ||
+			App->entities->player->status == Creature::State::DEAD &&
+			App->entities->player->lives > 0)
 			App->entities->player->spawn();
 		break;
 	}

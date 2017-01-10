@@ -44,6 +44,7 @@ bool Player::LoadConfigFromJSON(const char* fileName)
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.beingHit2", beingHit2) == false ||
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.beingHit3", beingHit3) == false ||
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.knockedOut", knockedOut) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "Player.animations.dying", dying) == false ||
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.gettingUp", gettingUp) == false)
 			return false;
 
@@ -71,9 +72,12 @@ bool Player::CleanUp()
 void Player::spawn()
 {
 	LOG("Respawning player");
-	position = iniPos;
+	position.x = iniPos.x - App->camera->coord.x;
+	position.y = iniPos.y - App->camera->coord.y;
+	depth = 23;
 	height = 162;
 	status = RESPAWNING;
+	facing = RIGHT;
 	setCurrentAnimation(&respawning);
 	creatureTimer.reset();
 	--lives;

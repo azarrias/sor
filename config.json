@@ -253,6 +253,23 @@
 					"offset": 0
 				}]
 			},
+			"dying": {
+				"speed": 0.1,
+				"loop": true,
+				"frames": [{
+					"x": 174,
+					"y": 1323,
+					"w": 66,
+					"h": 61,
+					"offset": 0
+				}, {
+					"x": 480,
+					"y": 950,
+					"w": 1,
+					"h": 1,
+					"offset": 0
+				}]
+			},
 			"gettingUp": {
 				"speed": 0.05,
 				"loop": false,
