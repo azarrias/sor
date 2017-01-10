@@ -83,46 +83,6 @@ void Player::spawn()
 	--lives;
 }
 
-// Jump
-void Player::jump()
-{
-	LOG("Player jumps");
-	status = JUMPING;
-	setCurrentAnimation(&jumping);
-	jumpTimer.reset();
-}
-
-// Attack
-void Player::doAttack()
-{
-	LOG("Player attacks");
-	if (height > 0) {
-		setCurrentAnimation(&jumpKick);
-		status = JUMPING;
-	}
-	else if (status == ATTACKING_3) {
-		status = ATTACKING_4;
-		velocity.y = 0.0f;
-		setCurrentAnimation(&attack);
-	}
-	else if (status == ATTACKING_2) {
-		status = ATTACKING_3;
-		velocity.y = 0.0f;
-		setCurrentAnimation(&attack);
-	}
-	else if (status == ATTACKING) {
-		status = ATTACKING_2;
-		velocity.y = 0.0f;
-		setCurrentAnimation(&attack);
-	}
-	else {
-		status = ATTACKING;
-		velocity.y = 0.0f;
-		setCurrentAnimation(&attack);
-	}
-	attackTimer.reset();
-}
-
 void Player::handleInput()
 {
 	KeyEvent* keyEvent = nullptr;

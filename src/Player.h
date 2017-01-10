@@ -15,8 +15,6 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void spawn();
-	void jump();
-	void doAttack();
 	void handleInput();
 public:
 	unsigned short int lives = 4;
