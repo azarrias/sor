@@ -24,7 +24,7 @@ update_status Creature::Update()
 {
 	handleState();
 
-	if (status != UNAVAILABLE) {
+	if (status != UNAVAILABLE && status != DEAD) {
 		updatePosition();
 		paint();
 	}
@@ -64,20 +64,23 @@ void Creature::hit(Creature* c2) {
 		switch (consecutiveHits) {
 		case 0:
 		case 1:
+		case 2:
 			this->setCurrentAnimation(&attack);
 			this->status = ATTACKING;
-			c2->setCurrentAnimation(&(c2->beingHit));
-			c2->status = BEING_HIT;
-			break;
-		case 2:
-			this->setCurrentAnimation(&attack2);
-			this->status = ATTACKING;
-			c2->setCurrentAnimation(&(c2->beingHit2));
-			c2->status = BEING_HIT;
+			c2->hp -= 3;
+			if (c2->hp > 0) {
+				c2->setCurrentAnimation(&(c2->beingHit2));
+				c2->status = BEING_HIT;
+			}
+			else {
+				c2->setCurrentAnimation(&(c2->beingHit3));
+				c2->status = BEING_HIT_2_INI;
+			}
 			break;
 		case 3:
-			this->setCurrentAnimation(&attack);
+			this->setCurrentAnimation(&attack2);
 			this->status = ATTACKING;
+			c2->hp -= 5;
 			c2->setCurrentAnimation(&(c2->beingHit3));
 			c2->status = BEING_HIT_2_INI;
 			break;
@@ -233,7 +236,12 @@ void Creature::handleState()
 		else {
 			verticalForce = 0;
 			horizontalForce = 0;
-			status = BEING_HIT_2_END;
+			if (hp > 0)
+				status = BEING_HIT_2_END;
+			else {
+				setCurrentAnimation(&dying);
+				status = DYING;
+			}
 			beingHitTimer.reset();
 		}
 		break;
@@ -248,6 +256,11 @@ void Creature::handleState()
 			setCurrentAnimation(&gettingUp);
 		}
 		else setCurrentAnimation(&knockedOut);
+		break;
+
+	case DYING:
+		if (beingHitTimer.getDelta() >= 1500)
+			status = DEAD;
 		break;
 	}
 }

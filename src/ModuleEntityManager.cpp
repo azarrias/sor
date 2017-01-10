@@ -61,11 +61,12 @@ bool ModuleEntityManager::Start()
 
 update_status ModuleEntityManager::Update()
 {
-	// Subset the entities that are close to the camera range
+	// Subset the entities that are close to the camera range and are not dead
 	std::vector<Entity*> inRangeEntities(entities.size());
 	std::vector<Entity*>::iterator it = std::copy_if(entities.begin(), entities.end(), inRangeEntities.begin(),
 		[](Entity* e) { return (((Creature*)e)->position.x >= -App->camera->coord.x - CAMERA_RANGE_MARGIN &&
-		((Creature*)e)->position.x <= -App->camera->coord.x + SCREEN_WIDTH + CAMERA_RANGE_MARGIN); });
+		((Creature*)e)->position.x <= -App->camera->coord.x + SCREEN_WIDTH + CAMERA_RANGE_MARGIN &&
+		((Creature*)e)->status != Creature::State::DEAD); });
 	inRangeEntities.resize(std::distance(inRangeEntities.begin(), it));
 
 	// Sort entities subset by depth (descending) to take care of overlapping and check for collisions

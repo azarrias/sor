@@ -401,8 +401,25 @@
 					"offset": 0
 				}]
 			},
+			"dying": {
+				"speed": 0.1,
+				"loop": true,
+				"frames": [{
+					"x": 221,
+					"y": 225,
+					"w": 57,
+					"h": 61,
+					"offset": 0
+				}, {
+					"x": 329,
+					"y": 250,
+					"w": 1,
+					"h": 1,
+					"offset": 0
+				}]
+			},
 			"gettingUp": {
-				"speed": 0.0,
+				"speed": 1.0,
 				"loop": false,
 				"frames": [{
 					"x": 278,

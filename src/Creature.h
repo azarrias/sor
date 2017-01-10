@@ -24,6 +24,7 @@ public:
 		BEING_HIT_2_INI,
 		BEING_HIT_2,
 		BEING_HIT_2_END,
+		DYING,
 		DEAD,
 		UNAVAILABLE
 	};
@@ -60,6 +61,7 @@ public:
 	Animation beingHit4;
 	Animation gettingUp;
 	Animation knockedOut;
+	Animation dying;
 	fPoint velocity = { 0.0f, 0.0f };
 	fPoint prevVelocity = { 0.0f, 0.0f };
 	short int height = 0;
