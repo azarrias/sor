@@ -15,7 +15,7 @@ public:
 		WAIT,
 		PATROL
 	};
-	NPC(Entity::Types entityType);
+	NPC(Entity::Types entityType, iPoint iniPos, short int hp);
 	virtual ~NPC();
 	update_status Update();
 	void behaviour();

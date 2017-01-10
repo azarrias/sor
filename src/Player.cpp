@@ -13,7 +13,7 @@
 #include "parson/parson.h"
 
 Player::Player()
-	: Creature(Entity::Types::PLAYER)
+	: Creature(Entity::Types::PLAYER, { 23, -30 }, 20)
 {
 	facing = RIGHT;
 }
@@ -71,8 +71,7 @@ bool Player::CleanUp()
 void Player::spawn()
 {
 	LOG("Respawning player");
-	position.x = 23;
-	position.y = -30;
+	position = iniPos;
 	height = 162;
 	status = RESPAWNING;
 	setCurrentAnimation(&respawning);

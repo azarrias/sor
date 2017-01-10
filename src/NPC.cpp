@@ -5,9 +5,11 @@
 #include "ModuleCamera.h"
 #include <random>
 
-NPC::NPC(Entity::Types entityType)
-	: Creature(entityType)
-{}
+NPC::NPC(Entity::Types entityType, iPoint iniPos, short int hp)
+	: Creature(entityType, iniPos, hp)
+{
+	facing = LEFT;
+}
 
 NPC::~NPC()
 {}

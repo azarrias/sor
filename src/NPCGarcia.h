@@ -5,7 +5,7 @@
 
 class NPCGarcia : public NPC {
 public:
-	NPCGarcia();
+	NPCGarcia(iPoint iniPos);
 	~NPCGarcia();
 	bool Start();
 	bool CleanUp();

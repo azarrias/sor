@@ -4,8 +4,8 @@
 #include "ModuleCollision.h"
 #include "Animation.h"
 
-Entity::Entity(Types entityType)
-	:entityType(entityType)
+Entity::Entity(Types entityType, iPoint iniPos)
+	:entityType(entityType), iniPos(iniPos)
 {
 }
 

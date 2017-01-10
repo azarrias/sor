@@ -19,7 +19,7 @@ public:
 		NPC_GARCIA,
 		UNKNOWN
 	};
-	Entity(Types entityType);
+	Entity(Types entityType, iPoint iniPos);
 	virtual ~Entity();
 	virtual bool Init();
 	virtual bool LoadConfigFromJSON(const char* fileName);
@@ -32,8 +32,8 @@ public:
 public:
 	SDL_Texture* graphics = nullptr;
 	Types entityType = UNKNOWN;
-	iPoint iniPos = { 23, -30 };
-	iPoint position = { 23, -30 };
+	iPoint iniPos;
+	iPoint position;
 	short int depth = 23;
 	Collider* baseCollider = nullptr;
 };

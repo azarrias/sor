@@ -19,7 +19,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	Entity* createEntity(Entity::Types entityType);
+	Entity* createEntity(Entity::Types entityType, iPoint iniPos);
 	void handleCollision(const Entity* e1, const Entity* e2);
 public:
 	Player* player = nullptr;

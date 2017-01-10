@@ -4,8 +4,8 @@
 #include "ModuleStageTwo.h"
 #include "ModuleCollision.h"
 
-Creature::Creature(Entity::Types entityType)
-	: Entity(entityType)
+Creature::Creature(Entity::Types entityType, iPoint iniPos, short int hp)
+	: Entity(entityType, iniPos), hp(hp)
 {
 }
 

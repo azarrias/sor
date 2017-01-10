@@ -3,8 +3,8 @@
 #include "Application.h"
 #include "Animation.h"
 
-NPCGarcia::NPCGarcia()
-	: NPC(Entity::Types::NPC_GARCIA)
+NPCGarcia::NPCGarcia(iPoint iniPos)
+	: NPC(Entity::Types::NPC_GARCIA, iniPos, 12)
 {
 	// Coordinates for Garcia
 
@@ -47,8 +47,8 @@ NPCGarcia::NPCGarcia()
 	attack2.frames.push_back({ 187, 3, 67, 61, 5 });
 	attack2.loop = false;
 
-	position = { 400, 132 };
 	setCurrentAnimation(&idle);
+	position = iniPos;
 	status = IDLE;
 	facing = LEFT;
 }

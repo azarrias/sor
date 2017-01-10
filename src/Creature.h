@@ -32,7 +32,7 @@ public:
 		LEFT,
 		RIGHT
 	};
-	Creature(Entity::Types entityType);
+	Creature(Entity::Types entityType, iPoint iniPos, short int hp);
 	virtual ~Creature();
 	virtual bool Start();
 	virtual update_status Update();
@@ -71,6 +71,7 @@ public:
 	SimpleTimer hitTimer, attackTimer, beingHitTimer;
 	Collider* attackCollider = nullptr;
 	Direction facing = LEFT;
+	short int hp;
 };
 
 #endif // __Creature_H__

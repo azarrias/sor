@@ -32,13 +32,13 @@ ModuleEntityManager::~ModuleEntityManager()
 	entities.clear();
 }
 
-Entity* ModuleEntityManager::createEntity(Entity::Types entityType)
+Entity* ModuleEntityManager::createEntity(Entity::Types entityType, iPoint iniPos)
 {
 	static_assert(Entity::Types::UNKNOWN == 2, "code needs update");
 	Entity* ret = nullptr;
 	switch (entityType) {
 		case Entity::Types::PLAYER:	ret = new Player();	break;
-		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(); break;
+		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(iniPos); break;
 	}
 
 	if (ret != nullptr)
@@ -69,16 +69,18 @@ update_status ModuleEntityManager::Update()
 	inRangeEntities.resize(std::distance(inRangeEntities.begin(), it));
 
 	// Sort entities subset by depth (descending) to take care of overlapping and check for collisions
-	std::sort(inRangeEntities.begin(), inRangeEntities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
-	for (size_t i = 0; i < inRangeEntities.size() - 1; ++i) {
-		for (size_t j = i + 1; j < inRangeEntities.size(); ++j) {
-			if (abs(inRangeEntities[i]->depth - inRangeEntities[j]->depth) <= DEPTH_THRESHOLD) {
-				if (inRangeEntities[i]->baseCollider->CheckCollision(*inRangeEntities[j]->baseCollider)) {
-					LOG("There is a collision");
-					handleCollision(inRangeEntities[i], inRangeEntities[j]);
+	if (inRangeEntities.size() > 0) {
+		std::sort(inRangeEntities.begin(), inRangeEntities.end(), [](Entity* a, Entity* b) {return a->depth > b->depth; });
+		for (size_t i = 0; i < inRangeEntities.size() - 1; ++i) {
+			for (size_t j = i + 1; j < inRangeEntities.size(); ++j) {
+				if (abs(inRangeEntities[i]->depth - inRangeEntities[j]->depth) <= DEPTH_THRESHOLD) {
+					if (inRangeEntities[i]->baseCollider->CheckCollision(*inRangeEntities[j]->baseCollider)) {
+						LOG("There is a collision");
+						handleCollision(inRangeEntities[i], inRangeEntities[j]);
+					}
 				}
+				else break;
 			}
-			else break;
 		}
 	}
 
