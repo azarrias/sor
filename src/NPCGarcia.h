@@ -7,6 +7,7 @@ class NPCGarcia : public NPC {
 public:
 	NPCGarcia(iPoint iniPos);
 	~NPCGarcia();
+	bool LoadConfigFromJSON(const char* fileName);
 	bool Start();
 	bool CleanUp();
 };

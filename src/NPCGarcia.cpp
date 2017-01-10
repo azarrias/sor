@@ -9,7 +9,7 @@ NPCGarcia::NPCGarcia(iPoint iniPos)
 	// Coordinates for Garcia
 
 	// idle animation
-	idle.frames.push_back({ 46, 3, 36, 61, 0 });
+/*	idle.frames.push_back({ 46, 3, 36, 61, 0 });
 	idle.loop = false;
 	idle.speed = 0.0f;
 
@@ -45,7 +45,7 @@ NPCGarcia::NPCGarcia(iPoint iniPos)
 	attack.loop = false;
 
 	attack2.frames.push_back({ 187, 3, 67, 61, 5 });
-	attack2.loop = false;
+	attack2.loop = false;*/
 
 	setCurrentAnimation(&idle);
 	position = iniPos;
@@ -56,11 +56,40 @@ NPCGarcia::NPCGarcia(iPoint iniPos)
 NPCGarcia::~NPCGarcia()
 {}
 
+bool NPCGarcia::LoadConfigFromJSON(const char* fileName)
+{
+	JSON_Value* root_value;
+	JSON_Object* moduleObject;
+
+	root_value = json_parse_file(fileName);
+	if (root_value != nullptr)
+		moduleObject = json_object(root_value);
+	else return false;
+
+	graphics = App->textures->Load(json_object_dotget_string(moduleObject, "NPCGarcia.graphicsFile"));
+
+	if (LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.idle", idle) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.walking", walking) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.attack", attack) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.attack2", attack2) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.beingHit", beingHit) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.beingHit2", beingHit2) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.beingHit3", beingHit3) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.knockedOut", knockedOut) == false ||
+		LoadAnimationFromJSONObject(moduleObject, "NPCGarcia.animations.gettingUp", gettingUp) == false)
+		return false;
+
+	json_value_free(root_value);
+
+	return true;
+}
+
 // Load assets
 bool NPCGarcia::Start()
 {
 	LOG("Loading NPC Garcia");
-	graphics = App->textures->Load("graphics/garcia.png");
+	if (LoadConfigFromJSON(CONFIG_FILE) == false)
+		return false;
 	return Creature::Start();
 }
 
