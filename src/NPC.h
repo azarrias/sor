@@ -34,6 +34,7 @@ private:
 	Action action = WAIT;
 protected:
 	uint soundFxNPCHit = 0;
+	uint soundFxNPCDie = 0;
 };
 
 #endif // __NPC_H__

@@ -1,15 +1,18 @@
 {
 	"Creature": {
 		"soundFxJump": "audio/jump.wav",
-		"soundFxJumpLand": "audio/land.wav"
+		"soundFxJumpLand": "audio/land.wav",
+		"soundFxFall": "audio/fall.wav"
 	},
 	"NPC": {
-		"soundFxNPCHit": "audio/NPC_hit.wav"
+		"soundFxNPCHit": "audio/NPC_hit.wav",
+		"soundFxNPCDie": "audio/NPC_die.wav"
 	},
 	"Player": {
 		"graphicsFile": "graphics/pcs.png",
 		"soundFxHit": "audio/hit.wav",
 		"soundFxAttack": "audio/attack.wav",
+		"soundFxDie": "audio/die.wav",
 		"animations": {
 			"idle": {
 				"speed": 0.05,

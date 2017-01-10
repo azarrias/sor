@@ -34,6 +34,8 @@ bool NPC::LoadConfigFromJSON(const char* fileName)
 
 	if (soundFxNPCHit == 0)
 		soundFxNPCHit = App->audio->LoadFx(json_object_dotget_string(moduleObject, "NPC.soundFxNPCHit"));
+	if (soundFxNPCDie == 0)
+		soundFxNPCDie = App->audio->LoadFx(json_object_dotget_string(moduleObject, "NPC.soundFxNPCDie"));
 
 	json_value_free(root_value);
 

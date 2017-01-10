@@ -46,6 +46,7 @@ public:
 	virtual void paint();
 	virtual void spawn();
 	virtual void hit(Creature* c2);
+	virtual void die();
 public:
 	Animation* current_animation = nullptr;
 	Animation idle;
@@ -78,6 +79,7 @@ public:
 protected:
 	uint soundFxJump = 0;
 	uint soundFxJumpLand = 0;
+	uint soundFxFall = 0;
 };
 
 #endif // __Creature_H__

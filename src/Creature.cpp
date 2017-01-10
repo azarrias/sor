@@ -37,6 +37,8 @@ bool Creature::LoadConfigFromJSON(const char* fileName)
 		soundFxJump = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Creature.soundFxJump"));
 	if (soundFxJumpLand == 0)
 		soundFxJumpLand = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Creature.soundFxJumpLand"));
+	if (soundFxFall == 0)
+		soundFxFall = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Creature.soundFxFall"));
 
 	json_value_free(root_value);
 
@@ -253,6 +255,7 @@ void Creature::handleState()
 		else {
 			horizontalForce = 5.0f;
 		}
+		if (hp <= 0) die();
 		status = BEING_HIT_2;
 		break;
 
@@ -261,6 +264,7 @@ void Creature::handleState()
 			verticalForce += 0.5f;
 		}
 		else {
+			App->audio->PlayFx(soundFxFall);
 			verticalForce = 0;
 			horizontalForce = 0;
 			if (hp > 0)
@@ -339,4 +343,9 @@ void Creature::paint()
 		baseCollider->rect = currentFrame.rect;
 		baseCollider->SetPos(position.x - offset, position.y);
 	}
+}
+
+void Creature::die()
+{
+
 }

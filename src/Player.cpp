@@ -37,6 +37,8 @@ bool Player::LoadConfigFromJSON(const char* fileName)
 		soundFxHit = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Player.soundFxHit"));
 	if (soundFxAttack == 0)
 		soundFxAttack = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Player.soundFxAttack"));
+	if (soundFxDie == 0)
+		soundFxDie = App->audio->LoadFx(json_object_dotget_string(moduleObject, "Player.soundFxDie"));
 	
 	if (LoadAnimationFromJSONObject(moduleObject, "Player.animations.idle", idle) == false ||
 		LoadAnimationFromJSONObject(moduleObject, "Player.animations.respawning", respawning) == false ||

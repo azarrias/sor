@@ -22,6 +22,7 @@ public:
 private:
 	uint soundFxHit = 0;
 	uint soundFxAttack = 0;
+	uint soundFxDie = 0;
 };
 
 #endif // __Player_H__
