@@ -33,8 +33,23 @@ bool ModuleStageTwo::Start()
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::LEFT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 600, 132 }, Creature::Direction::LEFT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 650, 132 }, Creature::Direction::RIGHT);
-	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 800, 132 }, Creature::Direction::LEFT);
-	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 850, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 900, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 950, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1100, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1150, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1400, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1450, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1450, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1700, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1900, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1950, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2200, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2250, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2400, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2450, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2700, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2750, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2750, 132 }, Creature::Direction::RIGHT);
 
 	App->entities->Enable();
 //	App->particles->Enable();
