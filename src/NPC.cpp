@@ -55,8 +55,9 @@ void NPC::hit(Creature* c2) {
 	Creature::hit(c2);
 }
 
-void NPC::dieSound() {
+void NPC::die() {
 	App->audio->PlayFx(soundFxNPCDie);
+	Creature::die();
 }
 
 void NPC::behaviour() {

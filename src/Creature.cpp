@@ -125,7 +125,8 @@ bool Creature::isAttacking() const {
 
 bool Creature::canBeAttacked() const {
 	return (status != State::BEING_HIT && status != State::BEING_HIT_2_INI 
-		&& status != State::BEING_HIT_2 && status != State::BEING_HIT_2_END);
+		&& status != State::BEING_HIT_2 && status != State::BEING_HIT_2_END
+		&& status != State::DYING && status != State::DEAD);
 }
 
 void Creature::setCurrentAnimation(Animation* anim) {
@@ -259,7 +260,7 @@ void Creature::handleState()
 		else {
 			horizontalForce = 5.0f;
 		}
-		if (hp <= 0) dieSound();
+		if (hp <= 0) die();
 		status = BEING_HIT_2;
 		break;
 
@@ -349,6 +350,7 @@ void Creature::paint()
 	}
 }
 
-void Creature::dieSound()
+void Creature::die()
 {
+	baseCollider->to_delete = true;
 }

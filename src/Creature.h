@@ -46,7 +46,7 @@ public:
 	virtual void paint();
 	virtual void spawn();
 	virtual void hit(Creature* c2);
-	virtual void dieSound();
+	virtual void die();
 public:
 	Animation* current_animation = nullptr;
 	Animation idle;

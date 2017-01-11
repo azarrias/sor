@@ -30,7 +30,10 @@ bool ModuleStageTwo::Start()
 
 	App->hud->Enable();
 	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER, { 0, 0 }, Creature::Direction::RIGHT));
-	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 600, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 800, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 1000, 132 }, Creature::Direction::RIGHT);
 	App->entities->Enable();
 //	App->particles->Enable();
 	App->collision->Enable();
