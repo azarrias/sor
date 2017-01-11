@@ -12,7 +12,7 @@ enum StageState
 {
 	INTRO,
 	LEVEL,
-	BOSS
+	END
 };
 
 class ModuleStageTwo : public Module

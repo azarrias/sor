@@ -19,7 +19,7 @@ public:
 	void hit(Creature* c2);
 	void die();
 public:
-	unsigned short int lives = 4;
+	unsigned short int lives = 3;
 private:
 	uint soundFxHit = 0;
 	uint soundFxAttack = 0;

@@ -26,6 +26,7 @@ public:
 	Player* player = nullptr;
 private:
 	std::vector<Entity*> entities;
+	short int aliveEntities = 0;
 };
 
 #endif // __ModuleEntityManager_H__

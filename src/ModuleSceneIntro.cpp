@@ -7,6 +7,9 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleCamera.h"
+#include "ModuleStageTwo.h"
+#include "ModuleEntityManager.h"
+#include "Player.h"
 
 // Reference at https://www.youtube.com/watch?v=MXjaCkPWpvU
 
@@ -65,6 +68,7 @@ bool ModuleSceneIntro::CleanUp()
 
 update_status ModuleSceneIntro::Update()
 {
+	App->camera->coord.x = App->camera->coord.y = 0;
 	// Draw background
 	SDL_Rect rectBG;
 	rectBG.x = 334;
@@ -157,6 +161,10 @@ update_status ModuleSceneIntro::Update()
 	{
   		KeyEvent* keyEvent = App->input->keyEventQueue.front();
 		App->input->keyEventQueue.pop_front();
+		App->scene_stage->stageState = INTRO;
+/*		if (App->entities->player != nullptr) {
+			App->entities->player->lives = 3;
+		}*/
 
 		if (keyEvent->key == KEY_SPACE && keyEvent->status == IS_DOWN && App->fade->isFading() == false)
 		{

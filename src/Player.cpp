@@ -86,7 +86,6 @@ void Player::spawn()
 	setCurrentAnimation(&respawning);
 	creatureTimer.reset();
 	hp = 20;
-	--lives;
 }
 
 void Player::handleInput()
@@ -178,6 +177,7 @@ void Player::hit(Creature* c2) {
 
 void Player::die() {
 	App->audio->PlayFx(soundFxDie);
+	--lives;
 	Creature::die();
 }
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position

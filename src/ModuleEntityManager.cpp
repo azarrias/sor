@@ -14,6 +14,7 @@
 #include "Entity.h"
 #include "ModuleCamera.h"
 #include <vector>
+#include "ModuleStageTwo.h"
 
 ModuleEntityManager::ModuleEntityManager(bool active)
 	: Module(active)
@@ -38,8 +39,10 @@ Entity* ModuleEntityManager::createEntity(Entity::Types entityType, iPoint iniPo
 		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(iniPos, facing); break;
 	}
 
-	if (ret != nullptr)
+	if (ret != nullptr) {
 		entities.push_back(ret);
+		++aliveEntities;
+	}
 
 	return ret;
 }
@@ -58,6 +61,8 @@ bool ModuleEntityManager::Start()
 
 update_status ModuleEntityManager::Update()
 {
+	//if (aliveEntities == 1)
+	//	App->scene_stage->stageState = END;
 	// Subset the entities that are close to the camera range and are not dead
 	std::vector<Entity*> inRangeEntities(entities.size());
 	std::vector<Entity*>::iterator it = std::copy_if(entities.begin(), entities.end(), inRangeEntities.begin(),

@@ -10,6 +10,7 @@
 #include "ModuleEntityManager.h"
 #include "Player.h"
 #include "ModuleCamera.h"
+#include "ModuleFadeToBlack.h"
 
 // Reference at https://www.youtube.com/watch?v=J9gWS0ZQaxE
 
@@ -30,7 +31,7 @@ bool ModuleStageTwo::Start()
 
 	App->hud->Enable();
 	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER, { 0, 0 }, Creature::Direction::RIGHT));
-/*	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::LEFT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 600, 132 }, Creature::Direction::LEFT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 650, 132 }, Creature::Direction::RIGHT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 900, 132 }, Creature::Direction::LEFT);
@@ -49,10 +50,13 @@ bool ModuleStageTwo::Start()
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2450, 132 }, Creature::Direction::RIGHT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2700, 132 }, Creature::Direction::LEFT);
 	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2750, 132 }, Creature::Direction::LEFT);
-	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2750, 132 }, Creature::Direction::RIGHT);*/
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 2750, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 3050, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 3050, 132 }, Creature::Direction::RIGHT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 3100, 132 }, Creature::Direction::LEFT);
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 3100, 132 }, Creature::Direction::RIGHT);
 
 	App->entities->Enable();
-//	App->particles->Enable();
 	App->collision->Enable();
 
 	App->audio->PlayMusic("audio/stage2.ogg", 1.0f);
@@ -99,10 +103,18 @@ update_status ModuleStageTwo::Update()
 		break;
 	case LEVEL:
 		App->renderer->Blit(background, 0, 0, NULL);
-		if (App->entities->player->status == Creature::State::UNAVAILABLE ||
-			App->entities->player->status == Creature::State::DEAD &&
-			App->entities->player->lives > 0)
+		if (App->entities->player->lives == 0) {
+			stageTimer.reset();
+			stageState = END;
+		}
+		else if (App->entities->player->status == Creature::State::UNAVAILABLE ||
+			App->entities->player->status == Creature::State::DEAD)
 			App->entities->player->spawn();
+		break;
+	case END:
+		if (App->fade->isFading() == false) {
+			App->fade->FadeToBlack((Module*)App->scene_intro, this, 4.0f);
+		}
 		break;
 	}
 
