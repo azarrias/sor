@@ -12,6 +12,7 @@ This tribute has been made as an academic exercise for a Master's Degree in Vide
 All the artwork featured on it is owned by Sega Corporation and certainly there isn't any kind of copyright or trademark infringement intended, whatsoever.
 
 If you want to know more about the original game, here there are some sources of information:
+
 * Wikipedia article: [https://en.wikipedia.org/wiki/Streets_of_Rage](https://en.wikipedia.org/wiki/Streets_of_Rage)
 * Fandom wiki: [http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game)](http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game))
 
@@ -34,6 +35,8 @@ D | Jump
 S | Attack
 F1 | Debug Mode
 
+
 ## Gameplay
 Here is a short video that shows the tribute in action:
 
+[https://youtu.be/wSK62DNC_y0](https://youtu.be/wSK62DNC_y0)
