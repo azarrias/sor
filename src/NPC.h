@@ -21,6 +21,7 @@ public:
 	virtual bool LoadConfigFromJSON(const char* fileName);
 	update_status Update();
 	virtual void hit(Creature* c2);
+	virtual void dieSound();
 	void behaviour();
 	float getDistanceToPlayer() const;
 	void retreat();

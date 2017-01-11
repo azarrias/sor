@@ -82,6 +82,8 @@ void Creature::hit(Creature* c2) {
 		c2->facing = RIGHT;
 	}
 	if (height > 0 || c2->height > 0) {
+		if (height > 0)
+			c2->hp -= 5;
 		c2->setCurrentAnimation(&(c2->beingHit3));
 		c2->status = BEING_HIT_2_INI;
 	}
@@ -255,7 +257,7 @@ void Creature::handleState()
 		else {
 			horizontalForce = 5.0f;
 		}
-		if (hp <= 0) die();
+		if (hp <= 0) dieSound();
 		status = BEING_HIT_2;
 		break;
 
@@ -345,7 +347,6 @@ void Creature::paint()
 	}
 }
 
-void Creature::die()
+void Creature::dieSound()
 {
-
 }

@@ -176,6 +176,10 @@ void Player::hit(Creature* c2) {
 	App->audio->PlayFx(soundFxHit);
 	Creature::hit(c2);
 }
+
+void Player::dieSound() {
+	App->audio->PlayFx(soundFxDie);
+}
 // TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
 
 // TODO 14: Make so if the player collides, it is removed and create few explosions at its positions

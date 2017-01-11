@@ -55,6 +55,10 @@ void NPC::hit(Creature* c2) {
 	Creature::hit(c2);
 }
 
+void NPC::dieSound() {
+	App->audio->PlayFx(soundFxNPCDie);
+}
+
 void NPC::behaviour() {
 	// If the Player is in attack range then attack: attack or retreat
 	// else if the Player is close be aggressive: attack, chase, retreat

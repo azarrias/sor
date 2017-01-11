@@ -17,6 +17,7 @@ public:
 	void spawn();
 	void handleInput();
 	void hit(Creature* c2);
+	void dieSound();
 public:
 	unsigned short int lives = 4;
 private:
