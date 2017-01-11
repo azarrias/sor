@@ -71,7 +71,7 @@ update_status ModuleSceneIntro::Update()
 	rectBG.y = 4;
 	rectBG.w = 320;
 	rectBG.h = 240;
-	App->renderer->Blit(background, 0, 0, &rectBG);
+	App->renderer->Blit(background, 0, -8, &rectBG);
 
 	SDL_Rect rectSubtitle;
 	rectSubtitle.x = 9;
@@ -116,7 +116,7 @@ update_status ModuleSceneIntro::Update()
 
 		if (title.speed > 0.0f) {
 			animationIdx = title.GetCurrentFrameIndex();
-			App->renderer->Blit(background, 10, 13, &(title.frames[animationIdx].rect));
+			App->renderer->Blit(background, 10, 5, &(title.frames[animationIdx].rect));
 			if (animationIdx == title.frames.size() - 1) {
 				title.speed = 0.0f;
 				title.Reset();
