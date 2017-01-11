@@ -2,7 +2,7 @@
 
 * **Author**: Adolfo Zarrias Torrico
 * **License type**: GNU GPL
-* **Project page**: ![https://azarrias.github.io/sor](https://azarrias.github.io/sor)
+* **Project page**: [https://azarrias.github.io/sor](https://azarrias.github.io/sor)
 
 ## About
 This is not a game nor a remake, this is a humble tribute to the legendary arcade game Streets of Rage, which first came out in the early 90s for Mega Drive console and was ported to many other platforms afterwards.
@@ -12,8 +12,8 @@ This tribute has been made as an academic exercise for a Master's Degree in Vide
 All the artwork featured on it is owned by Sega Corporation and certainly there isn't any kind of copyright or trademark infringement intended, whatsoever.
 
 If you want to know more about the original game, here there are some sources of information:
-* Wikipedia article: ![https://en.wikipedia.org/wiki/Streets_of_Rage](https://en.wikipedia.org/wiki/Streets_of_Rage)
-* Fandom wiki: ![http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game)](http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game))
+* Wikipedia article: [https://en.wikipedia.org/wiki/Streets_of_Rage](https://en.wikipedia.org/wiki/Streets_of_Rage)
+* Fandom wiki: [http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game)](http://streetsofrage.wikia.com/wiki/Streets_of_Rage_(game))
 
 ## Description
 This demo has been developed in C/C++ with SDL 2.0 and although it misses many important bits and pieces from the original game, it has been a very rewarding experience from a learning perspective.
