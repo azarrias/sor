@@ -20,7 +20,8 @@ update_status ModuleCamera::Update()
 {
 	if (App->entities->player != nullptr &&
 		App->entities->player->position.x > (int)(-coord.x + SCREEN_WIDTH * 0.6)) {
-		coord.x -= (int)(camSpeed * SCREEN_SIZE);
+		if (coord.x > (-3072 + SCREEN_WIDTH))
+			coord.x -= (int)(camSpeed * SCREEN_SIZE);
 	}
 
 	return UPDATE_CONTINUE;

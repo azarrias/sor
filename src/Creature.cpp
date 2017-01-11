@@ -306,6 +306,8 @@ void Creature::updatePosition() {
 		position.x += (int)velocity.x;
 	if (position.x < 0)
 		position.x = 0;
+	if (position.x > 3025)
+		position.x = 3025;
 	if (height == 0 && status != JUMPING && status != ATTACKING && status != BEING_HIT_2 
 		&& status != BEING_HIT_2_END && status != BEING_HIT && status != BEING_HIT_2_INI)
 		depth -= (int)velocity.y;
