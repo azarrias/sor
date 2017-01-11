@@ -50,5 +50,7 @@ typedef unsigned int uint;
 #define VSYNC true
 #define TITLE "Streets of Rage"
 #define CONFIG_FILE "config.json"
+#define CAMERA_RANGE_MARGIN 50
+#define DEPTH_THRESHOLD 3
 
 #endif // __Globals_H__

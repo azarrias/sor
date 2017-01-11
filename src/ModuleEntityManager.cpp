@@ -15,9 +15,6 @@
 #include "ModuleCamera.h"
 #include <vector>
 
-#define CAMERA_RANGE_MARGIN 50
-#define DEPTH_THRESHOLD 3
-
 ModuleEntityManager::ModuleEntityManager(bool active)
 	: Module(active)
 {}
@@ -64,7 +61,7 @@ update_status ModuleEntityManager::Update()
 	// Subset the entities that are close to the camera range and are not dead
 	std::vector<Entity*> inRangeEntities(entities.size());
 	std::vector<Entity*>::iterator it = std::copy_if(entities.begin(), entities.end(), inRangeEntities.begin(),
-		[](Entity* e) { return (((Creature*)e)->position.x >= -App->camera->coord.x - CAMERA_RANGE_MARGIN &&
+		[](Entity* e) { return (//((Creature*)e)->position.x >= -App->camera->coord.x - CAMERA_RANGE_MARGIN &&
 		((Creature*)e)->position.x <= -App->camera->coord.x + SCREEN_WIDTH + CAMERA_RANGE_MARGIN &&
 		((Creature*)e)->status != Creature::State::DEAD); });
 	inRangeEntities.resize(std::distance(inRangeEntities.begin(), it));
@@ -88,6 +85,12 @@ update_status ModuleEntityManager::Update()
 	// Update only this subset of entities 
 	for (std::vector<Entity*>::iterator it = inRangeEntities.begin(); it != inRangeEntities.end(); ++it)
 	{
+		// This is a workaround to knock down enemies when the player is respawning
+		// and should be refactored
+		if (App->entities->player->status == Creature::State::RESPAWNING && (*it)->isCreature() 
+			&& (*it) != (Entity*)App->entities->player && ((Creature*)*it)->status != Creature::State::BEING_HIT_2_INI
+			&& ((Creature*)*it)->status != Creature::State::BEING_HIT_2 && ((Creature*)*it)->status != Creature::State::BEING_HIT_2_END)
+			((Creature*)*it)->status = Creature::State::BEING_HIT_2_INI;
 		(*it)->Update();
 	}
 

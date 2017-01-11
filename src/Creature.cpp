@@ -63,7 +63,7 @@ void Creature::spawn()
 	LOG("Spawning creature");
 	position = iniPos;
 	if (facing == RIGHT)
-		position.x -= SCREEN_WIDTH * 2;
+		position.x -= SCREEN_WIDTH + CAMERA_RANGE_MARGIN * 2;
 	height = 0;
 	setCurrentAnimation(&idle);
 	status = IDLE;
@@ -352,5 +352,5 @@ void Creature::paint()
 
 void Creature::die()
 {
-	baseCollider->to_delete = true;
+	//baseCollider->to_delete = true;
 }

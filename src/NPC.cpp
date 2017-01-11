@@ -70,7 +70,7 @@ void NPC::behaviour() {
 		else velocity.x = 1.0f;
 		if (depth > App->entities->player->depth) --depth;
 		else if (depth < App->entities->player->depth) ++depth;
-		if (getDistanceToPlayer() < 50) {
+		if (getDistanceToPlayer() < 50 && abs(depth - App->entities->player->depth) <= DEPTH_THRESHOLD + 2) {
 			if (canBeAttacked()) {
 				NPCTimer.reset();
 				action = ATTACK;
@@ -100,7 +100,7 @@ void NPC::behaviour() {
 		// if the hit has landed continue to attack
 		// else retreat
 		if (NPCTimer.getDelta() > 300)
-			if (getDistanceToPlayer() < 50) {
+			if (getDistanceToPlayer() < 50 && abs(depth - App->entities->player->depth) <= DEPTH_THRESHOLD + 2) {
 				if (canBeAttacked()) {
 					NPCTimer.reset();
 					action = ATTACK;
@@ -114,24 +114,6 @@ void NPC::behaviour() {
 		break;
 	}
 
-	// debug player
-	char integer_string[32];
-	LOG("******");
-	LOG("Status:");
-	sprintf_s(integer_string, "%d", status);
-	LOG(integer_string);
-	LOG("Depth:");
-	sprintf_s(integer_string, "%d", depth);
-	LOG(integer_string);
-	LOG("Height:");
-	sprintf_s(integer_string, "%d", height);
-	LOG(integer_string);
-	LOG("VelX:");
-	sprintf_s(integer_string, "%f", velocity.x);
-	LOG(integer_string);
-	LOG("PosX:");
-	sprintf_s(integer_string, "%d", position.x);
-	LOG(integer_string);
 }
 
 void NPC::chooseNextAction() {

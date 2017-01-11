@@ -85,6 +85,7 @@ void Player::spawn()
 	facing = RIGHT;
 	setCurrentAnimation(&respawning);
 	creatureTimer.reset();
+	hp = 20;
 	--lives;
 }
 
@@ -166,6 +167,25 @@ update_status Player::Update()
 	// Player should not be able to go back to the left
 	if (position.x < -App->camera->coord.x)
 		position.x = -App->camera->coord.x;
+
+	// debug player
+	char integer_string[32];
+	LOG("******");
+	LOG("Status:");
+	sprintf_s(integer_string, "%d", status);
+	LOG(integer_string);
+	LOG("Depth:");
+	sprintf_s(integer_string, "%d", depth);
+	LOG(integer_string);
+	LOG("Height:");
+	sprintf_s(integer_string, "%d", height);
+	LOG(integer_string);
+	LOG("VelX:");
+	sprintf_s(integer_string, "%f", velocity.x);
+	LOG(integer_string);
+	LOG("PosX:");
+	sprintf_s(integer_string, "%d", position.x);
+	LOG(integer_string);
 
 	return UPDATE_CONTINUE;
 }
