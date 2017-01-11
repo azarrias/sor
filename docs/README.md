@@ -39,3 +39,4 @@ F1 | Debug Mode
 ## Gameplay
 Here is a short video that shows the tribute in action:
 
+[https://youtu.be/wSK62DNC_y0](https://youtu.be/wSK62DNC_y0)
