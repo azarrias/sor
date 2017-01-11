@@ -15,7 +15,7 @@ public:
 		WAIT,
 		PATROL
 	};
-	NPC(Entity::Types entityType, iPoint iniPos, short int hp);
+	NPC(Entity::Types entityType, iPoint iniPos, short int hp, Direction facing);
 	virtual ~NPC();
 	virtual bool Start();
 	virtual bool LoadConfigFromJSON(const char* fileName);

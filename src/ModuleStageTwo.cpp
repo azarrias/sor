@@ -29,8 +29,8 @@ bool ModuleStageTwo::Start()
 	intro = App->textures->Load("graphics/hud.png");
 
 	App->hud->Enable();
-	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER, { 0, 0 }));
-	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 });
+	App->entities->player = (Player*)(App->entities->createEntity(Entity::Types::PLAYER, { 0, 0 }, Creature::Direction::RIGHT));
+	App->entities->createEntity(Entity::Types::NPC_GARCIA, { 400, 132 }, Creature::Direction::RIGHT);
 	App->entities->Enable();
 //	App->particles->Enable();
 	App->collision->Enable();

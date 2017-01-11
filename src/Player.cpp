@@ -14,10 +14,8 @@
 #include "ModuleAudio.h"
 
 Player::Player()
-	: Creature(Entity::Types::PLAYER, { 23, -30 }, 20)
-{
-	facing = RIGHT;
-}
+	: Creature(Entity::Types::PLAYER, { 23, -30 }, 20, RIGHT)
+{}
 
 Player::~Player()
 {}

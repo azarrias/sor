@@ -32,13 +32,13 @@ ModuleEntityManager::~ModuleEntityManager()
 	entities.clear();
 }
 
-Entity* ModuleEntityManager::createEntity(Entity::Types entityType, iPoint iniPos)
+Entity* ModuleEntityManager::createEntity(Entity::Types entityType, iPoint iniPos, Creature::Direction facing)
 {
 	static_assert(Entity::Types::UNKNOWN == 2, "code needs update");
 	Entity* ret = nullptr;
 	switch (entityType) {
 		case Entity::Types::PLAYER:	ret = new Player();	break;
-		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(iniPos); break;
+		case Entity::Types::NPC_GARCIA: ret = new NPCGarcia(iniPos, facing); break;
 	}
 
 	if (ret != nullptr)

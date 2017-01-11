@@ -6,8 +6,8 @@
 #include "ModuleAudio.h"
 #include <random>
 
-NPC::NPC(Entity::Types entityType, iPoint iniPos, short int hp)
-	: Creature(entityType, iniPos, hp)
+NPC::NPC(Entity::Types entityType, iPoint iniPos, short int hp, Direction facing)
+	: Creature(entityType, iniPos, hp, facing)
 {
 	facing = LEFT;
 }
@@ -83,7 +83,7 @@ void NPC::behaviour() {
 		break;
 	case WAIT:
 		velocity = { 0.0f, 0.0f };
-		if (NPCTimer.getDelta() > waitingTime) {
+		if (status != UNAVAILABLE && NPCTimer.getDelta() > waitingTime) {
 			action = APPROACH;
 		}
 		break;

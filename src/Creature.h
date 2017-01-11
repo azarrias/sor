@@ -33,7 +33,7 @@ public:
 		LEFT,
 		RIGHT
 	};
-	Creature(Entity::Types entityType, iPoint iniPos, short int hp);
+	Creature(Entity::Types entityType, iPoint iniPos, short int hp, Direction facing);
 	virtual ~Creature();
 	virtual bool Start();
 	virtual bool LoadConfigFromJSON(const char* fileName);
@@ -74,7 +74,7 @@ public:
 	SimpleTimer creatureTimer, refreshTimer, movementTimer, jumpTimer;
 	SimpleTimer hitTimer, attackTimer, beingHitTimer;
 	Collider* attackCollider = nullptr;
-	Direction facing = LEFT;
+	Direction facing;
 	short int hp;
 protected:
 	uint soundFxJump = 0;

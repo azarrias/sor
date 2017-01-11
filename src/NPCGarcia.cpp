@@ -3,13 +3,12 @@
 #include "Application.h"
 #include "Animation.h"
 
-NPCGarcia::NPCGarcia(iPoint iniPos)
-	: NPC(Entity::Types::NPC_GARCIA, iniPos, 12)
+NPCGarcia::NPCGarcia(iPoint iniPos, Direction facing)
+	: NPC(Entity::Types::NPC_GARCIA, iniPos, 12, facing)
 {
-	setCurrentAnimation(&idle);
+	//setCurrentAnimation(&idle);
 	position = iniPos;
-	status = IDLE;
-	facing = LEFT;
+	//status = IDLE;
 }
 
 NPCGarcia::~NPCGarcia()

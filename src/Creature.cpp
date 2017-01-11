@@ -5,8 +5,8 @@
 #include "ModuleCollision.h"
 #include "ModuleAudio.h"
 
-Creature::Creature(Entity::Types entityType, iPoint iniPos, short int hp)
-	: Entity(entityType, iniPos), hp(hp)
+Creature::Creature(Entity::Types entityType, iPoint iniPos, short int hp, Direction facing)
+	: Entity(entityType, iniPos), hp(hp), facing(facing)
 {
 }
 
@@ -62,6 +62,8 @@ void Creature::spawn()
 {
 	LOG("Spawning creature");
 	position = iniPos;
+	if (facing == RIGHT)
+		position.x -= SCREEN_WIDTH * 2;
 	height = 0;
 	setCurrentAnimation(&idle);
 	status = IDLE;

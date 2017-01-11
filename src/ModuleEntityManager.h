@@ -7,6 +7,7 @@
 #include "SimpleTimer.h"
 #include "Entity.h"
 #include <vector>
+#include "Creature.h"
 
 class Player;
 
@@ -19,7 +20,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	Entity* createEntity(Entity::Types entityType, iPoint iniPos);
+	Entity* createEntity(Entity::Types entityType, iPoint iniPos, Creature::Direction facing);
 	void handleCollision(const Entity* e1, const Entity* e2);
 public:
 	Player* player = nullptr;
